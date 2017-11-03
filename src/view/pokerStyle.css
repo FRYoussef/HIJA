@@ -1,0 +1,41 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.controlPane{
+	-fx-background-color: #F5F5F5;
+	-fx-border-style: none none none solid;
+    -fx-border-width: 2;
+    -fx-border-color: #4CAF50;
+    -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
+    -fx-background-radius: 3;
+}
+
+.button{
+    -fx-background-radius: 5em;
+    -fx-min-width: 50px;
+    -fx-min-height: 50px;
+    -fx-max-width: 50px;
+    -fx-max-height: 50px;
+
+}
+
+.textArea{
+    -fx-background-color: #F5F5F5;
+    -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
+    -fx-background-radius: 3;
+    -fx-border-style: none none none solid;
+    -fx-border-width: 2;
+    -fx-border-color: #4CAF50;
+}
+
+.text-area .content {
+    -fx-background-color: #FAFAFA;
+}
+
+.cardButton{
+    -fx-background-radius: 5em;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+
+}
