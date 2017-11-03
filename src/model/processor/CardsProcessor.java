@@ -1,8 +1,8 @@
 package model.processor;
 
 import model.representation.Card;
-import model.representation.Play;
-import model.representation.RankPerSuit;
+import model.representation.game.Play;
+import model.representation.game.RankPerSuit;
 import model.representation.Suit;
 
 import java.util.ArrayList;

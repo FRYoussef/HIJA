@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import model.ioFiles.InputOmaha;
 import model.representation.Card;
-import model.representation.HandScore;
+import model.representation.game.HandScore;
 
 public class Omaha extends Game {
 	public static final int NUM_PLAYERS = 1;

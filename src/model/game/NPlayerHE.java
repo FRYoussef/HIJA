@@ -6,7 +6,7 @@ import java.util.Collections;
 
 import model.ioFiles.InputNPlayerHE;
 import model.representation.Card;
-import model.representation.HandScore;
+import model.representation.game.HandScore;
 
 public class NPlayerHE extends Game {
 

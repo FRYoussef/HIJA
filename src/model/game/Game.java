@@ -7,7 +7,7 @@ import model.ioFiles.FileInputReader;
 import model.ioFiles.FileOutputWriter;
 import model.processor.HandProcessor;
 import model.representation.Card;
-import model.representation.HandScore;
+import model.representation.game.HandScore;
 
 public abstract class Game{
 	public static final String SEPARATOR = "\n----------------------------------------------------\n";

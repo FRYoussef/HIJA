@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import model.game.*;
 import model.representation.Card;
-import model.representation.Play;
+import model.representation.game.Play;
 
 import java.util.Observable;
 import java.util.Observer;

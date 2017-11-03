@@ -2,7 +2,7 @@ package model.game;
 
 import model.ioFiles.Input1PlayerHE;
 import model.representation.Card;
-import model.representation.HandScore;
+import model.representation.game.HandScore;
 
 import java.io.IOException;
 import java.util.ArrayList;

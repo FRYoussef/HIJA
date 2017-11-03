@@ -1,9 +1,8 @@
 package model.processor;
 
-import model.processor.CardsProcessor;
 import model.representation.Card;
-import model.representation.HandScore;
-import model.representation.Play;
+import model.representation.game.HandScore;
+import model.representation.game.Play;
 
 import java.util.ArrayList;
 

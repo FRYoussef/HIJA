@@ -6,7 +6,6 @@ public class Card implements Comparable<Card>{
 	//fields:
 	public final static char [] lut = {'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
 	public static final int NUM_CARDS = 13;
-	//public static final int GAP = 2;
 	 
 	
 	//ctor:
@@ -66,7 +65,6 @@ public class Card implements Comparable<Card>{
 			return res;
 		}
 	}
-	
 	
 	//inherited:
 	@Override

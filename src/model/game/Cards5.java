@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import model.ioFiles.Input5Cards;
 import model.representation.Card;
-import model.representation.HandScore;
+import model.representation.game.HandScore;
 
 public class Cards5 extends Game {
 
