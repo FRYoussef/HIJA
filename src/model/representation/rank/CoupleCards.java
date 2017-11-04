@@ -15,15 +15,17 @@ public class CoupleCards implements Comparable{
         this.higgerValue = higgerValue;
         this.lowerValue = lowerValue;
         if(lowerValue == higgerValue)
-            pair = true;
+            pair = false;
     }
 
     public CoupleCards(int higgerValue, int lowerValue, boolean offSuited) {
         this.higgerValue = higgerValue;
         this.lowerValue = lowerValue;
         this.offSuited = offSuited;
-        if(lowerValue == higgerValue)
+        if(lowerValue == higgerValue) {
             pair = true;
+            this.offSuited = false;
+        }
     }
 
     public int getHiggerValue() {
@@ -67,6 +69,8 @@ public class CoupleCards implements Comparable{
         char h = Card.lut[higgerValue];
         char l = Card.lut[lowerValue];
         String hl = h + "" + l;
+        if(pair)
+            return hl;
         return offSuited ? hl + "o" : hl + "s";
     }
 }

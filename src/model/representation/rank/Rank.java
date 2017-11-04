@@ -2,6 +2,9 @@ package model.representation.rank;
 
 import model.representation.Card;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Rank {
 
     private CoupleCards coupleCards1 = null;
@@ -165,6 +168,47 @@ public class Rank {
         }
 
         return null;
+    }
+
+    /**
+     *
+     * @param couples
+     * @return
+     */
+    public static String getRanks(String [] couples){
+        ArrayList<CoupleCards> cp = new ArrayList<>(10);
+        ArrayList<Rank> ranks = new ArrayList<>(10);
+
+        for (String c: couples){
+            boolean o = false;
+            if(c.length() == 3)
+                o = c.charAt(2) == 'o' ? true : false;
+            CoupleCards cop = new CoupleCards(Card.charToValue(c.charAt(0)), Card.charToValue(c.charAt(1)), o);
+            cp.add(cop);
+        }
+
+        Collections.sort(cp, Collections.reverseOrder());
+        Rank r = new Rank(cp.get(0));
+        for(int i = 1; i < cp.size(); i++){
+            Rank aux = Rank.union(r, cp.get(i));
+            if(aux != null)
+                r = aux;
+            else{
+                ranks.add(r);
+                r = new Rank(cp.get(i));
+            }
+            aux = null;
+        }
+        // last value
+        if(r != null)
+            ranks.add(r);
+
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < ranks.size()-1; i++){
+            sb.append(ranks.get(i) + ", ");
+        }
+        sb.append(ranks.get(ranks.size()-1));
+        return sb.toString();
     }
 
     @Override

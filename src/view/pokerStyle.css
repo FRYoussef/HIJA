@@ -1,7 +1,7 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 .controlPane{
-	-fx-background-color: #F5F5F5;
+	-fx-background-color: #FAFAFA;
 	-fx-border-style: none none none solid;
     -fx-border-width: 2;
     -fx-border-color: #4CAF50;
@@ -9,7 +9,7 @@
     -fx-background-radius: 3;
 }
 
-.button{
+.buttonS{
     -fx-background-radius: 5em;
     -fx-min-width: 50px;
     -fx-min-height: 50px;
@@ -37,5 +37,25 @@
     -fx-min-height: 38px;
     -fx-max-width: 38px;
     -fx-max-height: 38px;
+}
 
+.gridPane{
+    -fx-background-color: #F5F5F5;
+    -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.5, -4, 6);
+}
+
+.offSuitedCell{
+    -fx-background-color: #29B6F6;
+}
+
+.suitedCell{
+    -fx-background-color: #FF8A80;
+}
+
+.pairCell{
+    -fx-background-color: #66BB6A;
+}
+
+.selectedCell{
+    -fx-background-color: #FFEE58;
 }
