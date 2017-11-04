@@ -1,7 +1,7 @@
 # HIJA
 Computer tools for poker
 
-@author Youssef El Faqir El Rhazoui
-@author Enrique Ávila Rodríguez
-@author Sergio Pacheco Fernández
-@author Paulo Colombo Dos Santos
+Youssef El Faqir El Rhazoui
+Enrique Ávila Rodríguez
+Sergio Pacheco Fernández
+Paulo Colombo Dos Santos
