@@ -1,9 +1,9 @@
 # HIJA
 Computer tools for poker
 
-*Youssef El Faqir El Rhazoui*
+<b>Youssef El Faqir El Rhazoui
 
-<b>Enrique Ávila Rodríguez
+Enrique Ávila Rodríguez
 
 Sergio Pacheco Fernández
 
