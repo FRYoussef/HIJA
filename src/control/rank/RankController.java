@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
@@ -26,6 +27,14 @@ public class RankController {
     private GridPane _gpCouples;
     @FXML
     private TextArea _taLog;
+    @FXML
+    private Button _btBroadway;
+    @FXML
+    private Button _btSuited;
+    @FXML
+    private Button _btPairs;
+    @FXML
+    private Button _btAll;
 
     private HashSet<String> hsCouples = null;
 
@@ -87,19 +96,29 @@ public class RankController {
                     hsCouples.add(((Label)_gpCouples.getChildren().get(i*NUM_ROW+j)).getText());
                 }
             }
+            _btAll.setDisable(true);
+            _btBroadway.setDisable(true);
+            _btPairs.setDisable(true);
+            _btSuited.setDisable(true);
         });
-
     }
 
     @FXML
     public void onClickClearAll(ActionEvent actionEvent) {
         hsCouples.clear();
         drawColorCells();
+        _btAll.setDisable(false);
+        _btBroadway.setDisable(false);
+        _btPairs.setDisable(false);
+        _btSuited.setDisable(false);
     }
 
     @FXML
     public void onClickGenerate(ActionEvent actionEvent) {
-        writeTextArea(Rank.getRanks(hsCouples.toArray(new String[hsCouples.size()])) + SEPARATOR);
+        if(hsCouples.size() > 0)
+            writeTextArea(Rank.getRanks(hsCouples.toArray(new String[hsCouples.size()])) + SEPARATOR);
+        else
+            writeTextArea("You have not selected any items, please choose one.\n\n");
     }
 
     /**
@@ -113,4 +132,46 @@ public class RankController {
         Platform.runLater(() -> _taLog.appendText(text));
     }
 
+    public void onClickSuited(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            for (int i = 0; i < NUM_ROW; i++) {
+                for (int j = i+1; j < NUM_COL; j++) {
+                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().clear();
+                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().add(SELECTED_CELL);
+                    hsCouples.add(((Label)_gpCouples.getChildren().get(i*NUM_ROW+j)).getText());
+                }
+            }
+            _btSuited.setDisable(true);
+            if(hsCouples.size() == NUM_COL*NUM_ROW)
+                _btAll.setDisable(true);
+        });
+    }
+
+    public void onClickBroadway(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            for (int i = 0; i < NUM_ROW; i++) {
+                for (int j = 0; j < i; j++) {
+                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().clear();
+                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().add(SELECTED_CELL);
+                    hsCouples.add(((Label)_gpCouples.getChildren().get(i*NUM_ROW+j)).getText());
+                }
+            }
+            _btBroadway.setDisable(true);
+            if(hsCouples.size() == NUM_COL*NUM_ROW)
+                _btAll.setDisable(true);
+        });
+    }
+
+    public void onClickPairs(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            for (int j = 0; j < NUM_COL; j++) {
+                _gpCouples.getChildren().get(j*NUM_ROW+j).getStyleClass().clear();
+                _gpCouples.getChildren().get(j*NUM_ROW+j).getStyleClass().add(SELECTED_CELL);
+                hsCouples.add(((Label)_gpCouples.getChildren().get(j*NUM_ROW+j)).getText());
+            }
+            _btPairs.setDisable(true);
+            if(hsCouples.size() == NUM_COL*NUM_ROW)
+                _btAll.setDisable(true);
+        });
+    }
 }

@@ -197,7 +197,7 @@
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="53o" textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.rowIndex="11" />
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="43o" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="11" />
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="33" textAlignment="JUSTIFY" GridPane.columnIndex="11" GridPane.rowIndex="11" />
-            <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="JTs" textAlignment="JUSTIFY" GridPane.columnIndex="12" GridPane.rowIndex="11" />
+            <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="32s" textAlignment="JUSTIFY" GridPane.columnIndex="12" GridPane.rowIndex="11" />
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="A2o" textAlignment="JUSTIFY" GridPane.columnIndex="0" GridPane.rowIndex="12" />
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="K2o" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="Q2o" textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.rowIndex="12" />
@@ -214,7 +214,7 @@
          </children>
       </GridPane>
       <TextArea fx:id="_taLog" editable="false" layoutX="810.0" layoutY="372.0" prefHeight="450.0" prefWidth="250.0" styleClass="textArea" wrapText="true" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0" />
-      <Pane layoutX="774.0" layoutY="14.0" prefHeight="240.0" prefWidth="250.0" styleClass="controlPane" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+      <Pane layoutX="749.0" layoutY="25.0" prefHeight="240.0" prefWidth="250.0" styleClass="controlPane" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
          <children>
             <Label alignment="CENTER" layoutY="8.0" prefHeight="30.0" prefWidth="250.0" text="Control Panel">
                <font>
@@ -222,9 +222,12 @@
                </font>
             </Label>
             <Separator layoutX="-1.0" layoutY="36.0" prefHeight="3.0" prefWidth="250.0" />
-            <Button layoutX="85.0" layoutY="60.0" mnemonicParsing="false" onAction="#onClickSelectAll" text="Select All" />
-            <Button layoutX="85.0" layoutY="105.0" mnemonicParsing="false" onAction="#onClickClearAll" prefHeight="31.0" prefWidth="80.0" text="Clear All" />
-            <Button layoutX="155.0" layoutY="195.0" mnemonicParsing="false" onAction="#onClickGenerate" text="Generate" />
+            <Button fx:id="_btAll" layoutX="145.0" layoutY="90.0" mnemonicParsing="false" onAction="#onClickSelectAll" styleClass="buttonControl" text="Select All" />
+            <Button layoutX="145.0" layoutY="130.0" mnemonicParsing="false" onAction="#onClickClearAll" prefHeight="31.0" prefWidth="80.0" styleClass="buttonControl" text="Clear All" />
+            <Button layoutX="185.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickGenerate" styleClass="buttonS" text="Run" />
+            <Button fx:id="_btSuited" layoutX="15.0" layoutY="90.0" mnemonicParsing="false" onAction="#onClickSuited" styleClass="buttonControl" text="Suited" />
+            <Button fx:id="_btBroadway" layoutX="15.0" layoutY="50.0" mnemonicParsing="false" onAction="#onClickBroadway" styleClass="buttonControl" text="Broadway" />
+            <Button fx:id="_btPairs" layoutX="15.0" layoutY="130.0" mnemonicParsing="false" onAction="#onClickPairs" styleClass="buttonControl" text="Pairs" />
          </children>
       </Pane>
    </children>

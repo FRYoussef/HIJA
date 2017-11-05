@@ -39,6 +39,13 @@
     -fx-max-height: 38px;
 }
 
+.buttonControl{
+    -fx-min-width: 6em;
+    -fx-min-height: 2em;
+    -fx-max-width: 6em;
+    -fx-max-height: 2em;
+}
+
 .gridPane{
     -fx-background-color: #F5F5F5;
     -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.5, -4, 6);
