@@ -8,11 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import model.representation.Card
+import model.representation.Card;
 import model.representation.rank.Rank;
 
 import java.util.ArrayList;
@@ -40,14 +40,16 @@ public class RankController {
     private Button _btPairs;
     @FXML
     private Button _btAll;
-    @FXML
-    private Button _btShowRank;
+
+    private HashSet<String> hsCouples = null;
+
     
     @FXML
     private TextField _handDistributionText;
     
-    private HashSet<String> hsCouples = null;
-
+    @FXML
+    private Button _btShowRank;
+    
     public RankController() {
         drawColorCells();
         hsCouples = new HashSet<>();
