@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.effect.*?>
 <?import java.lang.*?>
@@ -229,6 +230,22 @@
             <Button fx:id="_btBroadway" layoutX="15.0" layoutY="50.0" mnemonicParsing="false" onAction="#onClickBroadway" styleClass="buttonControl" text="Broadway" />
             <Button fx:id="_btPairs" layoutX="15.0" layoutY="130.0" mnemonicParsing="false" onAction="#onClickPairs" styleClass="buttonControl" text="Pairs" />
          </children>
+      </Pane>
+      <Pane layoutX="45.0" layoutY="562.0" prefHeight="151.0" prefWidth="589.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#45c921" focusTraversable="true" height="150.0" layoutY="1.0" opacity="0.63" stroke="BLACK" strokeType="INSIDE" width="588.0" />
+            <Label layoutX="72.0" layoutY="14.0" text="Hand Distribution">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="_handDistributionText" layoutX="23.0" layoutY="44.0" onKeyPressed="#onEnterPressed" prefHeight="25.0" prefWidth="541.0" />
+            <Separator layoutX="1.0" layoutY="34.0" prefHeight="3.0" prefWidth="588.0" />
+            <Button fx:id="_btShowRank" layoutX="480.0" layoutY="87.0" mnemonicParsing="false" onAction="#onClickShowRank" prefHeight="50.0" prefWidth="84.0" text="Show rank" />
+         </children>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
       </Pane>
    </children>
 </AnchorPane>
