@@ -7,10 +7,15 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
+
 import javafx.scene.layout.GridPane;
+import model.representation.Card
 import model.representation.rank.Rank;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class RankController {
@@ -35,7 +40,12 @@ public class RankController {
     private Button _btPairs;
     @FXML
     private Button _btAll;
-
+    @FXML
+    private Button _btShowRank;
+    
+    @FXML
+    private TextField _handDistributionText;
+    
     private HashSet<String> hsCouples = null;
 
     public RankController() {
@@ -173,5 +183,127 @@ public class RankController {
             if(hsCouples.size() == NUM_COL*NUM_ROW)
                 _btAll.setDisable(true);
         });
+    }
+    
+    @FXML
+    void onEnterPressed(KeyEvent event) {
+    	if(event.getCode().equals(KeyCode.ENTER)){
+	    	this.onClickShowRank(null);
+    	}
+    }
+    
+
+    @FXML
+    void onClickShowRank(ActionEvent event) {
+    	String entry = this._handDistributionText.getText();
+    	if(entry.isEmpty())
+    		writeTextArea("-You haven't typed in a rank." + System.getProperty("line.separator") + RankController.SEPARATOR);
+    	else{
+	    	EntryParser parser = new EntryParser(this._handDistributionText.getText());
+	    	if(!parser.parseEntry())
+	    		writeTextArea("- " + entry.toString() + " is not a correct rank" + RankController.SEPARATOR);
+	    	else{
+	    		this.onClickClearAll(event);
+	    		this.paintRanks(parser.getRankEntry());
+	    	}
+    	}
+ 
+    }
+    /**
+     * Receives ranks set and it paints them on screen one by one .
+     * @param ranks
+     */
+    private void paintRanks(ArrayList<Rank> ranks){
+    	class PaintRanks implements Runnable {
+    		ArrayList<Rank> ranks; 
+    		PaintRanks(ArrayList<Rank> r){
+    			this.ranks = r;
+    		}
+			@Override
+			public void run() {
+				for(Rank r: this.ranks){
+					//couple of cards rank
+					if(r.getCoupleCards2() == null && !r.isHighRank() && !r.isRank())
+						RankController.this.paintCouple(r);
+					//plus rank
+					else if(r.getCoupleCards2() == null && r.isHighRank())
+						RankController.this.paintPlus(r);
+					//hyphen rank 
+					else
+						RankController.this.paintHyphen(r);
+				}
+			}
+		    		
+    	}
+    	Platform.runLater(new PaintRanks(ranks));
+    }
+    /**
+     * It paints hyphen format rank.
+     * @param r
+     */
+    private void paintHyphen(Rank r){
+    	int pivot = r.getCoupleCards1().getHiggerValue(); 
+    	int limit = r.getCoupleCards1().getLowerValue(); 
+    	int second = r.getCoupleCards2().getLowerValue();
+    	while(second <= limit){
+    		this.paint(pivot, second, r.getCoupleCards1().isOffSuited());
+    		second++; 
+    	}
+    }
+    /**
+     * It paints plus format rank.
+     * @param r
+     */
+    private void paintPlus(Rank r){
+    	int first = r.getCoupleCards1().getHiggerValue(); 
+    	int second = r.getCoupleCards1().getLowerValue(); 
+    	boolean suit = r.getCoupleCards1().isOffSuited();
+    	//caso pareja
+    	if(first == second){
+    		while(first <= (Card.NUM_CARDS - 1)){
+    			this.paint(first, second, suit);
+    			second++; 
+    			first++;
+    		}
+    	}
+    	else{
+	    	while(second < first){
+	    		this.paint(first, second, suit);
+	    		second++; 
+	    	}
+    	}
+    }
+    /**
+     * It paints a couple of cards on screen.
+     * @param r
+     */
+    private void paintCouple(Rank r){
+    	int first = r.getCoupleCards1().getHiggerValue();
+		int second = r.getCoupleCards1().getLowerValue();
+		this.paint(first, second, r.getCoupleCards1().isOffSuited());
+    }
+    /**
+     * It paints a GridPane's cell
+     * @param first high card value 
+     * @param second low card value
+     * @param suit true if cards are suited cards, false otherwise 
+     */
+    private void paint(int first, int second, boolean suit){
+    	int row, col; 
+		if(first == second){
+			row = col = Math.abs(first - (Card.NUM_CARDS - 1));
+			_gpCouples.getChildren().get(row*NUM_ROW+col).getStyleClass().add(SELECTED_CELL);
+		}
+		else{
+			if(suit){
+				row = Math.abs(first - (Card.NUM_CARDS - 1)); 
+				col = row + Math.abs(first - second);
+			}
+			else{
+				row = Math.abs(first - (Card.NUM_CARDS - 1)) + (first - second);
+				col = Math.abs(first - (Card.NUM_CARDS - 1));
+			}
+			_gpCouples.getChildren().get(row*NUM_ROW+col).getStyleClass().add(SELECTED_CELL);
+		}
     }
 }
