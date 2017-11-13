@@ -14,6 +14,8 @@ public class EntryParser {
 	public EntryParser(){}
 	
 	public EntryParser(String s){
+		//remove all whitespaces 
+		s = s.replaceAll("\\s+","");
 		this.entry = s.split(EntryParser.REGEX);
 		this.rankEntry = new ArrayList<Rank>(this.entry.length);
 	}
