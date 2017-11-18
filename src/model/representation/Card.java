@@ -76,10 +76,19 @@ public class Card implements Comparable<Card>{
 	public int compareTo(Card o) {
 		return value - o.getValue();
 	}
-	
-	
 
-//private:
+	@Override
+	public boolean equals(Object o) {
+	    Card c = (Card) o;
+		return value == c.getValue() && suit == c.getSuit();
+	}
+
+    @Override
+    public int hashCode() {
+        return value + suit.ordinal();
+    }
+
+    //private:
 	//fields:
 	private byte value;
 	private Suit suit;

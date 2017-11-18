@@ -57,11 +57,10 @@ public class HandScore implements Comparable<HandScore> {
     }
 
     public String toString(){
-        StringBuilder stringBuilder = new StringBuilder("\n- Best hand: " +
-        								this.handValue.toString() + "(");
+        StringBuilder stringBuilder = new StringBuilder("\n- " + this.handValue.toString() + "( ");
         for (Card card : handPlay)
             stringBuilder.append(card.toString());
-        stringBuilder.append(")");
+        stringBuilder.append(" )");
         return stringBuilder.toString();
     }
 
@@ -83,15 +82,6 @@ public class HandScore implements Comparable<HandScore> {
                 if(same != 0)
                     return same;
             }
-
-            /*//compare the player hand
-            for(int i = 0; i < playerCards.length; i++){
-                for(int j = 0; j < other.getPlayerCards().length; j++){
-                    same = playerCards[i].compareTo(other.getPlayerCards()[j]);
-                    if(same != 0)
-                        return same;
-                }
-            }*/
         }
 
         return handValue.ordinal() - other.getHandValue().ordinal();

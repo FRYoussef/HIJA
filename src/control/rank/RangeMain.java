@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class RankMain extends Application {
+public class RangeMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -17,6 +17,7 @@ public class RankMain extends Application {
             Scene scene = new Scene(root);
             primaryStage.setTitle("Poker");
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
             primaryStage.show();
 
         }

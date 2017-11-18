@@ -17,6 +17,7 @@ public class BoardMain extends Application {
             Scene scene = new Scene(root);
             primaryStage.setTitle("Poker");
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
             primaryStage.show();
 
         }

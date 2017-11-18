@@ -44,6 +44,8 @@ public enum Suit {
 	public String toString() {
 		return "" + Character.toLowerCase(this.name().charAt(0));
 	}
+
+
 	
 	public String toLongString() {
 		return this.name();

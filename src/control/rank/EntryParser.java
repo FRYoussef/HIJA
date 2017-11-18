@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import model.representation.Card;
 import model.representation.rank.CoupleCards;
-import model.representation.rank.Rank;
+import model.representation.rank.Range;
 
 public class EntryParser {
 	private String [] entry; 
-	private ArrayList<Rank> rankEntry; 
+	private ArrayList<Range> rangeEntry;
 	private static final String REGEX = ","; 
 	
 	public EntryParser(){}
@@ -17,32 +17,32 @@ public class EntryParser {
 		//remove all whitespaces 
 		s = s.replaceAll("\\s+","");
 		this.entry = s.split(EntryParser.REGEX);
-		this.rankEntry = new ArrayList<Rank>(this.entry.length);
+		this.rangeEntry = new ArrayList<Range>(this.entry.length);
 	}
 	/**
 	 * It parses entry 
 	 * @return true if it is correct. Otherwise, it'll return null 
 	 */
 	public boolean parseEntry(){
-		this.rankEntry.clear();
+		this.rangeEntry.clear();
 		String s; 
 		for (int i = 0; i < this.entry.length; i++){
 			s = this.entry[i]; 
-			Rank r;
+			Range r;
 			CoupleCards atomicRank = null; 
 			if(s.length() < 2 || s.length() > 7 || s.length() == 5)
 				return false;
 			atomicRank = this.parseCoupleCards(s);
 			if(atomicRank != null)
-				this.rankEntry.add(new Rank(atomicRank, null, false, false));
+				this.rangeEntry.add(new Range(atomicRank, null, false, false));
 			else{
 				r = this.parsePlus(s);
 				if(r != null)
-					this.rankEntry.add(r);
+					this.rangeEntry.add(r);
 				else{
 					r = this.parseHyphen(s);
 					if(r != null)
-						this.rankEntry.add(r);
+						this.rangeEntry.add(r);
 					else
 						return false;
 				}
@@ -51,15 +51,15 @@ public class EntryParser {
 		return true;
 	}
 	
-	public ArrayList<Rank> getRankEntry(){
-		return this.rankEntry;
+	public ArrayList<Range> getRangeEntry(){
+		return this.rangeEntry;
 	}
 	/**
 	 * It parses hyphen format entry
 	 * @param entry
-	 * @return the proper Rank or null if entry isn't correct
+	 * @return the proper Range or null if entry isn't correct
 	 */
-	private Rank parseHyphen(String entry){
+	private Range parseHyphen(String entry){
 		if(entry.length() != 7)
 			return null; 
 		if(entry.charAt(3) != '-')
@@ -74,7 +74,7 @@ public class EntryParser {
 					|| cp1.getLowerValue() < cp2.getLowerValue())
 				return null;
 			else
-				return new Rank(cp1, cp2, true, false);
+				return new Range(cp1, cp2, true, false);
 		}
 	}
 	/**
@@ -82,7 +82,7 @@ public class EntryParser {
 	 * @param entry
 	 * @return null if there is an error or the proper rank if it's correct 
 	 */
-	private Rank parsePlus(String entry){
+	private Range parsePlus(String entry){
 		int l = entry.length();
 		if(l != 3 && l != 4)
 			return null;
@@ -94,7 +94,7 @@ public class EntryParser {
 		if (cp == null)
 			return null; 
 		else
-			return new Rank(cp, null, false, true);	
+			return new Range(cp, null, false, true);
 	}
 	/**
 	 * It parses a single couple of cards
@@ -142,10 +142,10 @@ public class EntryParser {
 	 */
 	private Boolean correctSuit(char c){
 		if(c == 'o'){
-			return false;
+			return true;
 		}
 		else if(c == 's'){
-			return true;
+			return false;
 		}
 		else
 			return null;
