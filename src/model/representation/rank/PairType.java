@@ -1,5 +1,6 @@
 package model.representation.rank;
 
+
 public enum PairType {
 	WeakPair,
 	MiddlePair,
@@ -7,6 +8,23 @@ public enum PairType {
 	TopPair,
 	OverPair;
 	
+	public static int NUM_PAIRS = 5;
+	
+	public static PairType getFromInt(int value){
+        switch (value) {
+            case 0:
+                return WeakPair;
+            case 1:
+                return MiddlePair;
+            case 2:
+                return BelowPair;
+            case 3:
+                return TopPair;
+            case 4:
+                return OverPair;
+        }
+        return null;
+    }
 	
 	@Override
 	public String toString() {

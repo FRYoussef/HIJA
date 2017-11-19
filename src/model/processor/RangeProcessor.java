@@ -15,8 +15,9 @@ public class RangeProcessor {
     private Card sndHighBoardCard = null;
     private HashSet<CoupleCards> hsRange = null;
     private HandScore[] plays = null;
-    private PairType pairType = null;
+    private HandScore[] pairPlays = null;
     private int[] playsCounter = null;
+    private int[] pairPlaysCounter = null;
     private HandProcessor handProcessor = null;    
     private int combos = 0;
     
@@ -37,22 +38,25 @@ public class RangeProcessor {
         }
         boardScore = handProcessor.getBestPlay();
 
+        
         plays = new HandScore [Play.NUM_PLAYS];
+        pairPlays = new HandScore [PairType.NUM_PAIRS];
         playsCounter = new int [Play.NUM_PLAYS];
+        pairPlaysCounter = new int [PairType.NUM_PAIRS];
     }
 
     public void run() throws Exception {
         for(CoupleCards cp : hsRange){
             if(cp.isOffSuited())
-            	offSuitedConbination(cp);
+            	offSuitedCombination(cp);
             else
-            	suitedConbination(cp);
+            	suitedCombination(cp);
                 
 
         }
     }
 
-    private void offSuitedConbination(CoupleCards cp) throws Exception {
+    private void offSuitedCombination(CoupleCards cp) throws Exception {
         Card c1 = null;
         Card c2 = null;
         for (int i = 0; i < Suit.NUM_SUIT; i++) {
@@ -64,7 +68,7 @@ public class RangeProcessor {
         }
     }
 
-    private void suitedConbination(CoupleCards cp) throws Exception {
+    private void suitedCombination(CoupleCards cp) throws Exception {
         Card c1 = null;
         Card c2 = null;
         for (int i = 0; i < Suit.NUM_SUIT; i++) {
@@ -96,8 +100,7 @@ public class RangeProcessor {
             checkPairType(handScore, c1, c2);
         }
 
-        playsCounter[handScore.getHandValue().ordinal()] =
-                playsCounter[handScore.getHandValue().ordinal()] + 1;
+        playsCounter[handScore.getHandValue().ordinal()]++;
     }
 
     private boolean allCardsFromBoard(HandScore handScore, Card c1, Card c2) {
@@ -110,31 +113,45 @@ public class RangeProcessor {
     
     private void checkPairType (HandScore hand, Card c1, Card c2) {
     	if (hand.getHandValue() == Play.Pair) {
-    		if (c1.getValue() == c2.getValue() && c1.getValue() > highBoardCard.getValue())
-    			pairType = PairType.OverPair;
+    		PairType p = null;
+    		if (c1.getValue() == c2.getValue() && c1.getValue() > highBoardCard.getValue()) {
+    			 p = PairType.OverPair;
+    		}
     		else if (c1.getValue() == c2.getValue() && c1.getValue() < highBoardCard.getValue()) {
     			if (c1.getValue() > 8)	//TODO JJ+ are strong pairs? 
-    				pairType = PairType.BelowPair;
+    				p = PairType.BelowPair;
     			else
-    				pairType = PairType.WeakPair;
+    				p = PairType.WeakPair;
     		}
-    		else if (c1.getValue() == highBoardCard.getValue() || c2.getValue() == highBoardCard.getValue())
-    			pairType = pairType.TopPair;
-    		else if (c1.getValue() == sndHighBoardCard.getValue() || c2.getValue() == sndHighBoardCard.getValue())
-    			pairType = pairType.MiddlePair;
-    		else
-    			pairType = pairType.WeakPair;    			
+    		else if (c1.getValue() == highBoardCard.getValue() || c2.getValue() == highBoardCard.getValue()) {
+    			p = PairType.TopPair;
+    		}
+    		else if (c1.getValue() == sndHighBoardCard.getValue() || c2.getValue() == sndHighBoardCard.getValue()) {
+    			p = PairType.MiddlePair;
+    		}
+    		else {
+    			p = PairType.WeakPair;
+    		}
+    		if (pairPlays [p.ordinal()] == null || pairPlays [p.ordinal()].compareTo(hand) < 0)
+    			pairPlays [p.ordinal()] = hand;
+    		pairPlaysCounter[p.ordinal()] ++;
+            plays[Play.Pair.ordinal()] = null;
     	}
     }
 
 	public String toString(){
         StringBuilder sb = new StringBuilder();
         for (int i = plays.length-1; i >= 0; i--) {
-            if(plays[i] != null)
-            	if (i == Play.Pair.ordinal())
-            		sb.append(plays[i] + " (" + pairType.toString() + ") -> " + ((int)Math.floor((playsCounter[i]*100)/combos)) + "%");
-            	else
+            if(plays[i] != null) {
             		sb.append(plays[i] + " -> " + ((int)Math.floor((playsCounter[i]*100)/combos)) + "%");
+            }
+            else if (i == Play.Pair.ordinal()) {
+        		for (int j = pairPlays.length -1; j >= 0; j--) {
+        			if (pairPlays[j] != null) 
+        				sb.append(pairPlays[j] + " (" + PairType.getFromInt(j).toString() + ") -> " + ((int)Math.floor((pairPlaysCounter[j]*100)/combos)) + "%");
+        			
+        		}
+            }
         }
 
         return sb.toString();
