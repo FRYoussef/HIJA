@@ -84,6 +84,7 @@ public class RangeController {
             _slider.setValue(val);
 
             drawColorCells();
+            hsCouples.clear();
             selectElemsMatrix(CoupleCards.coupleCardsToMatrix(Range.rangeToCoupleCards(Range.getRangeArraySklansky(val))));
         }catch (Exception e1){
             _tfRang.getStyleClass().add(ERROR_STYLE);
