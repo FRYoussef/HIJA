@@ -12,8 +12,10 @@ public class RangeProcessor {
     private HashSet<CoupleCards> hsRange = null;
     private HandScore[] plays = null;
     private int[] playsCounter = null;
-    private HandProcessor handProcessor = null;
+    private HandProcessor handProcessor = null;    
     private int combos = 0;
+    
+    private HandScore boardScore = null;
 
     public RangeProcessor(HashSet<Card> hsBoard, HashSet<CoupleCards> hsRange) throws Exception {
         this.hsBoard = hsBoard;
@@ -21,6 +23,7 @@ public class RangeProcessor {
         handProcessor = new HandProcessor();
         for(Card c : hsBoard)
             handProcessor.addCard(c);
+        boardScore = handProcessor.getBestPlay();
 
         plays = new HandScore [Play.NUM_PLAYS];
         playsCounter = new int [Play.NUM_PLAYS];
@@ -28,10 +31,11 @@ public class RangeProcessor {
 
     public void run() throws Exception {
         for(CoupleCards cp : hsRange){
-            if(!cp.isOffSuited())
-                suitedConbination(cp);
+            if(cp.isOffSuited())
+            	offSuitedConbination(cp);
             else
-                offSuitedConbination(cp);
+            	suitedConbination(cp);
+                
 
         }
         handProcessor.resetHandProcessor();
@@ -65,6 +69,9 @@ public class RangeProcessor {
             return;
 
         HandScore handScore = handProcessor.getBestPlay(c1, c2);
+        if (handScore.compareTo(boardScore) == 0)	//If the play doesn't include hand cards
+        	return;
+        
         combos++;
         if(plays[handScore.getHandValue().ordinal()] == null)
             plays[handScore.getHandValue().ordinal()] = handScore;
