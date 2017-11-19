@@ -5,12 +5,15 @@ import model.representation.Suit;
 import model.representation.game.HandScore;
 import model.representation.game.Play;
 import model.representation.rank.CoupleCards;
+import model.representation.rank.PairType;
+
 import java.util.HashSet;
 
 public class RangeProcessor {
     private HashSet<Card> hsBoard = null;
     private HashSet<CoupleCards> hsRange = null;
     private HandScore[] plays = null;
+
     private int[] playsCounter = null;
     private HandProcessor handProcessor = null;    
     private int combos = 0;
@@ -38,7 +41,6 @@ public class RangeProcessor {
                 
 
         }
-        handProcessor.resetHandProcessor();
     }
 
     private void offSuitedConbination(CoupleCards cp) throws Exception {
