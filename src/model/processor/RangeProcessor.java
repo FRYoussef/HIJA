@@ -13,7 +13,7 @@ public class RangeProcessor {
     private HashSet<Card> hsBoard = null;
     private HashSet<CoupleCards> hsRange = null;
     private HandScore[] plays = null;
-
+    private PairType[] pairTypes = null;
     private int[] playsCounter = null;
     private HandProcessor handProcessor = null;    
     private int combos = 0;
@@ -29,6 +29,7 @@ public class RangeProcessor {
         boardScore = handProcessor.getBestPlay();
 
         plays = new HandScore [Play.NUM_PLAYS];
+        pairTypes = new PairType [Play.NUM_PLAYS];
         playsCounter = new int [Play.NUM_PLAYS];
     }
 

@@ -41,7 +41,12 @@ public class HandScore implements Comparable<HandScore> {
     }
     
     public boolean contains (Card c) {
-    	return handPlay.contains(c);
+    	int cardsToCheck = Play.playFormingCards(handValue);
+    	boolean res = false;
+    	for (int i = 0; i < cardsToCheck && !res; i++) {
+    		res = handPlay.get(i).equals(c);
+    	}
+    	return res;
     }
 
     //---
