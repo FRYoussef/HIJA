@@ -39,6 +39,10 @@ public class HandScore implements Comparable<HandScore> {
     public void setHandValue(Play handValue) {
         this.handValue = handValue;
     }
+    
+    public boolean contains (Card c) {
+    	return handPlay.contains(c);
+    }
 
     //---
     public void setPlayerId(String id){

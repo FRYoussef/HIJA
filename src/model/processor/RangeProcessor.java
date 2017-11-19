@@ -71,7 +71,8 @@ public class RangeProcessor {
             return;
 
         HandScore handScore = handProcessor.getBestPlay(c1, c2);
-        if (handScore.compareTo(boardScore) == 0)	//If the play doesn't include hand cards
+        //If the play doesn't include hand cards
+        if (allCardsFromBoard(handScore, c1, c2))	
         	return;
         
         combos++;
@@ -85,7 +86,15 @@ public class RangeProcessor {
                 playsCounter[handScore.getHandValue().ordinal()] + 1;
     }
 
-    public String toString(){
+    private boolean allCardsFromBoard(HandScore handScore, Card c1, Card c2) {
+    	boolean res = false;
+		if (handScore.getHandValue() == boardScore.getHandValue()){
+			res = !(handScore.contains(c1) || handScore.contains(c2));
+		}
+		return res;
+	}
+
+	public String toString(){
         StringBuilder sb = new StringBuilder();
         for (int i = plays.length-1; i >= 0; i--) {
             if(plays[i] != null)
