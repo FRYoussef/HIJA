@@ -42,7 +42,7 @@ public class RangeProcessor {
         Card c2 = null;
         for (int i = 0; i < Suit.NUM_SUIT; i++) {
             for (int j = i+1; j < Suit.NUM_SUIT; j++) {
-                c1 = new Card(cp.getHiggerValue(), Suit.getFromInt(i));
+                c1 = new Card(cp.getHigherValue(), Suit.getFromInt(i));
                 c2 = new Card(cp.getLowerValue(), Suit.getFromInt(j));
                 handScoreProcess(c1, c2);
             }
@@ -53,7 +53,7 @@ public class RangeProcessor {
         Card c1 = null;
         Card c2 = null;
         for (int i = 0; i < Suit.NUM_SUIT; i++) {
-            c1 = new Card(cp.getHiggerValue(), Suit.getFromInt(i));
+            c1 = new Card(cp.getHigherValue(), Suit.getFromInt(i));
             c2 = new Card(cp.getLowerValue(), Suit.getFromInt(i));
             handScoreProcess(c1, c2);
         }

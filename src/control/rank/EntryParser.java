@@ -70,7 +70,7 @@ public class EntryParser {
 		if(cp1 == null || cp2 == null)
 			return null; 
 		else{
-			if(cp1.getHiggerValue() != cp2.getHiggerValue() || cp1.isOffSuited() != cp2.isOffSuited()
+			if(cp1.getHigherValue() != cp2.getHigherValue() || cp1.isOffSuited() != cp2.isOffSuited()
 					|| cp1.getLowerValue() < cp2.getLowerValue())
 				return null;
 			else

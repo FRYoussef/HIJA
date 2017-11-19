@@ -11,29 +11,29 @@ public class CoupleCards implements Comparable{
     public static final int NUM_COUPLE_CARDS = 169;
 
     /** the value of the cards */
-    private int higgerValue;
+    private int higherValue;
     private int lowerValue;
     /** it represents if the cards suit are the same */
     private boolean offSuited = true;
     private boolean pair = false;
 
-    public CoupleCards(int higgerValue, int lowerValue) {
-        this.higgerValue = higgerValue;
+    public CoupleCards(int higherValue, int lowerValue) {
+        this.higherValue = higherValue;
         this.lowerValue = lowerValue;
-        if(lowerValue == higgerValue)
+        if(lowerValue == higherValue)
             pair = true;
     }
 
-    public CoupleCards(int higgerValue, int lowerValue, boolean offSuited) {
-        this.higgerValue = higgerValue;
+    public CoupleCards(int higherValue, int lowerValue, boolean offSuited) {
+        this.higherValue = higherValue;
         this.lowerValue = lowerValue;
         this.offSuited = offSuited;
-        if(lowerValue == higgerValue)
+        if(lowerValue == higherValue)
             pair = true;
     }
 
-    public int getHiggerValue() {
-        return higgerValue;
+    public int getHigherValue() {
+        return higherValue;
     }
 
     public int getLowerValue() {
@@ -59,11 +59,11 @@ public class CoupleCards implements Comparable{
 
         for (CoupleCards cp: cps){
             if(cp.isPair())
-                pairs.add(new Pair<>(Math.abs(cp.getHiggerValue()-(Card.NUM_CARDS-1)), Math.abs(cp.getLowerValue()-(Card.NUM_CARDS-1))));
+                pairs.add(new Pair<>(Math.abs(cp.getHigherValue()-(Card.NUM_CARDS-1)), Math.abs(cp.getLowerValue()-(Card.NUM_CARDS-1))));
             else if(!cp.isOffSuited())
-                pairs.add(new Pair<>(Math.abs(cp.getHiggerValue()-(Card.NUM_CARDS-1)), Math.abs(cp.getLowerValue()-(Card.NUM_CARDS-1))));
+                pairs.add(new Pair<>(Math.abs(cp.getHigherValue()-(Card.NUM_CARDS-1)), Math.abs(cp.getLowerValue()-(Card.NUM_CARDS-1))));
             else
-                pairs.add(new Pair<>(Math.abs(cp.getLowerValue()-(Card.NUM_CARDS-1)), Math.abs(cp.getHiggerValue()-(Card.NUM_CARDS-1))));
+                pairs.add(new Pair<>(Math.abs(cp.getLowerValue()-(Card.NUM_CARDS-1)), Math.abs(cp.getHigherValue()-(Card.NUM_CARDS-1))));
         }
         return pairs;
     }
@@ -86,7 +86,7 @@ public class CoupleCards implements Comparable{
         CoupleCards r = (CoupleCards) obj;
         if(offSuited != r.isOffSuited())
             return offSuited ? -1 : 1;
-        int high = higgerValue - r.getHiggerValue();
+        int high = higherValue - r.getHigherValue();
         int low = lowerValue - r.getLowerValue();
         if(isPair() || r.isPair()){
             if(isPair() && r.isPair())
@@ -103,7 +103,7 @@ public class CoupleCards implements Comparable{
 
     @Override
     public String toString() {
-        char h = Card.lut[higgerValue];
+        char h = Card.lut[higherValue];
         char l = Card.lut[lowerValue];
         String hl = h + "" + l;
         if(pair)
