@@ -410,7 +410,10 @@ public class CardsProcessor {
     public ArrayList<Card> getHighRepeatedsCards() throws Exception {
         ArrayList<Card> play = new ArrayList<>(Play.CARDS_PER_PLAY);
         RankPerSuit h = rankPerSuits.get(highRankRep);
-        RankPerSuit s = rankPerSuits.get(secondRankRep);
+        RankPerSuit s = null;
+        if (secondRankRep != -1)
+        	 s = rankPerSuits.get(secondRankRep);
+        
         //best hand
         for(int i = 0; i < Suit.NUM_SUIT && play.size() < Play.CARDS_PER_PLAY; i++){
             if(h.getSuits().get(i)){
@@ -418,10 +421,12 @@ public class CardsProcessor {
             }
         }
         //second best hand
-        for(int i = 0; i < Suit.NUM_SUIT && play.size() < Play.CARDS_PER_PLAY; i++){
-            if(s.getSuits().get(i)){
-                play.add(new Card(s.getRank(), Suit.getFromInt(i)));
-            }
+        if (s != null) {
+	        for(int i = 0; i < Suit.NUM_SUIT && play.size() < Play.CARDS_PER_PLAY; i++){
+	            if(s.getSuits().get(i)){
+	                play.add(new Card(s.getRank(), Suit.getFromInt(i)));
+	            }
+	        }
         }
         return play;
     }

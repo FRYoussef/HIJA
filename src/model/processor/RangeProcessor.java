@@ -11,9 +11,11 @@ import java.util.HashSet;
 
 public class RangeProcessor {
     private HashSet<Card> hsBoard = null;
+    private Card highBoardCard = null;
+    private Card sndHighBoardCard = null;
     private HashSet<CoupleCards> hsRange = null;
     private HandScore[] plays = null;
-    private PairType[] pairTypes = null;
+    private PairType pairType = null;
     private int[] playsCounter = null;
     private HandProcessor handProcessor = null;    
     private int combos = 0;
@@ -24,12 +26,18 @@ public class RangeProcessor {
         this.hsBoard = hsBoard;
         this.hsRange = hsRange;
         handProcessor = new HandProcessor();
-        for(Card c : hsBoard)
+        for(Card c : hsBoard) {
             handProcessor.addCard(c);
+            if (highBoardCard == null || highBoardCard.compareTo(c) < 0) {
+            	sndHighBoardCard = highBoardCard;
+            	highBoardCard = c;
+            }
+            else if (sndHighBoardCard == null || sndHighBoardCard.compareTo(c) < 0)
+            	sndHighBoardCard = c;
+        }
         boardScore = handProcessor.getBestPlay();
 
         plays = new HandScore [Play.NUM_PLAYS];
-        pairTypes = new PairType [Play.NUM_PLAYS];
         playsCounter = new int [Play.NUM_PLAYS];
     }
 
@@ -77,11 +85,16 @@ public class RangeProcessor {
         	return;
         
         combos++;
-        if(plays[handScore.getHandValue().ordinal()] == null)
+        if(plays[handScore.getHandValue().ordinal()] == null) {
             plays[handScore.getHandValue().ordinal()] = handScore;
+            checkPairType(handScore, c1, c2);
+        }
+        
 
-        else if(plays[handScore.getHandValue().ordinal()].compareTo(handScore) < 0)
+        else if(plays[handScore.getHandValue().ordinal()].compareTo(handScore) < 0){
             plays[handScore.getHandValue().ordinal()] = handScore;
+            checkPairType(handScore, c1, c2);
+        }
 
         playsCounter[handScore.getHandValue().ordinal()] =
                 playsCounter[handScore.getHandValue().ordinal()] + 1;
@@ -94,12 +107,34 @@ public class RangeProcessor {
 		}
 		return res;
 	}
+    
+    private void checkPairType (HandScore hand, Card c1, Card c2) {
+    	if (hand.getHandValue() == Play.Pair) {
+    		if (c1.getValue() == c2.getValue() && c1.getValue() > highBoardCard.getValue())
+    			pairType = PairType.OverPair;
+    		else if (c1.getValue() == c2.getValue() && c1.getValue() < highBoardCard.getValue()) {
+    			if (c1.getValue() > 8)	//TODO JJ+ are strong pairs? 
+    				pairType = PairType.BelowPair;
+    			else
+    				pairType = PairType.WeakPair;
+    		}
+    		else if (c1.getValue() == highBoardCard.getValue() || c2.getValue() == highBoardCard.getValue())
+    			pairType = pairType.TopPair;
+    		else if (c1.getValue() == sndHighBoardCard.getValue() || c2.getValue() == sndHighBoardCard.getValue())
+    			pairType = pairType.MiddlePair;
+    		else
+    			pairType = pairType.WeakPair;    			
+    	}
+    }
 
 	public String toString(){
         StringBuilder sb = new StringBuilder();
         for (int i = plays.length-1; i >= 0; i--) {
             if(plays[i] != null)
-                sb.append(plays[i] + " -> " + ((int)Math.floor((playsCounter[i]*100)/combos)) + "%");
+            	if (i == Play.Pair.ordinal())
+            		sb.append(plays[i] + " (" + pairType.toString() + ") -> " + ((int)Math.floor((playsCounter[i]*100)/combos)) + "%");
+            	else
+            		sb.append(plays[i] + " -> " + ((int)Math.floor((playsCounter[i]*100)/combos)) + "%");
         }
 
         return sb.toString();
