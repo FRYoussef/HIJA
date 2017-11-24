@@ -1,9 +1,13 @@
 package control.rank;
 
 import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -11,6 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import model.processor.RangeProcessor;
 import model.representation.Card;
@@ -160,19 +165,31 @@ public class RangeController {
             Thread th = new Thread(() -> {
                 try {
                     rP.run();
-                    writeTextArea(rP.toString() + SEPARATOR);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
             th.setDaemon(true);
             th.start();
-
         }catch (Exception e){
             e.printStackTrace();
         }
+        this.createStatsWindow();
     }
-
+    private void createStatsWindow(){
+    	try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/StatsPieChart.fxml"));
+            ChartController c = new ChartController(rP.getStats());
+            fxmlLoader.setController(c);
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1)); 
+            stage.setTitle("Statistics");
+            stage.show();
+         }catch(Exception e) {
+        	 e.printStackTrace();
+         }
+    }
     @FXML
     public void onClickCardH(MouseEvent mouseEvent) {
         Platform.runLater(() -> {
