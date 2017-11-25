@@ -13,6 +13,7 @@ public class RangeProcessor {
     private HashSet<Card> hsBoard = null;
     private Card highBoardCard = null;
     private Card sndHighBoardCard = null;
+    private Card lowBoardCard = null;
     private HashSet<CoupleCards> hsRange = null;
     private HandScore[] plays = null;
     private HandScore[] pairPlays = null;
@@ -35,6 +36,9 @@ public class RangeProcessor {
             }
             else if (sndHighBoardCard == null || sndHighBoardCard.compareTo(c) < 0)
             	sndHighBoardCard = c;
+            if (lowBoardCard == null || lowBoardCard.compareTo(c) > 0) {
+            	lowBoardCard = c;
+            }
         }
         boardScore = handProcessor.getBestPlay();
 
@@ -118,7 +122,7 @@ public class RangeProcessor {
     			 p = PairType.OverPair;
     		}
     		else if (c1.getValue() == c2.getValue() && c1.getValue() < highBoardCard.getValue()) {
-    			if (c1.getValue() > 8)	//TODO JJ+ are strong pairs? 
+    			if (c1.getValue() > lowBoardCard.getValue())	
     				p = PairType.BelowPair;
     			else
     				p = PairType.WeakPair;
