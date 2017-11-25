@@ -208,7 +208,7 @@ public class CardsProcessor {
      * @return true if there is full house, false if theres not
      */
     public boolean isFullHouse(){
-        return rankPerSuits.get(highRankRep).getSuitCounter() == 3
+        return secondRankRep != -1 && rankPerSuits.get(highRankRep).getSuitCounter() == 3
                 && rankPerSuits.get(secondRankRep).getSuitCounter() >= 2;
     }
 
