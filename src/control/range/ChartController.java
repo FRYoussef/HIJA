@@ -45,19 +45,17 @@ public class ChartController{
          Platform.runLater(() ->
          {
              ArrayList<PieChart.Data> statsList = new ArrayList<>(stats.size());
-
              for(Stat s : stats)
                  statsList.add(new PieChart.Data(s.toString(), s.getPercentage()));
 
-             ObservableList<Data> list = FXCollections.observableArrayList(statsList);
 
+             ObservableList<Data> list = FXCollections.observableArrayList(statsList);
              if(plays)
                  _pcPlays.setData(list);
              else
                  _pcDraws.setData(list);
 
-             list.forEach(data ->
-                     data.nameProperty().bind(Bindings.concat(data.getName())));
+             list.forEach(data -> data.nameProperty().bind(Bindings.concat(data.getName())));
          });
      }
 }

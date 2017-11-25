@@ -3,6 +3,7 @@ package control.range;
 import javafx.application.Platform;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,8 +14,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Pair;
 import model.processor.RangeProcessor;
 import model.representation.Card;
@@ -65,16 +68,22 @@ public class RangeController {
     private TextField _tfRang;
     @FXML
     private TextField _handDistributionText;
+    @FXML
+    private Button _btStats;
 
     private HashSet<String> hsCouples = null;
     private ArrayList<String> hsCards = null;
     private RangeProcessor rP = null;
     private ChartController chartController = null;
+    private Stage stageStats = null;
+    private boolean statsClosed = true;
     
     public RangeController() {
         drawColorCells();
         hsCouples = new HashSet<>();
         hsCards = new ArrayList<>(Play.CARDS_PER_PLAY);
+        stageStats = new Stage();
+        stageStats.setOnCloseRequest( event -> {statsClosed = true;});
     }
 
     private void showRange(){
@@ -157,13 +166,22 @@ public class RangeController {
             return;
         }
         try{
+            _btStats.setDisable(true);
             HashSet<Card> hsC = new HashSet<>(hsCards.size());
             for (String st: hsCards)
                 hsC.add(new Card(Card.charToValue(st.charAt(0)), Suit.getFromChar(st.charAt(1))));
 
             rP = new RangeProcessor(hsC, CoupleCards.toCoupleCards(hsCouples));
             rP.run();
+            if(statsClosed || chartController == null){
+                createStatsWindow();
+                statsClosed = false;
+            }
+            else
+                chartController.changeStats(rP.getPlayStats(), rP.getDrawStats());
+
             createStatsWindow();
+            _btStats.setDisable(false);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -176,11 +194,10 @@ public class RangeController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/StatsPieChart.fxml"));
             chartController = new ChartController(rP.getPlayStats(), rP.getDrawStats());
             fxmlLoader.setController(chartController);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(fxmlLoader.load()));
-            stage.setTitle("Statistics");
-            stage.setResizable(false);
-            stage.show();
+            stageStats.setScene(new Scene(fxmlLoader.load()));
+            stageStats.setTitle("Statistics");
+            stageStats.setResizable(false);
+            stageStats.show();
 
          }catch(Exception e) {
         	 e.printStackTrace();
@@ -380,103 +397,4 @@ public class RangeController {
     private void updatePercentage(int num){
         _tfRang.setText( (int)Math.floor((num*100) / CoupleCards.NUM_COUPLE_CARDS) + "%");
     }
-
-
-//    /**
-//     * Receives ranks set and it paints them on screen one by one .
-//     * @param ranks
-//     */
-//    private void paintRanks(ArrayList<Range> ranks){
-//    	class PaintRanks implements Runnable {
-//    		ArrayList<Range> ranks;
-//    		PaintRanks(ArrayList<Range> r){
-//    			this.ranks = r;
-//    		}
-//			@Override
-//			public void run() {
-//				for(Range r: this.ranks){
-//					//couple of cards range
-//					if(r.getCoupleCards2() == null && !r.isHighRank() && !r.isRank())
-//						RangeController.this.paintCouple(r);
-//					//plus range
-//					else if(r.getCoupleCards2() == null && r.isHighRank())
-//						RangeController.this.paintPlus(r);
-//					//hyphen range
-//					else
-//						RangeController.this.paintHyphen(r);
-//				}
-//			}
-//
-//    	}
-//    	Platform.runLater(new PaintRanks(ranks));
-//    }
-//    /**
-//     * It paints hyphen format range.
-//     * @param r
-//     */
-//    private void paintHyphen(Range r){
-//    	int pivot = r.getCoupleCards1().getHiggerValue();
-//    	int limit = r.getCoupleCards1().getLowerValue();
-//    	int second = r.getCoupleCards2().getLowerValue();
-//    	while(second <= limit){
-//    		this.paint(pivot, second, r.getCoupleCards1().isOffSuited());
-//    		second++;
-//    	}
-//    }
-//    /**
-//     * It paints plus format range.
-//     * @param r
-//     */
-//    private void paintPlus(Range r){
-//    	int first = r.getCoupleCards1().getHiggerValue();
-//    	int second = r.getCoupleCards1().getLowerValue();
-//    	boolean suit = r.getCoupleCards1().isOffSuited();
-//    	//caso pareja
-//    	if(first == second){
-//    		while(first <= (Card.NUM_CARDS - 1)){
-//    			this.paint(first, second, suit);
-//    			second++;
-//    			first++;
-//    		}
-//    	}
-//    	else{
-//	    	while(second < first){
-//	    		this.paint(first, second, suit);
-//	    		second++;
-//	    	}
-//    	}
-//    }
-//    /**
-//     * It paints a couple of cards on screen.
-//     * @param r
-//     */
-//    private void paintCouple(Range r){
-//    	int first = r.getCoupleCards1().getHiggerValue();
-//		int second = r.getCoupleCards1().getLowerValue();
-//		this.paint(first, second, r.getCoupleCards1().isOffSuited());
-//    }
-//    /**
-//     * It paints a GridPane's cell
-//     * @param first high card value
-//     * @param second low card value
-//     * @param suit true if cards are suited cards, false otherwise
-//     */
-//    private void paint(int first, int second, boolean suit){
-//    	int row, col;
-//		if(first == second){
-//			row = col = Math.abs(first - (Card.NUM_CARDS - 1));
-//			_gpCouples.getChildren().get(row*NUM_ROW+col).getStyleClass().add(SELECTED_CELL);
-//		}
-//		else{
-//			if(!suit){
-//				row = Math.abs(first - (Card.NUM_CARDS - 1));
-//				col = row + Math.abs(first - second);
-//			}
-//			else{
-//				row = Math.abs(first - (Card.NUM_CARDS - 1)) + (first - second);
-//				col = Math.abs(first - (Card.NUM_CARDS - 1));
-//			}
-//			_gpCouples.getChildren().get(row*NUM_ROW+col).getStyleClass().add(SELECTED_CELL);
-//		}
-//    }
 }

@@ -385,6 +385,6 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <Button layoutX="714.0" layoutY="744.0" mnemonicParsing="false" onAction="#onClickStats" text="Stats" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="723.0" />
+      <Button fx:id="_btStats" layoutX="714.0" layoutY="744.0" mnemonicParsing="false" onAction="#onClickStats" text="Stats" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="723.0" />
    </children>
 </AnchorPane>
