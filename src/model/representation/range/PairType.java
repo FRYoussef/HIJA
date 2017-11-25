@@ -1,4 +1,4 @@
-package model.representation.rank;
+package model.representation.range;
 
 
 public enum PairType {

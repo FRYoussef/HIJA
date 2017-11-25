@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="864.0" prefWidth="1152.0" stylesheets="@pokerStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.rank.RangeController">
+<AnchorPane prefHeight="864.0" prefWidth="1152.0" stylesheets="@pokerStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.range.RangeController">
    <children>
       <GridPane fx:id="_gpCouples" gridLinesVisible="true" prefHeight="500.0" prefWidth="689.0" styleClass="gridPane" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
         <columnConstraints>
@@ -237,7 +245,7 @@
       </Pane>
       <Slider fx:id="_slider" blockIncrement="1.0" layoutX="137.0" layoutY="539.0" min="1.0" onMouseReleased="#onMouseReleased" prefWidth="625.0" AnchorPane.bottomAnchor="287.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="539.0" />
       <TextField fx:id="_tfRang" alignment="CENTER" layoutX="654.0" layoutY="543.0" onAction="#onActionRangeText" prefHeight="25.0" prefWidth="60.0" text="0%" />
-      <GridPane hgap="2.0" layoutX="25.0" layoutY="588.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="185.0" AnchorPane.leftAnchor="25.0">
+      <GridPane hgap="2.0" layoutX="25.0" layoutY="588.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="25.0">
         <columnConstraints>
            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -272,7 +280,7 @@
             <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="3h" GridPane.columnIndex="11" />
          </children>
       </GridPane>
-      <GridPane hgap="2.0" layoutX="14.0" layoutY="656.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="25.0">
+      <GridPane hgap="2.0" layoutX="14.0" layoutY="656.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="25.0">
          <children>
             <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="Ac" />
             <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="Kc" GridPane.columnIndex="1" />
@@ -307,7 +315,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <GridPane hgap="2.0" layoutX="25.0" layoutY="709.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="25.0">
+      <GridPane hgap="2.0" layoutX="25.0" layoutY="709.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="25.0">
          <children>
             <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="Ad" />
             <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="Kd" GridPane.columnIndex="1" />
@@ -342,7 +350,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <GridPane hgap="2.0" layoutX="25.0" layoutY="767.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="25.0">
+      <GridPane hgap="2.0" layoutX="25.0" layoutY="767.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="25.0">
          <children>
             <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="As" />
             <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="Ks" GridPane.columnIndex="1" />
@@ -377,6 +385,6 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <Button layoutX="726.0" layoutY="754.0" mnemonicParsing="false" onAction="#onClickStats" text="Button" />
+      <Button layoutX="714.0" layoutY="744.0" mnemonicParsing="false" onAction="#onClickStats" text="Stats" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="723.0" />
    </children>
 </AnchorPane>

@@ -1,4 +1,4 @@
-package control.rank;
+package control.range;
 
 import javafx.application.Platform;
 
@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,8 +20,9 @@ import model.processor.RangeProcessor;
 import model.representation.Card;
 import model.representation.Suit;
 import model.representation.game.Play;
-import model.representation.rank.CoupleCards;
-import model.representation.rank.Range;
+import model.representation.range.CoupleCards;
+import model.representation.range.Range;
+import model.utils.EntryParser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -69,6 +69,7 @@ public class RangeController {
     private HashSet<String> hsCouples = null;
     private ArrayList<String> hsCards = null;
     private RangeProcessor rP = null;
+    private ChartController chartController = null;
     
     public RangeController() {
         drawColorCells();
@@ -161,35 +162,31 @@ public class RangeController {
                 hsC.add(new Card(Card.charToValue(st.charAt(0)), Suit.getFromChar(st.charAt(1))));
 
             rP = new RangeProcessor(hsC, CoupleCards.toCoupleCards(hsCouples));
+            rP.run();
+            createStatsWindow();
 
-            Thread th = new Thread(() -> {
-                try {
-                    rP.run();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            th.setDaemon(true);
-            th.start();
         }catch (Exception e){
             e.printStackTrace();
         }
-        this.createStatsWindow();
     }
+
+
     private void createStatsWindow(){
     	try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/StatsPieChart.fxml"));
-            ChartController c = new ChartController(rP.getStats());
-            fxmlLoader.setController(c);
-            Parent root1 = (Parent) fxmlLoader.load();
+            chartController = new ChartController(rP.getPlayStats(), rP.getDrawStats());
+            fxmlLoader.setController(chartController);
             Stage stage = new Stage();
-            stage.setScene(new Scene(root1)); 
+            stage.setScene(new Scene(fxmlLoader.load()));
             stage.setTitle("Statistics");
+            stage.setResizable(false);
             stage.show();
+
          }catch(Exception e) {
         	 e.printStackTrace();
          }
     }
+
     @FXML
     public void onClickCardH(MouseEvent mouseEvent) {
         Platform.runLater(() -> {
@@ -353,11 +350,11 @@ public class RangeController {
     	String entry = this._handDistributionText.getText();
     	_handDistributionText.clear();
     	if(entry.isEmpty())
-    		writeTextArea("-You haven't typed in a rank." + SEPARATOR);
+    		writeTextArea("-You haven't typed in a range." + SEPARATOR);
     	else{
 	    	EntryParser parser = new EntryParser(entry);
 	    	if(!parser.parseEntry())
-	    		writeTextArea("It is not a correct rank" + SEPARATOR);
+	    		writeTextArea("It is not a correct range" + SEPARATOR);
 	    	else{
                 clearRange();
                 selectElemsMatrix(CoupleCards.coupleCardsToMatrix(Range.rangeToCoupleCards(parser.getRangeEntry())));
@@ -398,13 +395,13 @@ public class RangeController {
 //			@Override
 //			public void run() {
 //				for(Range r: this.ranks){
-//					//couple of cards rank
+//					//couple of cards range
 //					if(r.getCoupleCards2() == null && !r.isHighRank() && !r.isRank())
 //						RangeController.this.paintCouple(r);
-//					//plus rank
+//					//plus range
 //					else if(r.getCoupleCards2() == null && r.isHighRank())
 //						RangeController.this.paintPlus(r);
-//					//hyphen rank
+//					//hyphen range
 //					else
 //						RangeController.this.paintHyphen(r);
 //				}
@@ -414,7 +411,7 @@ public class RangeController {
 //    	Platform.runLater(new PaintRanks(ranks));
 //    }
 //    /**
-//     * It paints hyphen format rank.
+//     * It paints hyphen format range.
 //     * @param r
 //     */
 //    private void paintHyphen(Range r){
@@ -427,7 +424,7 @@ public class RangeController {
 //    	}
 //    }
 //    /**
-//     * It paints plus format rank.
+//     * It paints plus format range.
 //     * @param r
 //     */
 //    private void paintPlus(Range r){

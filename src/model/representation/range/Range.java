@@ -1,4 +1,4 @@
-package model.representation.rank;
+package model.representation.range;
 
 import model.representation.Card;
 
@@ -97,10 +97,10 @@ public class Range {
     }
 
     /**
-     * It creates a rank from two couples of cards.
+     * It creates a range from two couples of cards.
      * @param c1 first couple of cards
      * @param c2 second couple of cards
-     * @return null if there is no union, the rank otherwise
+     * @return null if there is no union, the range otherwise
      */
     public static Range union(CoupleCards c1, CoupleCards c2){
         CoupleCards cp1 = c1.compareTo(c2) >= 0 ? c1 : c2;
@@ -131,10 +131,10 @@ public class Range {
     }
 
     /**
-     * It creates a rank from a couples of cards and from a rank.
-     * @param r the rank
+     * It creates a range from a couples of cards and from a range.
+     * @param r the range
      * @param c first couple of cards
-     * @return null if there is no union, the new rank otherwise
+     * @return null if there is no union, the new range otherwise
      */
     public static Range union(Range r, CoupleCards c){
         CoupleCards cp1 = r.getCoupleCards1().compareTo(c) >= 0 ? r.getCoupleCards1() : c;
@@ -178,7 +178,7 @@ public class Range {
         }
 
         if(r.isRank()){
-            /** the couple of cards are above the rank */
+            /** the couple of cards are above the range */
             if(Math.abs(r.getCoupleCards1().getLowerValue() - c.getLowerValue()) == 1){
                 if(Math.abs(c.getHigherValue()-c.getLowerValue()) == 1){
                     r.setCoupleCards1(r.getCoupleCards2());
@@ -190,7 +190,7 @@ public class Range {
                 r.setCoupleCards1(c);
                 return r;
             }
-            /** the couple of cards are below the rank */
+            /** the couple of cards are below the range */
             else if(Math.abs(r.getCoupleCards2().getLowerValue() - c.getLowerValue()) == 1){
                 r.setCoupleCards2(c);
                 return r;

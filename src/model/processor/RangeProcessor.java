@@ -4,9 +4,9 @@ import model.representation.Card;
 import model.representation.Suit;
 import model.representation.game.HandScore;
 import model.representation.game.Play;
-import model.representation.rank.CoupleCards;
-import model.representation.rank.PairType;
-import model.representation.rank.Stats;
+import model.representation.range.CoupleCards;
+import model.representation.range.PairType;
+import model.representation.Stat;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,7 +24,8 @@ public class RangeProcessor {
     private int combos = 0;
     private HandScore boardScore = null;
 
-    private ArrayList<Stats> stats; 
+    private ArrayList<Stat> playStats = null;
+    private ArrayList<Stat> drawStats = null;
     
     
     public RangeProcessor(HashSet<Card> hsBoard, HashSet<CoupleCards> hsRange) throws Exception {
@@ -48,7 +49,16 @@ public class RangeProcessor {
         playsCounter = new int [Play.NUM_PLAYS];
         pairPlaysCounter = new int [PairType.NUM_PAIRS];
         
-        stats = new ArrayList<Stats>(); 
+        playStats = new ArrayList<>();
+        drawStats = new ArrayList<>();
+    }
+
+    public ArrayList<Stat> getPlayStats(){
+        return playStats;
+    }
+
+    public ArrayList<Stat> getDrawStats() {
+        return drawStats;
     }
 
     public void run() throws Exception {
@@ -58,17 +68,17 @@ public class RangeProcessor {
             else
             	suitedCombination(cp);   
         }
+
         for (int i = plays.length-1; i >= 0; i--) {
             if(plays[i] != null)
-            	stats.add(new Stats(plays[i].toString(), (int)Math.floor((playsCounter[i]*100)/combos)));
+            	playStats.add(new Stat(plays[i].getHandValue().toString(), plays[i].getPlayValue(), (int)Math.floor((playsCounter[i]*100)/combos)));
             else if (i == Play.Pair.ordinal()) {
         		for (int j = pairPlays.length -1; j >= 0; j--) {
         			if (pairPlays[j] != null) 
-        				stats.add(new Stats(pairPlays[j] + " (" + PairType.getFromInt(j).toString() + ") ", (int)Math.floor((pairPlaysCounter[j]*100)/combos)));        			
+        				playStats.add(new Stat(PairType.getFromInt(j).toString(), pairPlays[j].getPlayValue(), (int)Math.floor((pairPlaysCounter[j]*100)/combos)));
         		}
             }
         }
-        
     }
 
     private void offSuitedCombination(CoupleCards cp) throws Exception {
@@ -153,14 +163,10 @@ public class RangeProcessor {
             plays[Play.Pair.ordinal()] = null;
     	}
     }
-
-    public ArrayList<Stats> getStats(){
-    	return stats; 
-    }
     
 	public String toString(){
         StringBuilder sb = new StringBuilder();
-       /* for (int i = plays.length-1; i >= 0; i--) {
+       for (int i = plays.length-1; i >= 0; i--) {
             if(plays[i] != null) {
             	
             		sb.append(plays[i] + " -> " + ((int)Math.floor((playsCounter[i]*100)/combos)) + "%");
@@ -172,7 +178,7 @@ public class RangeProcessor {
         			
         		}
             }
-        }*/
+        }
         return sb.toString();
     }
 
