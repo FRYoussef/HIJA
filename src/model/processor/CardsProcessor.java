@@ -224,7 +224,7 @@ public class CardsProcessor {
      * @return true if there is two pair, false if theres not
      */
     public boolean isTwoPair() {
-        return rankPerSuits.get(highRankRep).getSuitCounter() == 2
+        return secondRankRep != -1 && rankPerSuits.get(highRankRep).getSuitCounter() == 2
                 && rankPerSuits.get(secondRankRep).getSuitCounter() == 2;
     }
 
