@@ -8,6 +8,7 @@ import java.util.Collections;
 public class Range {
 
     private static final ArrayList<Range> SKLANSKY = initSklansky();
+    private static final ArrayList<Range> STRENGTH = initStrength();
 
     private CoupleCards coupleCards1 = null;
     private CoupleCards coupleCards2 = null;
@@ -93,6 +94,13 @@ public class Range {
         ArrayList<Range> range = new ArrayList();
         for(int i = 0; i<((rangPercentage*SKLANSKY.size())/100);i++)
             range.add(SKLANSKY.get(i));
+        return range;
+    }
+
+    public static ArrayList getRangeArrayStrength(int rangPercentage) throws Exception{
+        ArrayList<Range> range = new ArrayList();
+        for(int i = 0; i<((rangPercentage*STRENGTH.size())/100);i++)
+            range.add(STRENGTH.get(i));
         return range;
     }
 
@@ -437,5 +445,184 @@ public class Range {
         s.add(new Range(new CoupleCards(2,0,true)));
         s.add(new Range(new CoupleCards(1,0,true)));
         return s;
+    }
+
+    private static ArrayList<Range> initStrength(){
+        ArrayList<Range> strength = new ArrayList<>(169);
+
+        strength.add(new Range(new CoupleCards(12,12)));
+        strength.add(new Range(new CoupleCards(11,11)));
+        strength.add(new Range(new CoupleCards(10,10)));
+        strength.add(new Range(new CoupleCards(12,11, false)));
+        strength.add(new Range(new CoupleCards(9,9)));
+		strength.add(new Range(new CoupleCards(12,10, false)));
+		strength.add(new Range(new CoupleCards(11,10, false)));
+		strength.add(new Range(new CoupleCards(12,9,false)));
+		strength.add(new Range(new CoupleCards(11,9, false)));
+		strength.add(new Range(new CoupleCards(8,8)));
+		strength.add(new Range(new CoupleCards(12,11, true)));
+		strength.add(new Range(new CoupleCards(12,8,false)));
+		strength.add(new Range(new CoupleCards(10,9,false)));
+		strength.add(new Range(new CoupleCards(11,8,false)));
+		strength.add(new Range(new CoupleCards(10,8,false)));
+		strength.add(new Range(new CoupleCards(9,8,false)));
+		strength.add(new Range(new CoupleCards(7,7)));
+		strength.add(new Range(new CoupleCards(12,10, true)));
+		strength.add(new Range(new CoupleCards(12,7, false)));
+		strength.add(new Range(new CoupleCards(11,10,true)));
+		strength.add(new Range(new CoupleCards(6,6)));
+		strength.add(new Range(new CoupleCards(11,7,false)));
+		strength.add(new Range(new CoupleCards(8,7,false)));
+		strength.add(new Range(new CoupleCards(12,6,false)));
+		strength.add(new Range(new CoupleCards(10,7,false)));
+		strength.add(new Range(new CoupleCards(9,7,false)));
+		strength.add(new Range(new CoupleCards(12,9,true)));
+		strength.add(new Range(new CoupleCards(12,3,false)));
+		strength.add(new Range(new CoupleCards(5,5)));
+		strength.add(new Range(new CoupleCards(12,5, false)));
+		strength.add(new Range(new CoupleCards(11,9, true)));
+		strength.add(new Range(new CoupleCards(12,2,false)));
+		strength.add(new Range(new CoupleCards(12,1,false)));
+		strength.add(new Range(new CoupleCards(12,4,false)));
+		strength.add(new Range(new CoupleCards(10,9,true)));
+		strength.add(new Range(new CoupleCards(4,4)));
+		strength.add(new Range(new CoupleCards(11,6,false)));
+		strength.add(new Range(new CoupleCards(8,6,false)));
+		strength.add(new Range(new CoupleCards(12,0,false)));
+		strength.add(new Range(new CoupleCards(7,6,false)));
+		strength.add(new Range(new CoupleCards(9,6,false)));
+		strength.add(new Range(new CoupleCards(12,8,true)));
+		strength.add(new Range(new CoupleCards(10,6,false)));
+		strength.add(new Range(new CoupleCards(11,5,false)));
+		strength.add(new Range(new CoupleCards(11,8,true)));
+		strength.add(new Range(new CoupleCards(3,3)));
+		strength.add(new Range(new CoupleCards(9,8,true)));
+		strength.add(new Range(new CoupleCards(6,5,false)));
+		strength.add(new Range(new CoupleCards(10,8,true)));
+		strength.add(new Range(new CoupleCards(2,2)));
+
+		strength.add(new Range(new CoupleCards(0,0)));
+		strength.add(new Range(new CoupleCards(1,1)));
+		strength.add(new Range(new CoupleCards(11,4,false)));
+		strength.add(new Range(new CoupleCards(7,5,false)));
+		strength.add(new Range(new CoupleCards(11,3,false)));
+		strength.add(new Range(new CoupleCards(5,4,false)));
+		strength.add(new Range(new CoupleCards(8,5,false)));
+		strength.add(new Range(new CoupleCards(11,2,false)));
+		strength.add(new Range(new CoupleCards(11,0,false)));
+		strength.add(new Range(new CoupleCards(11,1,false)));
+		strength.add(new Range(new CoupleCards(10,5,false)));
+		strength.add(new Range(new CoupleCards(6,4,false)));
+		strength.add(new Range(new CoupleCards(4,3,false)));
+		strength.add(new Range(new CoupleCards(9,5,false)));
+		strength.add(new Range(new CoupleCards(3,2,false)));
+		strength.add(new Range(new CoupleCards(10,4,false)));
+		strength.add(new Range(new CoupleCards(5,3,false)));
+		strength.add(new Range(new CoupleCards(7,4,false)));
+		strength.add(new Range(new CoupleCards(10,3,false)));
+		strength.add(new Range(new CoupleCards(4,2,false)));
+		strength.add(new Range(new CoupleCards(10,2,false)));
+		strength.add(new Range(new CoupleCards(10,1,false)));
+		strength.add(new Range(new CoupleCards(8,7,true)));
+		strength.add(new Range(new CoupleCards(8,4,false)));
+		strength.add(new Range(new CoupleCards(10,0,false)));
+		strength.add(new Range(new CoupleCards(12,7,true)));
+		strength.add(new Range(new CoupleCards(3,1,false)));
+		strength.add(new Range(new CoupleCards(6,3,false)));
+		strength.add(new Range(new CoupleCards(9,4,false)));
+		strength.add(new Range(new CoupleCards(9,7,true)));
+		strength.add(new Range(new CoupleCards(11,7,true)));
+		strength.add(new Range(new CoupleCards(9,3,false)));
+		strength.add(new Range(new CoupleCards(10,7,true)));
+		strength.add(new Range(new CoupleCards(2,1,false)));
+		strength.add(new Range(new CoupleCards(5,2,false)));
+		strength.add(new Range(new CoupleCards(9,2,false)));
+		strength.add(new Range(new CoupleCards(9,1,false)));
+		strength.add(new Range(new CoupleCards(7,3,false)));
+		strength.add(new Range(new CoupleCards(9,0,false)));
+		strength.add(new Range(new CoupleCards(4,1,false)));
+		strength.add(new Range(new CoupleCards(12,6,true)));
+		strength.add(new Range(new CoupleCards(3,0,false)));
+		strength.add(new Range(new CoupleCards(8,3,false)));
+		strength.add(new Range(new CoupleCards(6,2,false)));
+		strength.add(new Range(new CoupleCards(8,2,false)));
+		strength.add(new Range(new CoupleCards(8,1,false)));
+		strength.add(new Range(new CoupleCards(2,0,false)));
+		strength.add(new Range(new CoupleCards(8,0,false)));
+		strength.add(new Range(new CoupleCards(7,6,true)));
+		strength.add(new Range(new CoupleCards(8,6,true)));
+
+		strength.add(new Range(new CoupleCards(12,3,true)));
+		strength.add(new Range(new CoupleCards(12,5,true)));
+		strength.add(new Range(new CoupleCards(5,1,false)));
+		strength.add(new Range(new CoupleCards(12,2,true)));
+		strength.add(new Range(new CoupleCards(1,0,false)));
+		strength.add(new Range(new CoupleCards(7,2,false)));
+		strength.add(new Range(new CoupleCards(7,1,false)));
+		strength.add(new Range(new CoupleCards(9,6,true)));
+		strength.add(new Range(new CoupleCards(12,1,true)));
+		strength.add(new Range(new CoupleCards(4,0,false)));
+		strength.add(new Range(new CoupleCards(7,0,false)));
+		strength.add(new Range(new CoupleCards(11,6,true)));
+		strength.add(new Range(new CoupleCards(12,4,true)));
+		strength.add(new Range(new CoupleCards(6,5,true)));
+		strength.add(new Range(new CoupleCards(10,6,true)));
+		strength.add(new Range(new CoupleCards(6,1,false)));
+		strength.add(new Range(new CoupleCards(12,0,true)));
+		strength.add(new Range(new CoupleCards(6,0,false)));
+		strength.add(new Range(new CoupleCards(7,5,true)));
+		strength.add(new Range(new CoupleCards(5,0,false)));
+		strength.add(new Range(new CoupleCards(5,4,true)));
+		strength.add(new Range(new CoupleCards(11,5,true)));
+		strength.add(new Range(new CoupleCards(4,3,true)));
+		strength.add(new Range(new CoupleCards(8,5,true)));
+		strength.add(new Range(new CoupleCards(11,4,true)));
+		strength.add(new Range(new CoupleCards(6,4,true)));
+		strength.add(new Range(new CoupleCards(3,2,true)));
+		strength.add(new Range(new CoupleCards(11,3,true)));
+		strength.add(new Range(new CoupleCards(9,5,true)));
+		strength.add(new Range(new CoupleCards(5,3,true)));
+		strength.add(new Range(new CoupleCards(10,5,true)));
+		strength.add(new Range(new CoupleCards(11,2,true)));
+		strength.add(new Range(new CoupleCards(11,1,true)));
+		strength.add(new Range(new CoupleCards(7,4,true)));
+		strength.add(new Range(new CoupleCards(11,0,true)));
+		strength.add(new Range(new CoupleCards(4,2,true)));
+		strength.add(new Range(new CoupleCards(10,4,true)));
+		strength.add(new Range(new CoupleCards(3,1,true)));
+		strength.add(new Range(new CoupleCards(6,3,true)));
+		strength.add(new Range(new CoupleCards(8,4,true)));
+		strength.add(new Range(new CoupleCards(10,3,true)));
+		strength.add(new Range(new CoupleCards(2,1,true)));
+		strength.add(new Range(new CoupleCards(10,2,true)));
+		strength.add(new Range(new CoupleCards(10,1,true)));
+		strength.add(new Range(new CoupleCards(5,2,true)));
+		strength.add(new Range(new CoupleCards(10,0,true)));
+		strength.add(new Range(new CoupleCards(9,4,true)));
+		strength.add(new Range(new CoupleCards(4,1,true)));
+		strength.add(new Range(new CoupleCards(9,3,true)));
+		strength.add(new Range(new CoupleCards(7,3,true)));
+
+		strength.add(new Range(new CoupleCards(3,0,true)));
+		strength.add(new Range(new CoupleCards(9,2,true)));
+		strength.add(new Range(new CoupleCards(9,1,true)));
+		strength.add(new Range(new CoupleCards(2,0,true)));
+		strength.add(new Range(new CoupleCards(9,0,true)));
+		strength.add(new Range(new CoupleCards(6,2,true)));
+		strength.add(new Range(new CoupleCards(8,3,true)));
+		strength.add(new Range(new CoupleCards(8,2,true)));
+		strength.add(new Range(new CoupleCards(1,0,true)));
+		strength.add(new Range(new CoupleCards(8,1,true)));
+		strength.add(new Range(new CoupleCards(5,1,true)));
+		strength.add(new Range(new CoupleCards(8,0,true)));
+		strength.add(new Range(new CoupleCards(4,0,true)));
+		strength.add(new Range(new CoupleCards(7,2,true)));
+		strength.add(new Range(new CoupleCards(7,1,true)));
+		strength.add(new Range(new CoupleCards(7,0,true)));
+		strength.add(new Range(new CoupleCards(6,1,true)));
+		strength.add(new Range(new CoupleCards(6,0,true)));
+		strength.add(new Range(new CoupleCards(5,0,true)));
+
+        return strength;
     }
 }
