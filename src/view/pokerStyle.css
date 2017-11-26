@@ -68,6 +68,7 @@
 }
 
 .selectedLabel{
+    -fx-background-color: #E8F5E9;
     -fx-border-width: 2;
     -fx-border-color: #4CAF50;
 }
