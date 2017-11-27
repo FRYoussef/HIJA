@@ -33,6 +33,10 @@ public class CardsProcessor {
     private boolean openEndedStraight;
     /** if we need just one more card for straight between 2 cards */
     private boolean gutShotStraight;
+    /** if we need just one more card for straight in one of the ends */
+    private boolean openEndedStraightFlush;
+    /** if we need just one more card for straight between 2 cards */
+    private boolean gutShotStraightFlush;
     /** In case we have flush this is the color of it */
     private Suit flushSuit;
 
@@ -59,6 +63,12 @@ public class CardsProcessor {
     }
     public boolean getgutShotStraight() {
         return gutShotStraight;
+    }
+    public boolean getopenEndedStraightFlush() {
+        return openEndedStraightFlush;
+    }
+    public boolean getgutShotStraightFlush() {
+        return gutShotStraightFlush;
     }
 
     
@@ -277,7 +287,7 @@ public class CardsProcessor {
 					}
 					Card cardS = new Card(12, rankPerSuits.get(12).getFirstSuit());
 					cards.add(4, cardS);
-				}
+				}//TODO Add check for gutshot with ACE!
 			}
 			isStraight = straight;
 			if (!isStraight) {

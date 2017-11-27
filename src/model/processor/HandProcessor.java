@@ -39,6 +39,19 @@ public class HandProcessor {
     	else
     		return tableCardsProcessor.getgutShotStraight();
     }
+    public boolean getopenEndedStraightFlush() {
+    	if (playerCardsProcessor != null)
+    		return playerCardsProcessor.getopenEndedStraightFlush();
+    	else
+    		return tableCardsProcessor.getopenEndedStraightFlush();
+    }
+    public boolean getgutShotStraightFlush() {
+    	if (playerCardsProcessor != null)
+    		return playerCardsProcessor.getgutShotStraightFlush();
+    	else
+    		return tableCardsProcessor.getgutShotStraightFlush();
+    }
+    
 
     public void resetHandProcessor(){
         tableCardsProcessor = new CardsProcessor();
