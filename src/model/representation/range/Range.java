@@ -13,8 +13,8 @@ public class Range {
     private CoupleCards coupleCards1 = null;
     private CoupleCards coupleCards2 = null;
 
-    private boolean rank = false; /** like A9s-A7s */
-    private boolean highRank = false; /** like JJ+ */
+    private boolean range = false; /** like A9s-A7s */
+    private boolean highRange = false; /** like JJ+ */
 
     public Range() { }
 
@@ -22,11 +22,11 @@ public class Range {
         this.coupleCards1 = coupleCards1;
     }
 
-    public Range(CoupleCards coupleCards1, CoupleCards coupleCards2, boolean rank, boolean highRank) {
+    public Range(CoupleCards coupleCards1, CoupleCards coupleCards2, boolean range, boolean highRange) {
         this.coupleCards1 = coupleCards1;
         this.coupleCards2 = coupleCards2;
-        this.rank = rank;
-        this.highRank = highRank;
+        this.range = range;
+        this.highRange = highRange;
     }
 
     public CoupleCards getCoupleCards1() {
@@ -37,12 +37,12 @@ public class Range {
         return coupleCards2;
     }
 
-    public boolean isRank() {
-        return rank;
+    public boolean isRange() {
+        return range;
     }
 
-    public boolean isHighRank() {
-        return highRank;
+    public boolean isHighRange() {
+        return highRange;
     }
 
     public void setCoupleCards1(CoupleCards coupleCards1) {
@@ -53,12 +53,12 @@ public class Range {
         this.coupleCards2 = coupleCards2;
     }
 
-    public void setRank(boolean rank) {
-        this.rank = rank;
+    public void setRange(boolean range) {
+        this.range = range;
     }
 
-    public void setHighRank(boolean highRank) {
-        this.highRank = highRank;
+    public void setHighRange(boolean highRange) {
+        this.highRange = highRange;
     }
 
 
@@ -70,20 +70,26 @@ public class Range {
     public static ArrayList<CoupleCards> rangeToCoupleCards(ArrayList<Range> ranges){
         ArrayList<CoupleCards> coupleCards = new ArrayList<>(ranges.size());
         for(Range r: ranges){
-            if(r.getCoupleCards2() == null && !r.isHighRank())
+            if(r.getCoupleCards2() == null && !r.isHighRange())
                 coupleCards.add(r.getCoupleCards1());
-            else if(r.isRank()){
+            else if(r.isRange()){
                 for(int i = r.getCoupleCards2().getLowerValue(); i <= r.getCoupleCards1().getLowerValue(); i++)
                     coupleCards.add(new CoupleCards(r.getCoupleCards2().getHigherValue(), i, r.getCoupleCards2().isOffSuited()));
             }
-            else if(r.isHighRank()){
+            else if(r.isHighRange()){
                 if(r.getCoupleCards1().isPair()){
                     for(int i = r.getCoupleCards1().getHigherValue(); i <= 12; i++)
                         coupleCards.add(new CoupleCards(i, i));
                 }
                 else{
-                    for(int i = r.getCoupleCards1().getLowerValue(); i <= r.getCoupleCards1().getHigherValue(); i++)
-                        coupleCards.add(new CoupleCards(r.getCoupleCards1().getHigherValue(), i));
+                    CoupleCards cp;
+                    for(int i = r.getCoupleCards1().getLowerValue(); i < r.getCoupleCards1().getHigherValue(); i++) {
+                        if (r.getCoupleCards1().isOffSuited())
+                            cp = new CoupleCards(r.getCoupleCards1().getHigherValue(), i);
+                        else
+                            cp = new CoupleCards(i, r.getCoupleCards1().getHigherValue());
+                        coupleCards.add(cp);
+                    }
                 }
             }
         }
@@ -150,14 +156,14 @@ public class Range {
 
         if(r.getCoupleCards1().isPair() || c.isPair()){
             if(r.getCoupleCards1().isPair() && c.isPair()){
-                if(r.isHighRank() && Math.abs(r.getCoupleCards1().getHigherValue() - c.getHigherValue()) == 1){
+                if(r.isHighRange() && Math.abs(r.getCoupleCards1().getHigherValue() - c.getHigherValue()) == 1){
                     r.setCoupleCards1(c);
                     return r;
                 }
                 else if(cp1.getHigherValue() == Card.NUM_CARDS-1
                         && Math.abs(cp1.getHigherValue() - cp2.getHigherValue()) == 1)
                 {
-                    r.setHighRank(true);
+                    r.setHighRange(true);
                     r.setCoupleCards1(cp2);
                     return r;
                 }
@@ -171,28 +177,28 @@ public class Range {
                 || r.getCoupleCards1().isOffSuited() != c.isOffSuited())
             return null;
 
-        if(!r.isHighRank() && !r.isRank() && Math.abs(r.getCoupleCards1().getLowerValue() - c.getLowerValue()) == 1){
+        if(!r.isHighRange() && !r.isRange() && Math.abs(r.getCoupleCards1().getLowerValue() - c.getLowerValue()) == 1){
             if(Math.abs(cp1.getHigherValue() - cp1.getLowerValue()) == 1){
                 r.setCoupleCards1(cp2);
                 r.setCoupleCards2(null);
-                r.setRank(false);
-                r.setHighRank(true);
+                r.setRange(false);
+                r.setHighRange(true);
                 return r;
             }
 
             r.setCoupleCards2(cp2);
-            r.setRank(true);
+            r.setRange(true);
             return r;
         }
 
-        if(r.isRank()){
+        if(r.isRange()){
             /** the couple of cards are above the range */
             if(Math.abs(r.getCoupleCards1().getLowerValue() - c.getLowerValue()) == 1){
                 if(Math.abs(c.getHigherValue()-c.getLowerValue()) == 1){
                     r.setCoupleCards1(r.getCoupleCards2());
                     r.setCoupleCards2(null);
-                    r.setRank(false);
-                    r.setHighRank(true);
+                    r.setRange(false);
+                    r.setHighRange(true);
                     return r;
                 }
                 r.setCoupleCards1(c);
@@ -206,7 +212,7 @@ public class Range {
             return null;
         }
 
-        if(r.isHighRank()){
+        if(r.isHighRange()){
             if(Math.abs(r.getCoupleCards1().getLowerValue() - c.getLowerValue()) == 1){
                 r.setCoupleCards1(c);
                 return r;
@@ -260,9 +266,9 @@ public class Range {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(coupleCards1.toString());
-        if(rank && coupleCards2 != null)
+        if(range && coupleCards2 != null)
             sb.append("-" + coupleCards2.toString());
-        else if(highRank)
+        else if(highRange)
             sb.append("+");
         return sb.toString();
     }

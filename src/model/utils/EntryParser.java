@@ -89,7 +89,7 @@ public class EntryParser {
 		if(l == 3 && entry.charAt(2) != '+')
 			return null;
 		else if(l == 4 && entry.charAt(3) != '+')
-			return null; 
+			return null;
 		CoupleCards cp = this.parseCoupleCards(entry.substring(0, l - 1));
 		if (cp == null)
 			return null; 
