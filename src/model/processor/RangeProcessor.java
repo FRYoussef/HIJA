@@ -1,6 +1,7 @@
 package model.processor;
 
 import model.representation.Card;
+import model.representation.Draws;
 import model.representation.Suit;
 import model.representation.game.HandScore;
 import model.representation.game.Play;
@@ -21,8 +22,10 @@ public class RangeProcessor {
     private HandScore[] pairPlays = null;
     private int[] playsCounter = null;
     private int[] pairPlaysCounter = null;
+    private int [] drawsCounter = null;
     private HandProcessor handProcessor = null;    
     private int combos = 0;
+    private int nDraws = 0;
     private HandScore boardScore = null;
 
     private ArrayList<Stat> playStats = null;
@@ -52,6 +55,7 @@ public class RangeProcessor {
         pairPlays = new HandScore [PairType.NUM_PAIRS];
         playsCounter = new int [Play.NUM_PLAYS];
         pairPlaysCounter = new int [PairType.NUM_PAIRS];
+        drawsCounter = new int [Draws.NUM_DRAWS];
         
         playStats = new ArrayList<>();
         drawStats = new ArrayList<>();
@@ -72,16 +76,23 @@ public class RangeProcessor {
             else
             	suitedCombination(cp);   
         }
-
-        for (int i = plays.length-1; i >= 0; i--) {
-            if(plays[i] != null)
-            	playStats.add(new Stat(plays[i].getHandValue().toString(), plays[i].getPlayValue(), (int)Math.floor((playsCounter[i]*100)/combos)));
-            else if (i == Play.Pair.ordinal()) {
-        		for (int j = pairPlays.length -1; j >= 0; j--) {
-        			if (pairPlays[j] != null) 
-        				playStats.add(new Stat(PairType.getFromInt(j).toString(), pairPlays[j].getPlayValue(), (int)Math.floor((pairPlaysCounter[j]*100)/combos)));
-        		}
-            }
+        //Possibly redundant check, better safe than sorry
+        if (combos > 0) {
+	        for (int i = plays.length-1; i >= 0; i--) {
+	            if(plays[i] != null)
+	            	playStats.add(new Stat(plays[i].getHandValue().toString(), plays[i].getPlayValue(), (int)Math.floor((playsCounter[i]*100)/combos)));
+	            else if (i == Play.Pair.ordinal()) {
+	        		for (int j = pairPlays.length -1; j >= 0; j--) {
+	        			if (pairPlays[j] != null) 
+	        				playStats.add(new Stat(PairType.getFromInt(j).toString(), pairPlays[j].getPlayValue(), (int)Math.floor((pairPlaysCounter[j]*100)/combos)));
+	        		}
+	            }
+	        }
+        }
+        if (nDraws > 0) {
+	        for (int i = 0; i < Draws.NUM_DRAWS; i++) {
+	        	drawStats.add(new Stat(Draws.values()[i].toString() + " (" + drawsCounter[i] + ")", (int)Math.floor((drawsCounter[i]*100)/nDraws)));
+	        }
         }
     }
 
@@ -130,6 +141,18 @@ public class RangeProcessor {
         }
 
         playsCounter[handScore.getHandValue().ordinal()]++;
+        if (handProcessor.getopenEndedStraight()) {
+        	drawsCounter[Draws.OpenEndedStraight.ordinal()] ++;
+        	nDraws++;
+        }
+        if (handProcessor.getgutShotStraight()) {
+        	drawsCounter[Draws.GutShotStraight.ordinal()] ++;
+        	nDraws++;
+        }
+        if (handProcessor.getdrawFlush()) {
+        	drawsCounter[Draws.FlushDraw.ordinal()] ++;
+        	nDraws++;
+        }
     }
 
     private boolean allCardsFromBoard(HandScore handScore, Card c1, Card c2) {
