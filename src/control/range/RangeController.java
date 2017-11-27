@@ -282,6 +282,7 @@ public class RangeController {
         _btPairs.setDisable(false);
         _btSuited.setDisable(false);
         updatePercentage(hsCouples.size());
+        _slider.setValue(0);
     }
 
     @FXML
@@ -323,6 +324,7 @@ public class RangeController {
             _btPairs.setDisable(true);
             _btSuited.setDisable(true);
             updatePercentage(hsCouples.size());
+            _slider.setValue(100);
         });
     }
 
@@ -373,7 +375,7 @@ public class RangeController {
     }
 
     @FXML
-    void onClickShowRank(ActionEvent event) {
+    void onClickShowRange(ActionEvent event) {
         String entry = this._handDistributionText.getText();
         _handDistributionText.clear();
         if(entry.isEmpty())

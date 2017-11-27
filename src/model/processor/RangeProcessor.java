@@ -205,12 +205,12 @@ public class RangeProcessor {
        for (int i = plays.length-1; i >= 0; i--) {
             if(plays[i] != null) {
             	
-            		sb.append(plays[i] + " -> " + ((int)Math.floor((playsCounter[i]*100)/combos)) + "%");
+            		sb.append(plays[i]).append(" -> ").append((int) Math.floor((playsCounter[i] * 100) / combos)).append("%");
             }
             else if (i == Play.Pair.ordinal()) {
         		for (int j = pairPlays.length -1; j >= 0; j--) {
         			if (pairPlays[j] != null) 
-        				sb.append(pairPlays[j] + " (" + PairType.getFromInt(j).toString() + ") -> " + ((int)Math.floor((pairPlaysCounter[j]*100)/combos)) + "%");
+        				sb.append(pairPlays[j]).append(" (").append(PairType.getFromInt(j).toString()).append(") -> ").append((int) Math.floor((pairPlaysCounter[j] * 100) / combos)).append("%");
         			
         		}
             }

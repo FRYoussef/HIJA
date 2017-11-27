@@ -237,8 +237,8 @@
             <Button fx:id="_btSuited" layoutX="15.0" layoutY="90.0" mnemonicParsing="false" onAction="#onClickSuited" styleClass="buttonControl" text="Suited" />
             <Button fx:id="_btBroadway" layoutX="15.0" layoutY="50.0" mnemonicParsing="false" onAction="#onClickBroadway" styleClass="buttonControl" text="Broadway" />
             <Button fx:id="_btPairs" layoutX="15.0" layoutY="130.0" mnemonicParsing="false" onAction="#onClickPairs" styleClass="buttonControl" text="Pairs" />
-            <TextField fx:id="_handDistributionText" layoutX="105.0" layoutY="260.0" onAction="#onClickShowRank" prefHeight="31.0" prefWidth="201.0" promptText="Introduce a range" />
-            <Button fx:id="_btShowRank" layoutX="248.0" layoutY="299.0" mnemonicParsing="false" onAction="#onClickShowRank" text="Show" />
+            <TextField fx:id="_handDistributionText" layoutX="105.0" layoutY="260.0" onAction="#onClickShowRange" prefHeight="31.0" prefWidth="201.0" promptText="Introduce a range" />
+            <Button fx:id="_btShowRank" layoutX="248.0" layoutY="299.0" mnemonicParsing="false" onAction="#onClickShowRange" text="Show" />
             <Label layoutX="15.0" layoutY="260.0" prefHeight="31.0" prefWidth="90.0" text="Your Range:" />
             <Separator layoutX="3.0" layoutY="238.0" prefWidth="316.0" />
          </children>

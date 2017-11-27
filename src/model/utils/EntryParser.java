@@ -9,7 +9,7 @@ import model.representation.range.Range;
 public class EntryParser {
 	private String [] entry; 
 	private ArrayList<Range> rangeEntry;
-	private static final String REGEX = ","; 
+	private static final String REGEX = ",";
 	
 	public EntryParser(){}
 	
@@ -17,7 +17,7 @@ public class EntryParser {
 		//remove all whitespaces 
 		s = s.replaceAll("\\s+","");
 		this.entry = s.split(EntryParser.REGEX);
-		this.rangeEntry = new ArrayList<Range>(this.entry.length);
+		this.rangeEntry = new ArrayList<>(this.entry.length);
 	}
 	/**
 	 * It parses entry 
@@ -113,7 +113,7 @@ public class EntryParser {
 		if(c1 == null || c2 == null)
 			return null; 
 		if(l == 2 && c1 == c2)
-			return new CoupleCards(c1, c2, true);
+			return new CoupleCards(c1, c2);
 		else if(l == 3 && (suit = this.correctSuit(entry.charAt(2))) != null){
 			if(c1 > c2)
 				return new CoupleCards(c1, c2, suit);
@@ -141,12 +141,12 @@ public class EntryParser {
 	 * @return true or false if suit char is correct. Otherwise, it will return null
 	 */
 	private Boolean correctSuit(char c){
-		if(c == 'o'){
+		if(c == 'o')
 			return true;
-		}
-		else if(c == 's'){
+
+		else if(c == 's')
 			return false;
-		}
+
 		else
 			return null;
 	}
