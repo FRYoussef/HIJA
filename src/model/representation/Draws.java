@@ -3,11 +3,13 @@ package model.representation;
 public enum Draws {
 	OpenEndedStraight,
 	GutShotStraight,
-	FlushDraw;
+	FlushDraw,
+	OpenEndedStraightFlush,
+	GutShotStraightFlush;
 	
-	private static final String NAMES [] = {"Open Ended\nStraight Draw","Gutshot Straight\nDraw","Flush Draw"};
+	private static final String NAMES [] = {"Open Ended\nStraight Draw","Gutshot Straight\nDraw","Flush Draw", "Open Ended\nStraightflush Draw", "Gutshot Straightflush\nDraw"};
 	
-	public static final int NUM_DRAWS = 3;
+	public static final int NUM_DRAWS = 5;
 	
 	@Override
 	public String toString() {

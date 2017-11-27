@@ -33,6 +33,7 @@ public class CardsProcessor {
     private boolean openEndedStraight;
     /** if we need just one more card for straight between 2 cards */
     private boolean gutShotStraight;
+    private int straightDrawPos[];
     /** if we need just one more card for straight in one of the ends */
     private boolean openEndedStraightFlush;
     /** if we need just one more card for straight between 2 cards */
@@ -48,6 +49,7 @@ public class CardsProcessor {
         rankPerSuits = new ArrayList<>(Card.NUM_CARDS);
         for(int i = 0; i < Card.NUM_CARDS; i++)
             rankPerSuits.add(null);
+        straightDrawPos = new int [4];
     }
     
     
@@ -260,11 +262,25 @@ public class CardsProcessor {
 			for (int i = rankPerSuits.size()-1; i >= 0 && !straight; i--) { /* begins on the end to get the highest straight*/
 				if (rankPerSuits.get(i) != null) {
 					cont++;
-					if (!openEnded)
+					if (!openEnded) {
 						openEnded = cont == 4;
+						if (openEnded) {
+							for (int j = 0; j < 4; j++) {
+								straightDrawPos[j] = i+j;
+							}
+						}
+					}
 
 					if (!gutShot) {
 						gutShot = contGS + cont == 4 && contGS != 0 && cont != 0;
+						if (gutShot) {
+							for (int j = 0; j < 4; j++) {
+								int aux = 0;
+								if (j == cont)
+									aux = 1;
+								straightDrawPos[j] = i+j+aux;
+							}
+						}
 					}
 					if (cont == 5) {
 						straight = true;
@@ -299,10 +315,29 @@ public class CardsProcessor {
 			if (straight) {
 				cardsOfStraights = cards;
 			}
-
+			checkStraightFlushDraw();
 		}
 		
 		return isStraight;
+	}
+	
+	private void checkStraightFlushDraw() {
+		if (openEndedStraight || gutShotStraight) {
+			boolean straightFlushDraw = false;
+			for (int i = 0; i < 4 && !straightFlushDraw; i++) {
+				Suit suit = Suit.values()[i];
+				int straightFlushCount = 0;
+				for (int j = 0; j < 4; j++) {
+					if (rankPerSuits.get(straightDrawPos[j]).getSuits().contains(suit))
+						straightFlushCount++;
+				}
+				straightFlushDraw = straightFlushCount == 4;
+			}
+			if (straightFlushDraw) {
+				openEndedStraightFlush = openEndedStraight;
+				gutShotStraightFlush = gutShotStraight;
+			}
+		}
 	}
 
 	/**
