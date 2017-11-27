@@ -28,7 +28,7 @@ public class CardsProcessor {
     /** for the 5 cards of a flush, straight or StraightFlush */
     private ArrayList<Card> cardsOfStraights;
     /** if we need just one more card for flush */
-    private boolean openEndedFlush;
+    private boolean drawFlush;
     /** if we need just one more card for straight in one of the ends */
     private boolean openEndedStraight;
     /** if we need just one more card for straight between 2 cards */
@@ -51,8 +51,8 @@ public class CardsProcessor {
     public ArrayList<Card> getcardsOfStraights() {
         return (ArrayList<Card>) cardsOfStraights.clone();
     }
-    public boolean getopenEndedFlush() {
-        return openEndedFlush;
+    public boolean getdrawFlush() {
+        return drawFlush;
     }
     public boolean getopenEndedStraight() {
         return openEndedStraight;
@@ -319,7 +319,7 @@ public class CardsProcessor {
 
 				}
 			}
-			openEndedFlush = suitCounter.get(flushSuit.ordinal()) == 4;
+			drawFlush = suitCounter.get(flushSuit.ordinal()) == 4;
 			isFlush = flush;
 		}
 
