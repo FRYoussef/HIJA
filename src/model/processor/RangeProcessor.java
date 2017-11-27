@@ -92,7 +92,7 @@ public class RangeProcessor {
         if (nDraws > 0) {
 	        for (int i = 0; i < Draws.NUM_DRAWS; i++) {
 	        	if (drawsCounter[i] > 0) 
-	        	drawStats.add(new Stat(Draws.values()[i].toString(), drawsCounter[i]));
+	        	drawStats.add(new Stat(Draws.values()[i].toString(), drawsCounter[i], false));
 	        }
         }
     }

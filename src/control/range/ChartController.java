@@ -9,7 +9,6 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import model.representation.Stat;
@@ -46,14 +45,19 @@ public class ChartController{
          {
              ArrayList<PieChart.Data> statsList = new ArrayList<>(stats.size());
              for(Stat s : stats)
-                 statsList.add(new PieChart.Data(s.toString(), s.getPercentage()));
+                 statsList.add(new PieChart.Data(s.toString(), s.getValue()));
 
 
              ObservableList<Data> list = FXCollections.observableArrayList(statsList);
              if(plays)
                  _pcPlays.setData(list);
-             else
+             else {
                  _pcDraws.setData(list);
+                 int totalDraws = 0;
+                 for(Stat s: stats)
+                     totalDraws += s.getValue();
+                 _pcDraws.setTitle("Draw Stats, Total: " + totalDraws);
+             }
 
              list.forEach(data -> data.nameProperty().bind(Bindings.concat(data.getName())));
          });
