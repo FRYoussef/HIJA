@@ -7,7 +7,7 @@ public enum Draws {
 	OpenEndedStraightFlush,
 	GutShotStraightFlush;
 	
-	private static final String NAMES [] = {"Open Ended\nStraight Draw","Gutshot Straight\nDraw","Flush Draw", "Open Ended\nStraightflush Draw", "Gutshot Straightflush\nDraw"};
+	private static final String NAMES [] = {"Open Ended\nStraight Draw","Gutshot Straight\nDraw","Flush Draw", "Open Ended\nStraightflush\nDraw", "Gutshot Straightflush\nDraw"};
 	
 	public static final int NUM_DRAWS = 5;
 	
