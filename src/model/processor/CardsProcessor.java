@@ -328,7 +328,7 @@ public class CardsProcessor {
 				Suit suit = Suit.values()[i];
 				int straightFlushCount = 0;
 				for (int j = 0; j < 4; j++) {
-					if (rankPerSuits.get(straightDrawPos[j]).getSuits().contains(suit))
+					if (rankPerSuits.get(straightDrawPos[j]).isRankSuited(suit))
 						straightFlushCount++;
 				}
 				straightFlushDraw = straightFlushCount == 4;

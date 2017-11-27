@@ -92,7 +92,7 @@ public class RangeProcessor {
         if (nDraws > 0) {
 	        for (int i = 0; i < Draws.NUM_DRAWS; i++) {
 	        	if (drawsCounter[i] > 0) 
-	        	drawStats.add(new Stat(Draws.values()[i].toString(), drawsCounter[i], false));
+	        		drawStats.add(new Stat(Draws.values()[i].toString(), drawsCounter[i], false));
 	        }
         }
     }
@@ -152,6 +152,14 @@ public class RangeProcessor {
         }
         if (handProcessor.getdrawFlush()) {
         	drawsCounter[Draws.FlushDraw.ordinal()] ++;
+        	nDraws++;
+        }
+        if (handProcessor.getopenEndedStraightFlush()) {
+        	drawsCounter[Draws.OpenEndedStraightFlush.ordinal()] ++;
+        	nDraws++;
+        }
+        if (handProcessor.getgutShotStraightFlush()) {
+        	drawsCounter[Draws.GutShotStraightFlush.ordinal()] ++;
         	nDraws++;
         }
     }
