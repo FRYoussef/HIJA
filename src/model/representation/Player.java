@@ -1,5 +1,7 @@
 package model.representation;
 
+import model.processor.concurrency.HEWorker;
+
 public class Player {
 	private int ID;
 	private Card cards [];
