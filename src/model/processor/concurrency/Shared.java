@@ -12,8 +12,10 @@ public class Shared {
 		sims = 0;
 	}
 	
-	public synchronized void  increase (int player) {
-		playerStats[player]++;
+	public synchronized void increase (int ... players) {
+		for (int p : players) {
+			playerStats[p]++;
+		}
 		sims++;
 	}
 	
