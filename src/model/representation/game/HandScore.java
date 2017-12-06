@@ -39,6 +39,15 @@ public class HandScore implements Comparable<HandScore> {
     public void setHandValue(Play handValue) {
         this.handValue = handValue;
     }
+    
+    public boolean contains (Card c) {
+    	int cardsToCheck = Play.playFormingCards(handValue);
+    	boolean res = false;
+    	for (int i = 0; i < cardsToCheck && !res; i++) {
+    		res = handPlay.get(i).equals(c);
+    	}
+    	return res;
+    }
 
     //---
     public void setPlayerId(String id){
@@ -56,13 +65,17 @@ public class HandScore implements Comparable<HandScore> {
         return playerCards;
     }
 
-    public String toString(){
-        StringBuilder stringBuilder = new StringBuilder("\n- Best hand: " +
-        								this.handValue.toString() + "(");
+    public String getPlayValue(){
+        StringBuilder stringBuilder = new StringBuilder("( ");
         for (Card card : handPlay)
             stringBuilder.append(card.toString());
-        stringBuilder.append(")");
+        stringBuilder.append(" )");
         return stringBuilder.toString();
+    }
+
+    public String toString(){
+        String aux = new String(this.handValue.toString() + ": ");
+        return aux + getPlayValue();
     }
 
     /**
@@ -73,7 +86,7 @@ public class HandScore implements Comparable<HandScore> {
      */
     @Override
 	public int compareTo(HandScore other) {
-        //compare the rank of the play
+        //compare the range of the play
         if(handValue.ordinal() == other.getHandValue().ordinal()){
             //compare the play
             int same = 0;
@@ -83,15 +96,6 @@ public class HandScore implements Comparable<HandScore> {
                 if(same != 0)
                     return same;
             }
-
-            /*//compare the player hand
-            for(int i = 0; i < playerCards.length; i++){
-                for(int j = 0; j < other.getPlayerCards().length; j++){
-                    same = playerCards[i].compareTo(other.getPlayerCards()[j]);
-                    if(same != 0)
-                        return same;
-                }
-            }*/
         }
 
         return handValue.ordinal() - other.getHandValue().ordinal();

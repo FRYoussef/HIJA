@@ -4,17 +4,17 @@
 	-fx-background-color: #FAFAFA;
 	-fx-border-style: none none none solid;
     -fx-border-width: 2;
-    -fx-border-color: #4CAF50;
+    -fx-border-color: #FAFAFA #FAFAFA #FAFAFA #4CAF50;
     -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
     -fx-background-radius: 3;
 }
 
 .buttonS{
     -fx-background-radius: 5em;
-    -fx-min-width: 50px;
-    -fx-min-height: 50px;
-    -fx-max-width: 50px;
-    -fx-max-height: 50px;
+    -fx-min-width: 3.6em;
+    -fx-min-height: 3.6em;
+    -fx-max-width: 3.6em;
+    -fx-max-height: 3.6em;
 
 }
 
@@ -24,7 +24,7 @@
     -fx-background-radius: 3;
     -fx-border-style: none none none solid;
     -fx-border-width: 2;
-    -fx-border-color: #4CAF50;
+    -fx-border-color: #FAFAFA #FAFAFA #FAFAFA #4CAF50;
 }
 
 .text-area .content {
@@ -63,6 +63,62 @@
     -fx-background-color: #66BB6A;
 }
 
-.selectedCell{
+.selected{
     -fx-background-color: #FFEE58;
 }
+
+.selectedLabel{
+    -fx-background-color: #E8F5E9;
+    -fx-border-width: 2;
+    -fx-border-color: #4CAF50;
+}
+
+.noneSelected{
+    -fx-background-color: #E8F5E9;
+}
+
+.roundLabel{
+    -fx-border-radius: 15 15 0 0;
+    -fx-background-radius: 15 15 0 0;
+}
+
+.error{
+    -fx-border-color: #E53935 #E53935 #E53935 #E53935;
+}
+
+.hearts{
+    -fx-background-color: #FFCDD2;
+}
+
+.heartsSelected{
+    -fx-background-color: #E57373;
+}
+
+.clubs{
+    -fx-background-color: #C8E6C9;
+}
+
+.clubsSelected{
+    -fx-background-color: #81C784;
+}
+
+.diamonds{
+    -fx-background-color: #B3E5FC;
+}
+
+.diamondsSelected{
+    -fx-background-color: #29B6F6;
+}
+
+.spades{
+    -fx-background-color: #CFD8DC;
+}
+
+.spadesSelected{
+    -fx-background-color: #78909C;
+}
+
+.rowCrads{
+    -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.5, -4, 7);
+}
+

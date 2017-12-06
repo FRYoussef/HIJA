@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@pokerStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.rank.RankController">
+<AnchorPane prefHeight="864.0" prefWidth="1152.0" stylesheets="@pokerStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.range.RangeController">
    <children>
       <GridPane fx:id="_gpCouples" gridLinesVisible="true" prefHeight="500.0" prefWidth="689.0" styleClass="gridPane" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
-        <columnConstraints>
+         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
@@ -24,10 +32,10 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="252.0" minWidth="10.0" prefWidth="173.0" />
-        </columnConstraints>
-        <rowConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="252.0" minWidth="10.0" prefWidth="173.0" />
+         </columnConstraints>
+         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -38,10 +46,10 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="AA" textAlignment="JUSTIFY" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="AKs" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -214,30 +222,181 @@
             <Label alignment="CENTER" onMouseClicked="#onClickCouple" prefHeight="42.0" prefWidth="53.0" text="22" textAlignment="JUSTIFY" GridPane.columnIndex="12" GridPane.rowIndex="12" />
          </children>
       </GridPane>
-      <TextArea fx:id="_taLog" editable="false" layoutX="749.0" layoutY="415.0" prefHeight="336.0" prefWidth="250.0" styleClass="textArea" wrapText="true" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="25.0" />
-      <Pane layoutX="749.0" layoutY="31.0" prefHeight="344.0" prefWidth="250.0" styleClass="controlPane" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="31.0">
+      <TextArea fx:id="_taLog" editable="false" layoutX="749.0" layoutY="415.0" prefHeight="336.0" prefWidth="320.0" styleClass="textArea" wrapText="true" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="394.0" />
+      <Pane layoutX="749.0" layoutY="31.0" prefHeight="344.0" prefWidth="320.0" styleClass="controlPane" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
          <children>
-            <Label alignment="CENTER" layoutY="8.0" prefHeight="30.0" prefWidth="250.0" text="Control Panel">
+            <Label alignment="CENTER" layoutY="8.0" prefHeight="30.0" prefWidth="320.0" text="Control Panel">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Label>
-            <Separator layoutX="-1.0" layoutY="36.0" prefHeight="3.0" prefWidth="250.0" />
-            <Button fx:id="_btAll" layoutX="145.0" layoutY="50.0" mnemonicParsing="false" onAction="#onClickSelectAll" styleClass="buttonControl" text="Select All" />
-            <Button layoutX="145.0" layoutY="90.0" mnemonicParsing="false" onAction="#onClickClearAll" prefHeight="31.0" prefWidth="80.0" styleClass="buttonControl" text="Clear All" />
-            <Button layoutX="182.0" layoutY="142.0" mnemonicParsing="false" onAction="#onClickGenerate" styleClass="buttonS" text="Run" />
+            <Separator layoutX="3.0" layoutY="36.0" prefHeight="3.0" prefWidth="316.0" />
+            <Button fx:id="_btAll" layoutX="215.0" layoutY="50.0" mnemonicParsing="false" onAction="#onClickSelectAll" styleClass="buttonControl" text="Select All" />
+            <Button layoutX="215.0" layoutY="90.0" mnemonicParsing="false" onAction="#onClickClearAll" prefHeight="31.0" prefWidth="80.0" styleClass="buttonControl" text="Clear All" />
+            <Button layoutX="177.0" layoutY="172.0" minHeight="45.0" mnemonicParsing="false" onAction="#onClickGenerate" text="Generate Range" />
             <Button fx:id="_btSuited" layoutX="15.0" layoutY="90.0" mnemonicParsing="false" onAction="#onClickSuited" styleClass="buttonControl" text="Suited" />
             <Button fx:id="_btBroadway" layoutX="15.0" layoutY="50.0" mnemonicParsing="false" onAction="#onClickBroadway" styleClass="buttonControl" text="Broadway" />
             <Button fx:id="_btPairs" layoutX="15.0" layoutY="130.0" mnemonicParsing="false" onAction="#onClickPairs" styleClass="buttonControl" text="Pairs" />
-            <TextField fx:id="_handDistributionText" layoutX="14.0" layoutY="243.0" onKeyPressed="#onEnterPressed" prefHeight="25.0" prefWidth="207.0" />
-            <Label layoutX="68.0" layoutY="198.0" text="Hand Distribution">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </Label>
-            <Button fx:id="_btShowRank" layoutX="182.0" layoutY="279.0" maxHeight="93.0" maxWidth="96.0" mnemonicParsing="false" onAction="#onClickShowRank" prefHeight="93.0" prefWidth="96.0" styleClass="buttonS" text="Show" />
-            <Separator layoutY="225.0" prefHeight="3.0" prefWidth="250.0" />
+            <TextField fx:id="_handDistributionText" layoutX="105.0" layoutY="260.0" onAction="#onClickShowRange" prefHeight="31.0" prefWidth="201.0" promptText="Introduce a range" />
+            <Button fx:id="_btShowRank" layoutX="248.0" layoutY="299.0" mnemonicParsing="false" onAction="#onClickShowRange" text="Show" />
+            <Label layoutX="15.0" layoutY="260.0" prefHeight="31.0" prefWidth="90.0" text="Your Range:" />
+            <Separator layoutX="3.0" layoutY="238.0" prefWidth="316.0" />
          </children>
       </Pane>
+      <Slider fx:id="_slider" blockIncrement="1.0" layoutX="137.0" layoutY="539.0" min="1.0" onMouseReleased="#onMouseReleased" prefWidth="625.0" AnchorPane.bottomAnchor="287.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="539.0" />
+      <TextField fx:id="_tfRang" alignment="CENTER" layoutX="654.0" layoutY="543.0" onAction="#onActionRangeText" prefHeight="25.0" prefWidth="60.0" text="0%" />
+      <GridPane hgap="2.0" layoutX="25.0" layoutY="588.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="25.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="Ah" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="Kh" GridPane.columnIndex="1" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="Qh" GridPane.columnIndex="2" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="4h" GridPane.columnIndex="10" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="5h" GridPane.columnIndex="9" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="6h" GridPane.columnIndex="8" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="7h" GridPane.columnIndex="7" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="8h" GridPane.columnIndex="6" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="9h" GridPane.columnIndex="5" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="Th" GridPane.columnIndex="4" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="Jh" GridPane.columnIndex="3" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="2h" GridPane.columnIndex="12" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardH" styleClass="hearts" text="3h" GridPane.columnIndex="11" />
+         </children>
+      </GridPane>
+      <GridPane hgap="2.0" layoutX="14.0" layoutY="656.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="25.0">
+         <children>
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="Ac" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="Kc" GridPane.columnIndex="1" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="Qc" GridPane.columnIndex="2" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="4c" GridPane.columnIndex="10" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="5c" GridPane.columnIndex="9" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="6c" GridPane.columnIndex="8" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="7c" GridPane.columnIndex="7" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="8c" GridPane.columnIndex="6" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="9c" GridPane.columnIndex="5" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="Tc" GridPane.columnIndex="4" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="Jc" GridPane.columnIndex="3" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="2c" GridPane.columnIndex="12" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardC" styleClass="clubs" text="3c" GridPane.columnIndex="11" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane hgap="2.0" layoutX="25.0" layoutY="709.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="25.0">
+         <children>
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="Ad" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="Kd" GridPane.columnIndex="1" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="Qd" GridPane.columnIndex="2" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="4d" GridPane.columnIndex="10" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="5d" GridPane.columnIndex="9" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="6d" GridPane.columnIndex="8" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="7d" GridPane.columnIndex="7" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="8d" GridPane.columnIndex="6" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="9d" GridPane.columnIndex="5" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="Td" GridPane.columnIndex="4" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="Jd" GridPane.columnIndex="3" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="2d" GridPane.columnIndex="12" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardD" styleClass="diamonds" text="3d" GridPane.columnIndex="11" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane hgap="2.0" layoutX="25.0" layoutY="767.0" maxWidth="689.0" minWidth="689.0" styleClass="rowCrads" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="25.0">
+         <children>
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="As" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="Ks" GridPane.columnIndex="1" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="Qs" GridPane.columnIndex="2" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="4s" GridPane.columnIndex="10" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="5s" GridPane.columnIndex="9" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="6s" GridPane.columnIndex="8" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="7s" GridPane.columnIndex="7" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="8s" GridPane.columnIndex="6" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="9s" GridPane.columnIndex="5" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="Ts" GridPane.columnIndex="4" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="Js" GridPane.columnIndex="3" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="2s" GridPane.columnIndex="12" />
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onClickCardS" styleClass="spades" text="3s" GridPane.columnIndex="11" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <Button fx:id="_btStats" layoutX="714.0" layoutY="744.0" mnemonicParsing="false" onAction="#onClickStats" text="Stats" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="723.0" />
+      <Label fx:id="_lbSklansky" alignment="CENTER" layoutX="750.0" layoutY="121.0" onMouseClicked="#onClickRanking" prefHeight="35.0" prefWidth="120.0" rotate="90.0" text="Sklansky" AnchorPane.leftAnchor="672.0" AnchorPane.topAnchor="67.0">
+         <styleClass>
+            <String fx:value="selectedLabel" />
+            <String fx:value="roundLabel" />
+         </styleClass>
+      </Label>
+      <Label fx:id="_lbStrength" alignment="CENTER" layoutX="760.0" layoutY="131.0" onMouseClicked="#onClickRanking" prefHeight="35.0" prefWidth="120.0" rotate="90.0" text="Strength" AnchorPane.leftAnchor="672.0" AnchorPane.topAnchor="187.0">
+         <styleClass>
+            <String fx:value="noneSelected" />
+            <String fx:value="roundLabel" />
+         </styleClass>
+      </Label>
    </children>
 </AnchorPane>

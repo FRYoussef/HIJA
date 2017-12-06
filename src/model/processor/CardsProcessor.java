@@ -28,11 +28,16 @@ public class CardsProcessor {
     /** for the 5 cards of a flush, straight or StraightFlush */
     private ArrayList<Card> cardsOfStraights;
     /** if we need just one more card for flush */
-    private boolean openEndedFlush;
+    private boolean drawFlush;
     /** if we need just one more card for straight in one of the ends */
     private boolean openEndedStraight;
     /** if we need just one more card for straight between 2 cards */
     private boolean gutShotStraight;
+    private int straightDrawPos[];
+    /** if we need just one more card for straight in one of the ends */
+    private boolean openEndedStraightFlush;
+    /** if we need just one more card for straight between 2 cards */
+    private boolean gutShotStraightFlush;
     /** In case we have flush this is the color of it */
     private Suit flushSuit;
 
@@ -44,6 +49,7 @@ public class CardsProcessor {
         rankPerSuits = new ArrayList<>(Card.NUM_CARDS);
         for(int i = 0; i < Card.NUM_CARDS; i++)
             rankPerSuits.add(null);
+        straightDrawPos = new int [4];
     }
     
     
@@ -51,14 +57,20 @@ public class CardsProcessor {
     public ArrayList<Card> getcardsOfStraights() {
         return (ArrayList<Card>) cardsOfStraights.clone();
     }
-    public boolean getopenEndedFlush() {
-        return openEndedFlush;
+    public boolean getdrawFlush() {
+        return drawFlush;
     }
     public boolean getopenEndedStraight() {
         return openEndedStraight;
     }
     public boolean getgutShotStraight() {
         return gutShotStraight;
+    }
+    public boolean getopenEndedStraightFlush() {
+        return openEndedStraightFlush;
+    }
+    public boolean getgutShotStraightFlush() {
+        return gutShotStraightFlush;
     }
 
     
@@ -208,7 +220,7 @@ public class CardsProcessor {
      * @return true if there is full house, false if theres not
      */
     public boolean isFullHouse(){
-        return rankPerSuits.get(highRankRep).getSuitCounter() == 3
+        return secondRankRep != -1 && rankPerSuits.get(highRankRep).getSuitCounter() == 3
                 && rankPerSuits.get(secondRankRep).getSuitCounter() >= 2;
     }
 
@@ -224,7 +236,7 @@ public class CardsProcessor {
      * @return true if there is two pair, false if theres not
      */
     public boolean isTwoPair() {
-        return rankPerSuits.get(highRankRep).getSuitCounter() == 2
+        return secondRankRep != -1 && rankPerSuits.get(highRankRep).getSuitCounter() == 2
                 && rankPerSuits.get(secondRankRep).getSuitCounter() == 2;
     }
 
@@ -250,11 +262,25 @@ public class CardsProcessor {
 			for (int i = rankPerSuits.size()-1; i >= 0 && !straight; i--) { /* begins on the end to get the highest straight*/
 				if (rankPerSuits.get(i) != null) {
 					cont++;
-					if (!openEnded)
+					if (!openEnded) {
 						openEnded = cont == 4;
+						if (openEnded) {
+							for (int j = 0; j < 4; j++) {
+								straightDrawPos[j] = i+j;
+							}
+						}
+					}
 
 					if (!gutShot) {
 						gutShot = contGS + cont == 4 && contGS != 0 && cont != 0;
+						if (gutShot) {
+							for (int j = 0; j < 4; j++) {
+								int aux = 0;
+								if (j == cont)
+									aux = 1;
+								straightDrawPos[j] = i+j+aux;
+							}
+						}
 					}
 					if (cont == 5) {
 						straight = true;
@@ -277,7 +303,7 @@ public class CardsProcessor {
 					}
 					Card cardS = new Card(12, rankPerSuits.get(12).getFirstSuit());
 					cards.add(4, cardS);
-				}
+				}//TODO Add check for gutshot with ACE!
 			}
 			isStraight = straight;
 			if (!isStraight) {
@@ -289,10 +315,29 @@ public class CardsProcessor {
 			if (straight) {
 				cardsOfStraights = cards;
 			}
-
+			checkStraightFlushDraw();
 		}
 		
 		return isStraight;
+	}
+	
+	private void checkStraightFlushDraw() {
+		if (openEndedStraight || gutShotStraight) {
+			boolean straightFlushDraw = false;
+			for (int i = 0; i < 4 && !straightFlushDraw; i++) {
+				Suit suit = Suit.values()[i];
+				int straightFlushCount = 0;
+				for (int j = 0; j < 4; j++) {
+					if (rankPerSuits.get(straightDrawPos[j]).isRankSuited(suit))
+						straightFlushCount++;
+				}
+				straightFlushDraw = straightFlushCount == 4;
+			}
+			if (straightFlushDraw) {
+				openEndedStraightFlush = openEndedStraight;
+				gutShotStraightFlush = gutShotStraight;
+			}
+		}
 	}
 
 	/**
@@ -319,7 +364,7 @@ public class CardsProcessor {
 
 				}
 			}
-			openEndedFlush = suitCounter.get(flushSuit.ordinal()) == 4;
+			drawFlush = suitCounter.get(flushSuit.ordinal()) == 4;
 			isFlush = flush;
 		}
 
@@ -410,7 +455,10 @@ public class CardsProcessor {
     public ArrayList<Card> getHighRepeatedsCards() throws Exception {
         ArrayList<Card> play = new ArrayList<>(Play.CARDS_PER_PLAY);
         RankPerSuit h = rankPerSuits.get(highRankRep);
-        RankPerSuit s = rankPerSuits.get(secondRankRep);
+        RankPerSuit s = null;
+        if (secondRankRep != -1)
+        	 s = rankPerSuits.get(secondRankRep);
+        
         //best hand
         for(int i = 0; i < Suit.NUM_SUIT && play.size() < Play.CARDS_PER_PLAY; i++){
             if(h.getSuits().get(i)){
@@ -418,10 +466,12 @@ public class CardsProcessor {
             }
         }
         //second best hand
-        for(int i = 0; i < Suit.NUM_SUIT && play.size() < Play.CARDS_PER_PLAY; i++){
-            if(s.getSuits().get(i)){
-                play.add(new Card(s.getRank(), Suit.getFromInt(i)));
-            }
+        if (s != null) {
+	        for(int i = 0; i < Suit.NUM_SUIT && play.size() < Play.CARDS_PER_PLAY; i++){
+	            if(s.getSuits().get(i)){
+	                play.add(new Card(s.getRank(), Suit.getFromInt(i)));
+	            }
+	        }
         }
         return play;
     }

@@ -1,8 +1,8 @@
 package test;
 
 import model.representation.Card;
-import model.representation.rank.CoupleCards;
-import model.representation.rank.Rank;
+import model.representation.range.CoupleCards;
+import model.representation.range.Range;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +18,7 @@ public class RankTest {
             String lin;
             String cards [];
             ArrayList<CoupleCards> cp = new ArrayList<>(10);
-            ArrayList<Rank> ranks = new ArrayList<>(10);
+            ArrayList<Range> ranges = new ArrayList<>(10);
             System.out.print("Enter couples of cards: ");
             lin = sc.nextLine();
             cards = lin.split(", ");
@@ -30,22 +30,22 @@ public class RankTest {
                 cp.add(cop);
             }
             Collections.sort(cp, Collections.reverseOrder());
-            Rank r = new Rank(cp.get(0));
+            Range r = new Range(cp.get(0));
             for(int i = 1; i < cp.size(); i++){
-                Rank aux = Rank.union(r, cp.get(i));
+                Range aux = Range.union(r, cp.get(i));
                 if(aux != null){
                     r = aux;
                 }
                 else{
-                    ranks.add(r);
-                    r = new Rank(cp.get(i));
+                    ranges.add(r);
+                    r = new Range(cp.get(i));
                 }
                 aux = null;
             }
             if(r != null)
-                ranks.add(r);
-            System.out.print("Your rank is:  ");
-            for(Rank ran: ranks){
+                ranges.add(r);
+            System.out.print("Your range is:  ");
+            for(Range ran: ranges){
                 System.out.print(ran + ", ");
             }
             System.out.println();
