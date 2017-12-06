@@ -2,7 +2,7 @@ package model.game;
 
 import model.ioFiles.Input1PlayerHE;
 import model.representation.Card;
-import model.representation.HandScore;
+import model.representation.game.HandScore;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class Player1HE extends Game {
             output.append(s.toString());
             if(this.handProcessor.getgutShotStraight() && reader.getNBoardCards() != 5)
                 output.append("\n- Draw: Straight Gutshot");
-            if(this.handProcessor.getopenEndedFlush() && reader.getNBoardCards() != 5)
+            if(this.handProcessor.getdrawFlush() && reader.getNBoardCards() != 5)
                 output.append("\n- Draw: Flush");
             if(this.handProcessor.getopenEndedStraight() && reader.getNBoardCards() != 5)
                 output.append("\n- Draw: Straight");

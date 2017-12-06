@@ -6,7 +6,6 @@ public class Card implements Comparable<Card>{
 	//fields:
 	public final static char [] lut = {'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
 	public static final int NUM_CARDS = 13;
-	//public static final int GAP = 2;
 	 
 	
 	//ctor:
@@ -67,7 +66,6 @@ public class Card implements Comparable<Card>{
 		}
 	}
 	
-	
 	//inherited:
 	@Override
 	public String toString() {
@@ -78,10 +76,19 @@ public class Card implements Comparable<Card>{
 	public int compareTo(Card o) {
 		return value - o.getValue();
 	}
-	
-	
 
-//private:
+	@Override
+	public boolean equals(Object o) {
+	    Card c = (Card) o;
+		return value == c.getValue() && suit == c.getSuit();
+	}
+
+    @Override
+    public int hashCode() {
+        return value + suit.ordinal();
+    }
+
+    //private:
 	//fields:
 	private byte value;
 	private Suit suit;

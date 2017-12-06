@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import model.ioFiles.InputOmaha;
 import model.representation.Card;
-import model.representation.HandScore;
+import model.representation.game.HandScore;
 
 public class Omaha extends Game {
 	public static final int NUM_PLAYERS = 1;
@@ -97,7 +97,7 @@ public class Omaha extends Game {
             output.append(s.toString());
             if(this.handProcessor.getgutShotStraight())
                 output.append("\n- Draw: Straight Gutshot");
-            if(this.handProcessor.getopenEndedFlush())
+            if(this.handProcessor.getdrawFlush())
                 output.append("\n- Draw: Flush");
             if(this.handProcessor.getopenEndedStraight())
                 output.append("\n- Draw: Straight");

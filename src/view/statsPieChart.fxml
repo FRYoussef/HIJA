@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="450.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <PieChart fx:id="_pcPlays" layoutX="7.0" layoutY="26.0" minWidth="-Infinity" prefHeight="330.0" prefWidth="410.0" title="Play Stats" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="485.0" AnchorPane.topAnchor="10.0" />
+      <PieChart fx:id="_pcDraws" layoutX="390.0" layoutY="18.0" minWidth="-Infinity" prefHeight="330.0" prefWidth="410.0" title="Draw Stats" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="485.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+   </children>
+</AnchorPane>
