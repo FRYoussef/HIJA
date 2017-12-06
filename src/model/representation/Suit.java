@@ -26,18 +26,7 @@ public enum Suit {
 	}
 
 	public static Suit getFromInt(int value){
-        switch (value) {
-            case 0:
-                return Spades;
-            case 1:
-                return Hearts;
-            case 2:
-                return Clubs;
-            case 3:
-                return Diamonds;
-            default:
-                return None;
-        }
+        return Suit.values()[value];
     }
 
 	@Override
