@@ -1,9 +1,12 @@
-package control.rank;
+package control.range;
 
 import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -11,13 +14,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import model.processor.RangeProcessor;
 import model.representation.Card;
 import model.representation.Suit;
 import model.representation.game.Play;
-import model.representation.rank.CoupleCards;
-import model.representation.rank.Range;
+import model.representation.range.CoupleCards;
+import model.representation.range.Range;
+import model.utils.EntryParser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,7 +33,10 @@ public class RangeController {
     private static final String PAIR_CELL = "pairCell";
     private static final String SUIT_CELL = "suitedCell";
     private static final String OFFSUIT_CELL = "offSuitedCell";
-    private static final String SELECTED_CELL = "selectedCell";
+    private static final String SELECTED = "selected";
+    private static final String SELECTED_LABEL = "selectedLabel";
+    private static final String NONE_SELECTED = "noneSelected";
+    private static final String ROUND_LABEL = "roundLabel";
     private static final String ERROR_STYLE = "error";
     private static final String HEARTS = "hearts";
     private static final String SELECTED_HEARTS = "heartsSelected";
@@ -38,6 +46,7 @@ public class RangeController {
     private static final String SELECTED_DIAMONDS = "diamondsSelected";
     private static final String SPADES = "spades";
     private static final String SELECTED_SPADES = "spadesSelected";
+    private static final String SKLANSKY = "Sklansky";
     private static final int MAX_TA_LENGTH = 8000;
     private static final String SEPARATOR = System.getProperty("line.separator") +
             "----------------------------------------------" + System.getProperty("line.separator");
@@ -60,15 +69,27 @@ public class RangeController {
     private TextField _tfRang;
     @FXML
     private TextField _handDistributionText;
+    @FXML
+    private Button _btStats;
+    @FXML
+    private Label _lbSklansky;
+    @FXML
+    private Label _lbStrength;
 
     private HashSet<String> hsCouples = null;
     private ArrayList<String> hsCards = null;
     private RangeProcessor rP = null;
-    
+    private ChartController chartController = null;
+    private Stage stageStats = null;
+    private boolean statsClosed = true;
+    private boolean sklanskyRanking = true;
+
     public RangeController() {
         drawColorCells();
         hsCouples = new HashSet<>();
         hsCards = new ArrayList<>(Play.CARDS_PER_PLAY);
+        stageStats = new Stage();
+        stageStats.setOnCloseRequest( event -> {statsClosed = true;});
     }
 
     private void showRange(){
@@ -85,12 +106,16 @@ public class RangeController {
 
             drawColorCells();
             hsCouples.clear();
-            selectElemsMatrix(CoupleCards.coupleCardsToMatrix(Range.rangeToCoupleCards(Range.getRangeArraySklansky(val))));
+            if (sklanskyRanking)
+                selectElemsMatrix(CoupleCards.coupleCardsToMatrix(Range.rangeToCoupleCards(Range.getRangeArraySklansky(val))));
+            else
+                selectElemsMatrix(CoupleCards.coupleCardsToMatrix(Range.rangeToCoupleCards(Range.getRangeArrayStrength(val))));
         }catch (Exception e1){
             _tfRang.getStyleClass().add(ERROR_STYLE);
             e1.printStackTrace();
         }
     }
+
 
     @FXML
     private void onMouseReleased(MouseEvent mouseEvent){
@@ -151,24 +176,40 @@ public class RangeController {
             return;
         }
         try{
+            _btStats.setDisable(true);
             HashSet<Card> hsC = new HashSet<>(hsCards.size());
             for (String st: hsCards)
                 hsC.add(new Card(Card.charToValue(st.charAt(0)), Suit.getFromChar(st.charAt(1))));
 
             rP = new RangeProcessor(hsC, CoupleCards.toCoupleCards(hsCouples));
+            rP.run();
+            if(statsClosed || chartController == null){
+                createStatsWindow();
+                statsClosed = false;
+            }
+            else
+                chartController.changeStats(rP.getPlayStats(), rP.getDrawStats());
 
-            Thread th = new Thread(() -> {
-                try {
-                    rP.run();
-                    writeTextArea(rP.toString() + SEPARATOR);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            th.setDaemon(true);
-            th.start();
+            createStatsWindow();
+            _btStats.setDisable(false);
 
         }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    private void createStatsWindow(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/StatsPieChart.fxml"));
+            chartController = new ChartController(rP.getPlayStats(), rP.getDrawStats());
+            fxmlLoader.setController(chartController);
+            stageStats.setScene(new Scene(fxmlLoader.load()));
+            stageStats.setTitle("Statistics");
+            stageStats.setResizable(false);
+            stageStats.show();
+
+        }catch(Exception e) {
             e.printStackTrace();
         }
     }
@@ -223,7 +264,7 @@ public class RangeController {
                     _gpCouples.getChildren().get(r*NUM_ROW+c).getStyleClass().add(SUIT_CELL);
             }
             else {
-                _gpCouples.getChildren().get(r*NUM_ROW+c).getStyleClass().add(SELECTED_CELL);
+                _gpCouples.getChildren().get(r*NUM_ROW+c).getStyleClass().add(SELECTED);
                 hsCouples.add(text);
             }
             updatePercentage(hsCouples.size());
@@ -241,6 +282,7 @@ public class RangeController {
         _btPairs.setDisable(false);
         _btSuited.setDisable(false);
         updatePercentage(hsCouples.size());
+        _slider.setValue(0);
     }
 
     @FXML
@@ -273,7 +315,7 @@ public class RangeController {
             for (int i = 0; i < NUM_ROW; i++) {
                 for (int j = 0; j < NUM_COL; j++) {
                     _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().clear();
-                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().add(SELECTED_CELL);
+                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().add(SELECTED);
                     hsCouples.add(((Label)_gpCouples.getChildren().get(i*NUM_ROW+j)).getText());
                 }
             }
@@ -282,6 +324,7 @@ public class RangeController {
             _btPairs.setDisable(true);
             _btSuited.setDisable(true);
             updatePercentage(hsCouples.size());
+            _slider.setValue(100);
         });
     }
 
@@ -290,7 +333,7 @@ public class RangeController {
             for (int i = 0; i < NUM_ROW; i++) {
                 for (int j = i+1; j < NUM_COL; j++) {
                     _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().clear();
-                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().add(SELECTED_CELL);
+                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().add(SELECTED);
                     hsCouples.add(((Label)_gpCouples.getChildren().get(i*NUM_ROW+j)).getText());
                 }
             }
@@ -306,7 +349,7 @@ public class RangeController {
             for (int i = 0; i < NUM_ROW; i++) {
                 for (int j = 0; j < i; j++) {
                     _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().clear();
-                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().add(SELECTED_CELL);
+                    _gpCouples.getChildren().get(i*NUM_ROW+j).getStyleClass().add(SELECTED);
                     hsCouples.add(((Label)_gpCouples.getChildren().get(i*NUM_ROW+j)).getText());
                 }
             }
@@ -321,7 +364,7 @@ public class RangeController {
         Platform.runLater(() -> {
             for (int j = 0; j < NUM_COL; j++) {
                 _gpCouples.getChildren().get(j*NUM_ROW+j).getStyleClass().clear();
-                _gpCouples.getChildren().get(j*NUM_ROW+j).getStyleClass().add(SELECTED_CELL);
+                _gpCouples.getChildren().get(j*NUM_ROW+j).getStyleClass().add(SELECTED);
                 hsCouples.add(((Label)_gpCouples.getChildren().get(j*NUM_ROW+j)).getText());
             }
             _btPairs.setDisable(true);
@@ -332,21 +375,21 @@ public class RangeController {
     }
 
     @FXML
-    void onClickShowRank(ActionEvent event) {
-    	String entry = this._handDistributionText.getText();
-    	_handDistributionText.clear();
-    	if(entry.isEmpty())
-    		writeTextArea("-You haven't typed in a rank." + SEPARATOR);
-    	else{
-	    	EntryParser parser = new EntryParser(entry);
-	    	if(!parser.parseEntry())
-	    		writeTextArea("It is not a correct rank" + SEPARATOR);
-	    	else{
+    void onClickShowRange(ActionEvent event) {
+        String entry = this._handDistributionText.getText();
+        _handDistributionText.clear();
+        if(entry.isEmpty())
+            writeTextArea("-You haven't typed in a range." + SEPARATOR);
+        else{
+            EntryParser parser = new EntryParser(entry);
+            if(!parser.parseEntry())
+                writeTextArea("It is not a correct range" + SEPARATOR);
+            else{
                 clearRange();
                 selectElemsMatrix(CoupleCards.coupleCardsToMatrix(Range.rangeToCoupleCards(parser.getRangeEntry())));
                 Platform.runLater(() -> updatePercentage(hsCouples.size()));
             }
-    	}
+        }
     }
 
     /**
@@ -357,7 +400,7 @@ public class RangeController {
         Platform.runLater(() -> {
             for (Pair<Integer, Integer> p : pairs) {
                 _gpCouples.getChildren().get(p.getKey() * NUM_ROW + p.getValue()).getStyleClass().clear();
-                _gpCouples.getChildren().get(p.getKey() * NUM_ROW + p.getValue()).getStyleClass().add(SELECTED_CELL);
+                _gpCouples.getChildren().get(p.getKey() * NUM_ROW + p.getValue()).getStyleClass().add(SELECTED);
                 hsCouples.add(((Label) _gpCouples.getChildren().get(p.getKey() * NUM_ROW + p.getValue())).getText());
             }
         });
@@ -367,102 +410,31 @@ public class RangeController {
         _tfRang.setText( (int)Math.floor((num*100) / CoupleCards.NUM_COUPLE_CARDS) + "%");
     }
 
+    public void onClickRanking(MouseEvent mouseEvent) {
+        Platform.runLater(() -> {
+            Label lb = (Label)mouseEvent.getSource();
+            if(lb.getText().equals(SKLANSKY)){
+                sklanskyRanking = true;
+                switchRankingLabels(true);
+            }
+            else {
+                sklanskyRanking = false;
+                switchRankingLabels(false);
+            }
+            showRange();
+        });
+    }
 
-//    /**
-//     * Receives ranks set and it paints them on screen one by one .
-//     * @param ranks
-//     */
-//    private void paintRanks(ArrayList<Range> ranks){
-//    	class PaintRanks implements Runnable {
-//    		ArrayList<Range> ranks;
-//    		PaintRanks(ArrayList<Range> r){
-//    			this.ranks = r;
-//    		}
-//			@Override
-//			public void run() {
-//				for(Range r: this.ranks){
-//					//couple of cards rank
-//					if(r.getCoupleCards2() == null && !r.isHighRank() && !r.isRank())
-//						RangeController.this.paintCouple(r);
-//					//plus rank
-//					else if(r.getCoupleCards2() == null && r.isHighRank())
-//						RangeController.this.paintPlus(r);
-//					//hyphen rank
-//					else
-//						RangeController.this.paintHyphen(r);
-//				}
-//			}
-//
-//    	}
-//    	Platform.runLater(new PaintRanks(ranks));
-//    }
-//    /**
-//     * It paints hyphen format rank.
-//     * @param r
-//     */
-//    private void paintHyphen(Range r){
-//    	int pivot = r.getCoupleCards1().getHiggerValue();
-//    	int limit = r.getCoupleCards1().getLowerValue();
-//    	int second = r.getCoupleCards2().getLowerValue();
-//    	while(second <= limit){
-//    		this.paint(pivot, second, r.getCoupleCards1().isOffSuited());
-//    		second++;
-//    	}
-//    }
-//    /**
-//     * It paints plus format rank.
-//     * @param r
-//     */
-//    private void paintPlus(Range r){
-//    	int first = r.getCoupleCards1().getHiggerValue();
-//    	int second = r.getCoupleCards1().getLowerValue();
-//    	boolean suit = r.getCoupleCards1().isOffSuited();
-//    	//caso pareja
-//    	if(first == second){
-//    		while(first <= (Card.NUM_CARDS - 1)){
-//    			this.paint(first, second, suit);
-//    			second++;
-//    			first++;
-//    		}
-//    	}
-//    	else{
-//	    	while(second < first){
-//	    		this.paint(first, second, suit);
-//	    		second++;
-//	    	}
-//    	}
-//    }
-//    /**
-//     * It paints a couple of cards on screen.
-//     * @param r
-//     */
-//    private void paintCouple(Range r){
-//    	int first = r.getCoupleCards1().getHiggerValue();
-//		int second = r.getCoupleCards1().getLowerValue();
-//		this.paint(first, second, r.getCoupleCards1().isOffSuited());
-//    }
-//    /**
-//     * It paints a GridPane's cell
-//     * @param first high card value
-//     * @param second low card value
-//     * @param suit true if cards are suited cards, false otherwise
-//     */
-//    private void paint(int first, int second, boolean suit){
-//    	int row, col;
-//		if(first == second){
-//			row = col = Math.abs(first - (Card.NUM_CARDS - 1));
-//			_gpCouples.getChildren().get(row*NUM_ROW+col).getStyleClass().add(SELECTED_CELL);
-//		}
-//		else{
-//			if(!suit){
-//				row = Math.abs(first - (Card.NUM_CARDS - 1));
-//				col = row + Math.abs(first - second);
-//			}
-//			else{
-//				row = Math.abs(first - (Card.NUM_CARDS - 1)) + (first - second);
-//				col = Math.abs(first - (Card.NUM_CARDS - 1));
-//			}
-//			_gpCouples.getChildren().get(row*NUM_ROW+col).getStyleClass().add(SELECTED_CELL);
-//		}
-//    }
+    public void switchRankingLabels(boolean sklansky){
+        _lbSklansky.getStyleClass().clear();
+        _lbStrength.getStyleClass().clear();
+        if(sklansky) {
+            _lbSklansky.getStyleClass().addAll(SELECTED_LABEL, ROUND_LABEL);
+            _lbStrength.getStyleClass().addAll(NONE_SELECTED, ROUND_LABEL);
+        }
+        else {
+            _lbStrength.getStyleClass().addAll(SELECTED_LABEL, ROUND_LABEL);
+            _lbSklansky.getStyleClass().addAll(NONE_SELECTED, ROUND_LABEL);
+        }
+    }
 }

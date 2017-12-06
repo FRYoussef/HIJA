@@ -1,4 +1,4 @@
-package model.representation.rank;
+package model.representation.range;
 
 import javafx.util.Pair;
 import model.representation.Card;

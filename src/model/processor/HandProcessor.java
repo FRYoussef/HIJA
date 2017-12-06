@@ -21,11 +21,11 @@ public class HandProcessor {
         tableCardsProcessor = new CardsProcessor();
     }
 
-    public boolean getopenEndedFlush() {
+    public boolean getdrawFlush() {
     	if (playerCardsProcessor != null)
-    		return playerCardsProcessor.getopenEndedFlush();
+    		return playerCardsProcessor.getdrawFlush();
     	else
-    		return tableCardsProcessor.getopenEndedFlush();
+    		return tableCardsProcessor.getdrawFlush();
     }
     public boolean getopenEndedStraight() {
     	if (playerCardsProcessor != null)
@@ -39,6 +39,19 @@ public class HandProcessor {
     	else
     		return tableCardsProcessor.getgutShotStraight();
     }
+    public boolean getopenEndedStraightFlush() {
+    	if (playerCardsProcessor != null)
+    		return playerCardsProcessor.getopenEndedStraightFlush();
+    	else
+    		return tableCardsProcessor.getopenEndedStraightFlush();
+    }
+    public boolean getgutShotStraightFlush() {
+    	if (playerCardsProcessor != null)
+    		return playerCardsProcessor.getgutShotStraightFlush();
+    	else
+    		return tableCardsProcessor.getgutShotStraightFlush();
+    }
+    
 
     public void resetHandProcessor(){
         tableCardsProcessor = new CardsProcessor();

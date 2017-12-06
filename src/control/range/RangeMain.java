@@ -1,4 +1,4 @@
-package control.rank;
+package control.range;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,7 @@ public class RangeMain extends Application {
 
         try
         {
-            AnchorPane root = FXMLLoader.load(getClass().getResource("../../view/rank.fxml"));
+            AnchorPane root = FXMLLoader.load(getClass().getResource("../../view/range.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setTitle("Poker");
             primaryStage.setScene(scene);

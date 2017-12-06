@@ -1,8 +1,8 @@
 package test;
 
 import model.representation.Card;
-import model.representation.rank.CoupleCards;
-import model.representation.rank.Range;
+import model.representation.range.CoupleCards;
+import model.representation.range.Range;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +44,7 @@ public class RankTest {
             }
             if(r != null)
                 ranges.add(r);
-            System.out.print("Your rank is:  ");
+            System.out.print("Your range is:  ");
             for(Range ran: ranges){
                 System.out.print(ran + ", ");
             }

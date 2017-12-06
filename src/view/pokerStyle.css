@@ -63,8 +63,23 @@
     -fx-background-color: #66BB6A;
 }
 
-.selectedCell{
+.selected{
     -fx-background-color: #FFEE58;
+}
+
+.selectedLabel{
+    -fx-background-color: #E8F5E9;
+    -fx-border-width: 2;
+    -fx-border-color: #4CAF50;
+}
+
+.noneSelected{
+    -fx-background-color: #E8F5E9;
+}
+
+.roundLabel{
+    -fx-border-radius: 15 15 0 0;
+    -fx-background-radius: 15 15 0 0;
 }
 
 .error{
@@ -106,3 +121,4 @@
 .rowCrads{
     -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.5, -4, 7);
 }
+
