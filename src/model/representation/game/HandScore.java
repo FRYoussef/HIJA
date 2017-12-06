@@ -1,6 +1,7 @@
 package model.representation.game;
 
 import model.representation.Card;
+import model.representation.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,28 +9,27 @@ import java.util.List;
 public class HandScore implements Comparable<HandScore> {
 
     public static final int NUM_HAND_PLAY = 5;
-    private String playerId;
 	private Play handValue = Play.HighCard;
 	private List<Card> handPlay = null;
-	private Card[] playerCards = null;
+	private String playerId;
+	private Player player = null;
 
-	public HandScore(String playerId,Play handValue, List<Card> handPlay,
+	public HandScore(Player player, Play handValue, List<Card> handPlay,
 			Card[] playerCards){
-		this.playerId = playerId;
+		this.player = player;
+		this.playerId = "J" + player.getID();
         this.handValue = handValue;
         this.handPlay = handPlay;
-        this.playerCards = playerCards;
 	}
     public HandScore(Play handValue, List<Card> handPlay, Card[] playerCards) {
-    	this.playerId = "";
+    	this.player = new Player(-1, playerCards);
         this.handValue = handValue;
         this.handPlay = handPlay;
-        this.playerCards = playerCards;
     }
 
     public HandScore(Card ... playerCards) {
         handPlay = new ArrayList<Card>(NUM_HAND_PLAY);
-        this.playerCards = playerCards;
+        this.player = new Player(-1, playerCards);
     }
 
     public HandScore() {
@@ -57,12 +57,21 @@ public class HandScore implements Comparable<HandScore> {
     public String getPlayerId(){
     	return this.playerId;
     }
+    
+    public int getPlayer () {
+    	return player.getID();
+    }
+    
     public Play getHandValue() {
         return handValue;
     }
 
     public Card[] getPlayerCards() {
-        return playerCards;
+    	Card cards [] = new Card [player.getNCards()];
+    	for (int i = 0; i < player.getNCards(); i++) {
+    		cards [i] = player.getCard(i);
+    	}
+    	return cards;
     }
 
     public String getPlayValue(){

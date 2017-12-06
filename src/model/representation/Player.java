@@ -15,6 +15,10 @@ public class Player {
 		return ID;
 	}
 	
+	public int getNCards () {
+		return cards.length;
+	}
+	
 	public Card getCard (int i) {
 		return cards[i];
 	}
