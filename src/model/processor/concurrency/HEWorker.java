@@ -80,9 +80,9 @@ public class HEWorker implements Runnable{
 			best = results.pollLast();
 			if (best == null)
 				break;
-			shared.increase(best.getPlayer());
+			shared.increasePlayer(best.getPlayer());
 		}while(best.compareTo(results.last()) == 0);
-		
+		shared.increaseSim();
 		deck.insertCards(drawnCards);
 	}
 	
