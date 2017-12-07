@@ -32,7 +32,7 @@ public class EquityController {
     private int numPlayers;
 
     public EquityController() {
-        numPlayers = 6;
+        numPlayers = 8;
         alPlayerController = new ArrayList<>(numPlayers);
         addPlayers();
     }
@@ -41,9 +41,13 @@ public class EquityController {
      * It adds all players to the board
      */
     private void addPlayers(){
-        for (int i = 0; i < numPlayers; i++) {
+    	double t = Math.PI;
+    	double increment = (2*Math.PI)/numPlayers;
+    	for (int i = 0; i < numPlayers; i++) {
             //ellipse pratitions
-            Platform.runLater(() -> addPlayer(300, 10));
+    		double tempT = t;
+            Platform.runLater(() -> addPlayer(tempT));
+            t += increment;
         }
     }
 
@@ -52,10 +56,12 @@ public class EquityController {
      * @param x position to the pane
      * @param y position to the pane
      */
-    private void addPlayer(double x, double y) {
+    private void addPlayer(double angleT) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             AnchorPane root = fxmlLoader.load(getClass().getResource("../../view/playerPane.fxml").openStream());
+            double x = _eBoard.getRadiusX()*Math.sin(angleT) + _pBoard.getWidth()/2 - root.getPrefWidth()/1.8*(Math.sin(angleT)) - 30;
+        	double y = _eBoard.getRadiusY()*Math.cos(angleT) + _pBoard.getHeight()/2 - root.getPrefHeight()/2*(1 + Math.pow(Math.cos(angleT), 3)/1.2) - 10;
             root.setLayoutX(x);
             root.setLayoutY(y);
             _pBoard.getChildren().add(root);
