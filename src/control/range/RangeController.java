@@ -89,7 +89,7 @@ public class RangeController {
         hsCouples = new HashSet<>();
         hsCards = new ArrayList<>(Play.CARDS_PER_PLAY);
         stageStats = new Stage();
-        stageStats.setOnCloseRequest( event -> {statsClosed = true;});
+        stageStats.setOnCloseRequest( event -> statsClosed = true);
     }
 
     private void showRange(){
