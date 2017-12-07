@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
@@ -43,6 +44,16 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="20.0" layoutY="506.0" prefHeight="200.0" prefWidth="200.0" styleClass="controlPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="490.0" />
+      <AnchorPane layoutX="20.0" layoutY="506.0" prefHeight="200.0" prefWidth="200.0" styleClass="controlPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="490.0">
+         <children>
+            <Label fx:id="_lTitle" alignment="CENTER" layoutX="603.0" layoutY="14.0" text="Select The Player Card" underline="true" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="_taLog" disable="true" layoutX="923.0" layoutY="5.0" styleClass="basicPane" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+            <Button fx:id="_btPhase" layoutX="17.0" layoutY="74.0" mnemonicParsing="false" onAction="#onClickNextPhase" text="Next Phase" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
+            <Button layoutX="17.0" layoutY="107.0" mnemonicParsing="false" onAction="#onClickClear" text="Clear" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0" />
+         </children></AnchorPane>
    </children>
 </AnchorPane>
