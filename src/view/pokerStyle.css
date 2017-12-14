@@ -142,3 +142,9 @@
     -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.5, -4, 7);
 }
 
+.selectedCard{
+	-fx-opacity:0.3;
+}
+
+
+
