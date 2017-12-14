@@ -1,16 +1,25 @@
 package control.equity;
 
+
+
+import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import model.representation.Card;
+import model.representation.game.Deck;
 
 
-public class PlayerController {
+public class PlayerController{
 
     private static final String DEFAULT_EQUITY = "0%";
     private static final String EQUITY = "Equity: ";
@@ -23,10 +32,15 @@ public class PlayerController {
     private Label _lbEquity;
     @FXML
     private Button _btFold;
+    @FXML
+    private AnchorPane _playerAnchor;
+    
 
     private int numPlayer;
     private Card cd1 = null;
     private Card cd2 = null;
+    private Deck deck;
+    
 
     public void setNumPlayer(int numPlayer) {
         this.numPlayer = numPlayer;
@@ -39,9 +53,38 @@ public class PlayerController {
     public Card getCd2() {
         return cd2;
     }
+    
+    public void setCd1(Card card) {
+        this.cd1 = card;
+        System.out.println(cd1.toString());
+        _ivCard1.setImage(new Image("resources/cards/" + cd1.toString() + ".png")); 
+    }
+
+    public void setCd2(Card card) {
+    	this.cd2 = card;
+    	_ivCard2.setImage(new Image("resources/cards/" + cd2.toString() + ".png"));
+    }
 
     public void onClickCard(MouseEvent mouseEvent) {
         //card selection
+    	Platform.runLater(() -> {
+    	try {
+    	 ArrayList<Card> cards = new ArrayList<Card>();
+    	 cards.add(cd1);
+    	 cards.add(cd2);
+    	 CardSelectorController cardSelector = new CardSelectorController(this.deck, cards, 2, this.numPlayer);
+         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/cardSelector.fxml"));
+         fxmlLoader.setController(cardSelector);
+         Stage stage = new Stage();
+         stage.setScene(new Scene(fxmlLoader.load()));
+         stage.setTitle("Card Selector");
+         stage.setResizable(false);
+         stage.show();
+    	 }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    	 });
     }
 
     public void onClickFold(ActionEvent actionEvent) {
@@ -60,9 +103,14 @@ public class PlayerController {
             _ivCard2.setImage(null);
         });
     }
+    
+    public void setDeck(Deck deck){
+    	this.deck = deck;
+    }
 
     @Override
     public int hashCode() {
         return numPlayer;
-    }
+    }	
+
 }
