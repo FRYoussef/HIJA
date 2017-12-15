@@ -111,6 +111,14 @@ public class PlayerController{
     @Override
     public int hashCode() {
         return numPlayer;
-    }	
+    }
+    
+    private DecimalFormat df = new DecimalFormat("#.##########");
+    public void writeEquity(double equity){
+    	Platform.runLater(()->{
+    		String number = df.format(equity*100.f);
+    		_lbEquity.setText(EQUITY + System.lineSeparator() + number + '%');
+    	});
+    }
 
 }
