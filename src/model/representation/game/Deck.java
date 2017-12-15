@@ -72,7 +72,7 @@ public class Deck {
 	}
 	
 	@Override
-	protected Object clone() {
+	public Object clone() {
 		Deck d = new Deck (false);
 		
 		for (Card card : cards) {
@@ -83,5 +83,9 @@ public class Deck {
 		}
 		
 		return d;
+	}
+	//------
+	public boolean takeOutCard(Card c){
+		return this.cards.remove(c);
 	}
 }
