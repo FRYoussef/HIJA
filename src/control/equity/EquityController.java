@@ -17,11 +17,12 @@ import java.util.Observer;
 
 import model.representation.Card;
 import model.representation.game.Deck;
-
+import model.processor.EquityProcessor;
 
 public class EquityController implements Observer {
 
     private static final String NUM_PLAYERS_TEXT = "Num Players: ";
+    	private static final String NUM_SIMULATIONS_TEXT = "Num. Simulations: ";
     private static final String[] PHASES = {"Select The Player Card", "The PreFlop", "The Flop", "The Turn", "The River"};
 
     @FXML
@@ -41,7 +42,7 @@ public class EquityController implements Observer {
     private int numPlayers;
     private int phaseCounter = 0;
     private Deck deck = new Deck();
-
+    private EquityProcessor equityProcessor;
     public EquityController() {
         numPlayers = 6;
         hlPlayerController = new ArrayList<PlayerController>(numPlayers);
@@ -49,7 +50,9 @@ public class EquityController implements Observer {
       
         PlayerObserver.init();
         PlayerObserver.addObserver(this);
-        
+	    
+        HandlerObserver.init();
+        HandlerObserver.addObserver(this);
     }
 
     /**
@@ -111,7 +114,9 @@ public class EquityController implements Observer {
 
     public void clear(){
         Platform.runLater(() -> {
+   	    equityProcessor.stopThreads();
             _mbtNumPlayers.setDisable(false);
+            _lbNumSimu.setText(NUM_SIMULATIONS_TEXT + 0);
             phaseCounter = 0;
             _lTitle.setText(PHASES[phaseCounter]);
             for (PlayerController pc : hlPlayerController)
@@ -125,13 +130,27 @@ public class EquityController implements Observer {
      * the cards selected, the player who choose the cards and the deck after changes
      */
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		CSolution solution = (CSolution)arg1;
-		ArrayList<Card> cards = solution.getCards();
-		int numPlayer = solution.getNumPlayer();
-		hlPlayerController.get(numPlayer).setCd1(cards.get(0));
-		hlPlayerController.get(numPlayer).setCd2(cards.get(1));
-		this.deck = solution.getDeck();
-		hlPlayerController.get(numPlayer).setDeck(this.deck);	
+		if(arg1 instanceof double[]){
+			double [] equities = (double[]) arg; 
+			for(PlayerController p : this.hlPlayerController)
+				p.writeEquity(equities[p.hashCode()]);
+				
+		}
+		else if(arg1 instanceof Integer){
+			Platform.runLater(()->{
+				String number = String.format("%,d", arg);
+				this._lbNumSimu.setText(NUM_SIMULATIONS_TEXT + number);
+			});
+		}
+		else{
+			// TODO Auto-generated method stub
+			CSolution solution = (CSolution)arg1;
+			ArrayList<Card> cards = solution.getCards();
+			int numPlayer = solution.getNumPlayer();
+			hlPlayerController.get(numPlayer).setCd1(cards.get(0));
+			hlPlayerController.get(numPlayer).setCd2(cards.get(1));
+			this.deck = solution.getDeck();
+			hlPlayerController.get(numPlayer).setDeck(this.deck);
+		}
 	}
 }
