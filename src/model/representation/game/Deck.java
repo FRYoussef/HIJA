@@ -72,7 +72,7 @@ public class Deck {
 	}
 	
 	@Override
-	protected Object clone() {
+	public Object clone() {
 		Deck d = new Deck (false);
 		
 		for (Card card : cards) {

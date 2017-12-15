@@ -116,7 +116,7 @@ public class EquityController implements Observer {
 
     public void clear(){
         Platform.runLater(() -> {
-   	    equityProcessor.stopThreads();
+   	        equityProcessor.stopThreads();
             _mbtNumPlayers.setDisable(false);
             _lbNumSimu.setText(NUM_SIMULATIONS_TEXT + 0);
             phaseCounter = 0;
@@ -133,14 +133,14 @@ public class EquityController implements Observer {
      */
 	public void update(Observable arg0, Object arg1) {
 		if(arg1 instanceof double[]){
-			double [] equities = (double[]) arg; 
+			double [] equities = (double[]) arg1;
 			for(PlayerController p : this.hlPlayerController)
 				p.writeEquity(equities[p.hashCode()]);
 				
 		}
 		else if(arg1 instanceof Integer){
 			Platform.runLater(()->{
-				String number = String.format("%,d", arg);
+				String number = String.format("%,d", arg1);
 				this._lbNumSimu.setText(NUM_SIMULATIONS_TEXT + number);
 			});
 		}

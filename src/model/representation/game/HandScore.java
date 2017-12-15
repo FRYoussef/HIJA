@@ -39,7 +39,11 @@ public class HandScore implements Comparable<HandScore> {
     public void setHandValue(Play handValue) {
         this.handValue = handValue;
     }
-    
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public boolean contains (Card c) {
     	int cardsToCheck = Play.playFormingCards(handValue);
     	boolean res = false;

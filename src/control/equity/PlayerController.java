@@ -2,6 +2,7 @@ package control.equity;
 
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -113,7 +114,7 @@ public class PlayerController{
         return numPlayer;
     }
     
-    private DecimalFormat df = new DecimalFormat("#.##########");
+    private DecimalFormat df = new DecimalFormat("#.###");
     public void writeEquity(double equity){
     	Platform.runLater(()->{
     		String number = df.format(equity*100.f);

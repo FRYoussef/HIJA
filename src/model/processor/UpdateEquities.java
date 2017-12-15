@@ -2,7 +2,6 @@ package model.processor;
 
 import java.util.TimerTask;
 
-import javafx.application.Platform;
 import model.game.HandlerObserver;
 import model.processor.concurrency.Shared;
 
