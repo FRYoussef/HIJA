@@ -18,6 +18,8 @@ import java.util.Observer;
 import model.representation.Card;
 import model.representation.game.Deck;
 import model.processor.EquityProcessor;
+import model.game.HandlerObserver;
+import model.processor.EquityProcessor;
 
 public class EquityController implements Observer {
 
