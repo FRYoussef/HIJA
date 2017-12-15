@@ -15,6 +15,9 @@ public class Player {
 		return ID;
 	}
 	
+	public void setId(int id){
+		this.ID = id; 
+	}
 	public int getNCards () {
 		return cards.length;
 	}
@@ -23,4 +26,12 @@ public class Player {
 		return cards[i];
 	}
 
+	public String toString(){
+		String res = "ID: " + this.getID() + " Cartas: ";
+		for(int i = 0; i < this.cards.length; i++)
+			res += this.cards[i].toString();
+		res += "\n";
+		
+		return res;
+	}
 }
