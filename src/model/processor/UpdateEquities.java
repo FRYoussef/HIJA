@@ -2,7 +2,7 @@ package model.processor;
 
 import java.util.TimerTask;
 
-import model.game.HandlerObserver;
+import control.ObserverPatron.HandlerObserver;
 import model.processor.concurrency.Shared;
 
 public class UpdateEquities extends TimerTask{

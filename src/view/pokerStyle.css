@@ -27,6 +27,7 @@
 
 .boardCardsHB{
     -fx-border-color: #424242;
+    -fx-background-color: #C8E6C9;
 }
 
 .buttonS{
@@ -141,10 +142,5 @@
 .rowCrads{
     -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.5, -4, 7);
 }
-
-.selectedCard{
-	-fx-opacity:0.3;
-}
-
 
 

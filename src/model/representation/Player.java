@@ -3,14 +3,18 @@ package model.representation;
 
 public class Player {
 	private int ID;
-	private Card cards [];
+	private Card cards [] = null;
 	
 	
 	public Player(int ID, Card ...cards) {
 		this.ID = ID;
 		this.cards = cards;
 	}
-	
+
+	public Player(int ID) {
+		this.ID = ID;
+	}
+
 	public int getID() {
 		return ID;
 	}
@@ -21,17 +25,26 @@ public class Player {
 	public int getNCards () {
 		return cards.length;
 	}
-	
+
+	public Card[] getCards() {
+		return cards;
+	}
+
+	public void setCards(Card[] cards) {
+		this.cards = cards;
+	}
+
 	public Card getCard (int i) {
 		return cards[i];
 	}
 
 	public String toString(){
 		String res = "ID: " + this.getID() + " Cartas: ";
-		for(int i = 0; i < this.cards.length; i++)
-			res += this.cards[i].toString();
-		res += "\n";
-		
+		if(cards != null){
+			for(int i = 0; i < this.cards.length; i++)
+				res += this.cards[i].toString();
+			res += "\n";
+		}
 		return res;
 	}
 }

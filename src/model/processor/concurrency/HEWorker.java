@@ -2,6 +2,7 @@ package model.processor.concurrency;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 
 
@@ -15,7 +16,7 @@ public class HEWorker implements Runnable{
 	
 	
 	protected Shared shared;
-	protected ArrayList<Player> players;
+	protected HashMap<Integer, Player> players;
 	protected HashSet<Card> boardCards;
 	protected Deck deck;
 	private long id;
@@ -24,7 +25,7 @@ public class HEWorker implements Runnable{
      * Constructs a new worker.
      * @param deck : The deck of cards to draw from. Each worker must have their own unique deck (use Deck.clone()). 
      */
-	public HEWorker(Shared shared, ArrayList<Player> players, HashSet<Card> boardCards, Deck deck) {
+	public HEWorker(Shared shared, HashMap<Integer, Player> players, HashSet<Card> boardCards, Deck deck) {
 		this.shared = shared;
 		this.players = players;
 		this.boardCards = boardCards;
@@ -72,7 +73,8 @@ public class HEWorker implements Runnable{
 		}
 		
 		ArrayList<HandScore> results = new ArrayList<HandScore>();
-		for (Player p : players) {
+		for (Integer i : players.keySet()) {
+			Player p = players.get(i);
 			HandScore bp = hp.getBestPlay(p.getCard(0), p.getCard(1));
 			bp.setPlayer(p);
 			results.add(bp);

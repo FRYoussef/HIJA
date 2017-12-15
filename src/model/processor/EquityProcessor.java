@@ -1,8 +1,6 @@
 package model.processor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Timer;
+import java.util.*;
 
 import model.processor.concurrency.HEWorker;
 import model.processor.concurrency.Shared;
@@ -11,21 +9,122 @@ import model.representation.Player;
 import model.representation.game.Deck;
 
 public class EquityProcessor{
-	
+	private static final int N_THREADS = 2;
+	private static final int MAX_BOARD_CARDS = 5;
+
 	private ArrayList<Thread> threads; 
 	private Shared sharedData; 
-	private static final int nThreads = 2; 
-	private Timer timer; 
+
+	private Timer timer;
+	private Deck deck;
+	private HashSet<Card> boardCards;
+	private HashMap<Integer, Player> hmPlayer;
 	
-	public EquityProcessor(){
-		this.threads = new ArrayList<>();
+	public EquityProcessor(int dim){
+		this.threads = new ArrayList<>(N_THREADS);
+		deck = new Deck();
+		boardCards = new HashSet<>(MAX_BOARD_CARDS);
+		hmPlayer = new HashMap<>(dim);
 	}
-	
-	public void calculateEquity(ArrayList<Player> players, HashSet<Card> boardCards, Deck deck){
-		this.sharedData = new Shared(players.size());
+
+	/**
+	 * It adds a player no nullable
+	 * @param player
+	 * @throws Exception
+	 */
+	public void addPlayer(Player player) throws Exception {
+		if(player == null)
+			throw new Exception("You cant add a null player");
+		hmPlayer.put(player.getID(), player);
+	}
+
+	/**
+	 * It removes a player who exist
+	 * @param player
+	 * @throws Exception
+	 */
+	public void removePlayer(int player) throws Exception {
+		if(!hmPlayer.containsKey(player))
+			throw new Exception("This player" + player + "does not exist, you cant remove it");
+
+		hmPlayer.remove(player);
+	}
+
+	/**
+	 * It restores the player cards to the deck, and clear the players
+	 */
+	public void removeAllPlayers(){
+		if(hmPlayer.size() == 0)
+			return;
+		//restore the player cards
+		for(Integer p : hmPlayer.keySet())
+			if(hmPlayer.get(p).getCards() != null)
+				deck.insertCards(new HashSet<>(Arrays.asList(hmPlayer.get(p).getCards())));
+		hmPlayer.clear();
+	}
+
+	public void addPlayerCards(int player, Card ...cards) throws Exception {
+		if (cards == null)
+			throw new Exception("The player cards should not be null");
+		if(!hmPlayer.containsKey(player))
+			throw new Exception("The player " + player + " are not in the list");
+		hmPlayer.get(player).setCards(cards);
+	}
+
+	/**
+	 * It adds cards form the controller
+	 * @param cards
+	 * @throws Exception
+	 */
+	public void addBoardCards(Card ...cards) throws Exception {
+		if(cards == null)
+			throw new Exception("The cards to be added in the board must be not null");
+		if(MAX_BOARD_CARDS - boardCards.size() - cards.length < 0)
+			throw new Exception("The amount of board cards is " + MAX_BOARD_CARDS);
+		for(Card c : cards){
+			if(boardCards.contains(c))
+				throw new Exception("This card is already in the board: " + c);
+			boardCards.add(c);
+		}
+	}
+
+	/**
+	 * It returns if the players got cards
+	 * @param num
+	 * @return
+	 */
+	public boolean isPlayersGetCards(int num){
+		int count = 0;
+		for(Integer i : hmPlayer.keySet())
+			if(hmPlayer.get(i).getCards() != null)
+				count++;
+		return count == num;
+	}
+
+	public int numCardsBoard(){
+		return boardCards.size();
+	}
+
+	/**
+	 * It adds and return a random card from the deck
+	 * @return
+	 * @throws Exception
+	 */
+	public Card getRandomBoardCard() throws Exception {
+		Card c = deck.drawCard();
+		addBoardCards(c);
+		return c;
+	}
+
+	public Deck getDeck() {
+		return deck;
+	}
+
+	public void calculateEquity(){
+		this.sharedData = new Shared(hmPlayer.size());
 		this.timer = new Timer();
-		for(int i = 0; i < nThreads; i++){
-			Thread t = new Thread(new HEWorker(this.sharedData, players, boardCards, deck));
+		for(int i = 0; i < N_THREADS; i++){
+			Thread t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck));
 			this.threads.add(t);
 			t.start();
 		}

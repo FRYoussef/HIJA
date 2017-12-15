@@ -33,27 +33,47 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <HBox fx:id="_hbBoardCards" fillHeight="false" layoutX="535.0" layoutY="185.0" prefHeight="80.0" prefWidth="250.0" styleClass="boardCardsHB" AnchorPane.bottomAnchor="184.0" AnchorPane.leftAnchor="535.0" AnchorPane.rightAnchor="453.0" AnchorPane.topAnchor="184.0">
+            <HBox fx:id="_hbBoardCards" layoutX="535.0" layoutY="185.0" prefHeight="80.0" prefWidth="270.0" styleClass="boardCardsHB" AnchorPane.leftAnchor="535.0" AnchorPane.rightAnchor="433.0" AnchorPane.topAnchor="180.0">
                <children>
-                  <ImageView fitHeight="80.0" fitWidth="50.0" pickOnBounds="true" HBox.hgrow="ALWAYS" />
-                  <ImageView fitHeight="80.0" fitWidth="50.0" pickOnBounds="true" />
-                  <ImageView fitHeight="80.0" fitWidth="50.0" pickOnBounds="true" />
-                  <ImageView fitHeight="80.0" fitWidth="50.0" pickOnBounds="true" />
-                  <ImageView fitHeight="80.0" fitWidth="50.0" pickOnBounds="true" />
+                  <ImageView cache="true" fitHeight="85.0" fitWidth="50.0" pickOnBounds="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></ImageView>
+                  <ImageView cache="true" fitHeight="85.0" fitWidth="50.0" pickOnBounds="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></ImageView>
+                  <ImageView cache="true" fitHeight="85.0" fitWidth="50.0" pickOnBounds="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></ImageView>
+                  <ImageView cache="true" fitHeight="85.0" fitWidth="50.0" pickOnBounds="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></ImageView>
+                  <ImageView cache="true" fitHeight="85.0" fitWidth="50.0" pickOnBounds="true" />
                </children>
             </HBox>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="20.0" layoutY="506.0" prefHeight="200.0" prefWidth="200.0" styleClass="controlPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="490.0">
          <children>
-            <Label fx:id="_lTitle" alignment="CENTER" layoutX="603.0" layoutY="14.0" text="Select The Player Card" underline="true" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
+            <Label fx:id="_lTitle" alignment="CENTER" layoutX="603.0" layoutY="14.0" text="The PreFlop" underline="true" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="_taLog" disable="true" layoutX="923.0" layoutY="5.0" styleClass="basicPane" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+            <TextArea fx:id="_taLog" editable="false" layoutX="923.0" layoutY="5.0" styleClass="basicPane" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
             <Button fx:id="_btPhase" layoutX="17.0" layoutY="74.0" mnemonicParsing="false" onAction="#onClickNextPhase" text="Next Phase" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
             <Button layoutX="17.0" layoutY="107.0" mnemonicParsing="false" onAction="#onClickClear" text="Clear" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="100.0" />
+            <Button fx:id="_btCalculate" layoutX="142.0" layoutY="52.0" mnemonicParsing="false" onAction="#onClickCalculate" text="Calculate Equity" />
+            <Button fx:id="_btStop" layoutX="142.0" layoutY="102.0" mnemonicParsing="false" onAction="#onClickStop" text="Stop Simulation" />
+            <Label alignment="CENTER" layoutX="306.0" layoutY="105.0" text="Stop Limit: ">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="_tfStopLimit" alignment="CENTER" layoutX="386.0" layoutY="102.0" prefHeight="31.0" prefWidth="126.0" text="2000000" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

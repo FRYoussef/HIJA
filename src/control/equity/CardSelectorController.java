@@ -1,12 +1,14 @@
 package control.equity;
 
+import control.ObserverPatron.HandlerObserver;
+import control.ObserverPatron.OPlayerCards;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.representation.Suit;
@@ -19,7 +21,7 @@ import model.representation.Card;
 
 public class CardSelectorController {
 	
-	private static final String SELECTED_CARD = "selectedCard";
+	private static final String SELECTED_CARD = "selected";
 
 	@FXML
     private GridPane _cardGrid;
@@ -31,11 +33,12 @@ public class CardSelectorController {
     
     private ArrayList<Card> allCards = new ArrayList<Card>();//Auxiliar array used to maintain the original order of the cards
     private ArrayList<Card> selectedCards = new ArrayList<Card>();//Cards selected for the player
-    private HashSet<String> hscardsSet = new HashSet<String>();//Id of the cards clicked
+    private HashSet<String> hsCardsSet = new HashSet<String>();//Id of the cards clicked
     private int cardsSelected = 0;//Cards already clicked
     private Deck deck;//The total deck, in order to know wich cards are already selected by other players
     private int numCards;//Total cards to select
     private int numPlayer;//Num of the player, -1 for the board
+	private ArrayList<Card> cards;
 
 	
 	 public CardSelectorController(Deck deck, ArrayList<Card> cards, int numCards, int numPlayer) throws Exception{
@@ -43,85 +46,80 @@ public class CardSelectorController {
 		 this.deck = deck;	
 		 this.numCards = numCards;
 		 this.numPlayer = numPlayer;
-		 
-		 //to let the user change his own cards selected before
-		 for(int i = 0; i < cards.size(); i++) {
-			 deck.replaceCard(cards.get(i));
-		 }
+		 this.cards = cards;
 		 
 		try{ 
-		for (int i = 0; i < 4; i++) {
-			 for (int j = 0; j < 13; j++) {
-				 allCards.add(new Card(j,Suit.getFromInt(i)));
-			    }
-    }
-		 Platform.runLater(() -> {
-			 for (int i = 0; i < 4; i++) {
-				 for (int j = 0; j < 13; j++) {
-					 ImageView img = new ImageView("resources/cards/" + allCards.get(j+13*i).toString() + ".png"); 
-					 img.setFitHeight(100);
-					 img.setFitWidth(70);
-					 img.setId(allCards.get(j+13*i).toString());
-					 _cardGrid.add(img,j,i); 
-					 if(deck.contains(allCards.get(j+13*i))){
-					 img.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-				     
-					     @Override
-					     public void handle(MouseEvent event) {
-					    	ImageView img = ((ImageView)event.getSource());
-					        String id = img.getId();
-					        
-					        if(hscardsSet.contains(id)){
-					        	hscardsSet.remove(id);
-					        	img.getStyleClass().clear();
-					        	img.setEffect(null);
-					        	cardsSelected--;
-					        }
-					        else if(cardsSelected < numCards){
-					        	hscardsSet.add(id);
-					        	ColorAdjust colorAdjust = new ColorAdjust();
-					        	colorAdjust.setContrast(0.1);
-					        	colorAdjust.setHue(-0.05);
-					        	colorAdjust.setBrightness(0.1);
-					        	colorAdjust.setSaturation(0.2);
-					        	img.setEffect(colorAdjust);
-					        	cardsSelected++;
-					        }
-					     }
-					});
-					 }else{
-						 img.setDisable(true);
-						 img.getStyleClass().add(SELECTED_CARD);
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 13; j++)
+					allCards.add(new Card(j, Suit.getFromInt(i)));
+			}
+			 Platform.runLater(() -> {
+				 for (int i = 0; i < 4; i++) {
+					 for (int j = 0; j < 13; j++) {
+						 AnchorPane pane = new AnchorPane();
+						 ImageView img = new ImageView("resources/cards/" + allCards.get(i*13+j).toString() + ".png");
+						 pane.setId(allCards.get(i*13+j).toString());
+						 img.setFitHeight(110);
+						 img.setFitWidth(67);
+						 pane.getChildren().add(img);
+						 AnchorPane.setTopAnchor(img, 5.0d);
+						 AnchorPane.setRightAnchor(img, 5.0d);
+						 AnchorPane.setBottomAnchor(img, 5.0d);
+						 AnchorPane.setLeftAnchor(img, 5.0d);
+						 _cardGrid.add(pane, j, i);
+
+						 if(deck.contains(allCards.get(i*13+j)))
+						 	pane.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onClickImg);
+
+						 else {
+							 pane.setDisable(true);
+						 }
 					 }
-					
-				    }
-			 }
-		 });
+				 }
+			 });
 		}
-		 catch (Exception e) {
-	            e.printStackTrace();
-	        } 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	 }
-	
+
+	 private void onClickImg(MouseEvent mouseEvent){
+		 AnchorPane pane = ((AnchorPane)mouseEvent.getSource());
+		 String id = pane.getId();
+
+		 if(hsCardsSet.contains(id)){
+			 hsCardsSet.remove(id);
+			 pane.getStyleClass().clear();
+			 cardsSelected--;
+		 }
+		 else if(cardsSelected < numCards){
+			 hsCardsSet.add(id);
+			 pane.getStyleClass().add(SELECTED_CARD);
+			 cardsSelected++;
+		 }
+	 }
+
 	public void onClickAccept(MouseEvent mouseEvent) {
 		Platform.runLater(() -> {
-	      
-			char idSplit[] = new char[this.numCards];
+	      	if(cardsSelected != 2)
+	      		return;
+			char idSplit[];
 			int i = 0;
-			Iterator<String> iterator = hscardsSet.iterator();
+			Iterator<String> iterator = hsCardsSet.iterator();
         	while(iterator.hasNext()){
         	      String aux = iterator.next();
         	      idSplit = aux.toCharArray();
         	      aux.getChars(0, this.numCards, idSplit, 0);
         	      try {
-					selectedCards.add(new Card((Card.charToValue(idSplit[0])),Suit.getFromChar(idSplit[1])));
-					deck.removeCard(new Card((Card.charToValue(idSplit[0])),Suit.getFromChar(idSplit[1])));
+        	      	Card c = new Card((Card.charToValue(idSplit[0])),Suit.getFromChar(idSplit[1]));
+					selectedCards.add(c);
+					deck.removeCard(c);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
         	      i++;
         	}
-			PlayerObserver.getoSolution().notifySolution(selectedCards, this.deck, this.numPlayer);
+			HandlerObserver.getoSolution().notifyPlayerCards(new OPlayerCards(selectedCards, this.numPlayer));
 	        Stage stage = (Stage)_acceptButton.getScene().getWindow();
 	 		stage.close();
 		});
@@ -129,9 +127,65 @@ public class CardSelectorController {
 	    
 	public void onClickCancel(MouseEvent mouseEvent) {
 		Platform.runLater(() -> {
-		Stage stage = (Stage)_cancelButton.getScene().getWindow();
-		stage.close();
+			clear();
+			Stage stage = (Stage)_cancelButton.getScene().getWindow();
+			stage.close();
 		});
     }
 
+	private void clear(){
+		for (String s : hsCardsSet) {
+			Card c = null;
+			try {
+				c = new Card(Card.charToValue(s.charAt(0)), Suit.getFromChar(s.charAt(1)));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			_cardGrid.getChildren().get(c.getSuit().ordinal() *Card.NUM_CARDS+ c.getValue()).getStyleClass().clear();
+		}
+		hsCardsSet.clear();
+		selectedCards.clear();
+		cardsSelected = 0;
+	}
+
+	private void selectPlayerCards(ArrayList<Card> cards){
+	 	if(cards != null){
+			for (Card c: cards){
+				_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue()).getStyleClass().clear();
+				_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue()).getStyleClass().add(SELECTED_CARD);
+				_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue()).setDisable(false);
+				_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue()).setEffect(null);
+				hsCardsSet.add(allCards.get(c.getSuit().ordinal() * Card.NUM_CARDS + c.getValue()) + "");
+				cardsSelected++;
+			}
+		}
+	}
+
+	private void outCards() throws Exception {
+		for (int i = 0; i < Suit.NUM_SUIT; i++) {
+			for (int j = 0; j < Card.NUM_CARDS; j++) {
+				if(!deck.contains(new Card(j, Suit.getFromInt(i)))){
+					_cardGrid.getChildren().get(i*Card.NUM_CARDS+j).setDisable(true);
+				}
+				else {
+					_cardGrid.getChildren().get(i * Card.NUM_CARDS + j).setDisable(false);
+					_cardGrid.getChildren().get(i*Card.NUM_CARDS+j).getStyleClass().clear();
+				}
+			}
+		}
+	}
+
+	public void update(int numPlayer, ArrayList<Card> cards){
+		Platform.runLater(() -> {
+			this.numPlayer = numPlayer;
+			this.cards = cards;
+			try {
+				clear();
+				outCards();
+				selectPlayerCards(cards);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
 }

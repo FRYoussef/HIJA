@@ -1,6 +1,6 @@
 package model.processor.concurrency;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import model.representation.Card;
@@ -9,7 +9,7 @@ import model.representation.game.Deck;
 
 public class OmahaWorker extends HEWorker {
 
-	public OmahaWorker(Shared shared, ArrayList<Player> players, HashSet<Card> boardCards, Deck deck) {
+	public OmahaWorker(Shared shared, HashMap<Integer, Player> players, HashSet<Card> boardCards, Deck deck) {
 		super(shared, players, boardCards, deck);
 	}
 	

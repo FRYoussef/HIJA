@@ -59,12 +59,12 @@ public class Deck {
 	
 	public void removeCard(Card card){
 		if(cards.contains(card))
-		cards.remove(card);
+			cards.remove(card);
 	}
 	
 	public void replaceCard(Card card){
 		if(!cards.contains(card))
-		cards.add(card);
+			cards.add(card);
 	}
 	
 	public boolean contains(Card card){
