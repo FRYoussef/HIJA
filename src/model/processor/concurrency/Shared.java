@@ -1,26 +1,26 @@
 package model.processor.concurrency;
 
 public class Shared {
-	private volatile int playerStats [];
+	private volatile double playerStats [];
 	private volatile boolean run;
-	private volatile int sims;
+	private volatile int sims; //mostrar
 	
 	
 	public Shared(int nPlayers) {
-		playerStats = new int [nPlayers];
+		playerStats = new double [nPlayers];
 		run = true;
 		sims = 0;
 	}
 	
-	public synchronized void increasePlayer (int player) {
-		playerStats[player]++;
+	public synchronized void increasePlayer (int player, double value) {
+		playerStats[player] += value;
 	}
 	
 	public synchronized void increaseSim () {
 		sims++;
 	}
 	
-	public synchronized int getStat (int player) {
+	public synchronized double getStat (int player) {
 		return playerStats[player];
 	}
 	
@@ -34,5 +34,13 @@ public class Shared {
 	
 	public synchronized int getSims () {
 		return sims;
+	}
+	
+	//It returns player's equities. 
+	public synchronized double[] getPlayersStats(){
+		double[] stats = new double[this.playerStats.length];
+		for(int i = 0; i < this.playerStats.length; i++)
+			stats[i] = this.playerStats[i] / this.sims;
+		return stats;
 	}
 }

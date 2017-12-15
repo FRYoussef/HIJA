@@ -1,7 +1,9 @@
 package model.processor.concurrency;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.TreeSet;
+
 
 import model.processor.HandProcessor;
 import model.representation.Card;
@@ -18,7 +20,6 @@ public class HEWorker implements Runnable{
 	protected Deck deck;
 	private long id;
 	
-	
 	/**
      * Constructs a new worker.
      * @param deck : The deck of cards to draw from. Each worker must have their own unique deck (use Deck.clone()). 
@@ -27,7 +28,7 @@ public class HEWorker implements Runnable{
 		this.shared = shared;
 		this.players = players;
 		this.boardCards = boardCards;
-		this.deck = deck;
+		this.deck = (Deck) deck.clone();
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class HEWorker implements Runnable{
 		for (Card card : boardCards) {
 			hp.addCard(card);
 		}
-		
+	
 		HashSet<Card> drawnCards = new HashSet<Card>();
 		for (int i = 0; i < nBoard; i++) {
 			Card c = deck.drawCard();
@@ -70,20 +71,32 @@ public class HEWorker implements Runnable{
 			hp.addCard(c);
 		}
 		
-		TreeSet<HandScore> results = new TreeSet<HandScore>();
+		ArrayList<HandScore> results = new ArrayList<HandScore>();
 		for (Player p : players) {
-			results.add(hp.getBestPlay(p.getCard(0), p.getCard(1)));
+			HandScore bp = hp.getBestPlay(p.getCard(0), p.getCard(1));
+			bp.setPlayer(p);
+			results.add(bp);
 		}
 		
-		HandScore best = null;
+		HandScore best;
+		Collections.sort(results);
+		//it keeps track of tied players. 
+		ArrayList<Integer> tiedPlayers = new ArrayList<>(); 
 		do {
-			best = results.pollLast();
+			best = results.remove(results.size()-1);
+			tiedPlayers.add(best.getPlayer());
+			//No hace falta 
 			if (best == null)
 				break;
-			shared.increasePlayer(best.getPlayer());
-		}while(best.compareTo(results.last()) == 0);
+			//shared.increasePlayer(best.getPlayer());
+		}while(results.size() > 0 && best.compareTo(results.get(results.size()-1)) == 0);
+		
+		for(Integer i : tiedPlayers)
+			shared.increasePlayer(i, 1.d / (double) tiedPlayers.size());
+		
 		shared.increaseSim();
 		deck.insertCards(drawnCards);
+		
 	}
 	
 	
