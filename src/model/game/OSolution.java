@@ -9,4 +9,13 @@ public class OSolution extends Observable{
 	    setChanged();
 	    notifyObservers(solution);
     }
+	public void notifyEquity(double[] is){
+		this.setChanged();
+		this.notifyObservers(is);
+	}
+	
+	public void notifySimulations(int sims){
+		this.setChanged();
+		this.notifyObservers(sims);
+	}
 }
