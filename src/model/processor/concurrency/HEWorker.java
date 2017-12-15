@@ -15,7 +15,7 @@ public class HEWorker implements Runnable{
 	
 	
 	protected Shared shared;
-	protected HashSet<Player> players;
+	protected ArrayList<Player> players;
 	protected HashSet<Card> boardCards;
 	protected Deck deck;
 	private long id;
@@ -24,7 +24,7 @@ public class HEWorker implements Runnable{
      * Constructs a new worker.
      * @param deck : The deck of cards to draw from. Each worker must have their own unique deck (use Deck.clone()). 
      */
-	public HEWorker(Shared shared, HashSet<Player> players, HashSet<Card> boardCards, Deck deck) {
+	public HEWorker(Shared shared, ArrayList<Player> players, HashSet<Card> boardCards, Deck deck) {
 		this.shared = shared;
 		this.players = players;
 		this.boardCards = boardCards;
