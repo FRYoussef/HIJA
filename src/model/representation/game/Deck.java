@@ -57,6 +57,19 @@ public class Deck {
 		this.cards.addAll(cards);
 	}
 	
+	public void removeCard(Card card){
+		if(cards.contains(card))
+		cards.remove(card);
+	}
+	
+	public void replaceCard(Card card){
+		if(!cards.contains(card))
+		cards.add(card);
+	}
+	
+	public boolean contains(Card card){
+		return cards.contains(card);
+	}
 	
 	@Override
 	protected Object clone() {

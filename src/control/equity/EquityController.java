@@ -12,9 +12,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Ellipse;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Observable;
+import java.util.Observer;
 
-public class EquityController {
+import model.representation.Card;
+import model.representation.game.Deck;
+
+
+public class EquityController implements Observer {
 
     private static final String NUM_PLAYERS_TEXT = "Num Players: ";
     private static final String[] PHASES = {"Select The Player Card", "The PreFlop", "The Flop", "The Turn", "The River"};
@@ -32,14 +37,19 @@ public class EquityController {
     @FXML
     private Label _lTitle;
 
-    private HashSet<PlayerController> hsPlayerController = null;
+    private ArrayList<PlayerController> hlPlayerController = null;
     private int numPlayers;
     private int phaseCounter = 0;
+    private Deck deck = new Deck();
 
     public EquityController() {
         numPlayers = 6;
-        hsPlayerController = new HashSet<>(numPlayers);
+        hlPlayerController = new ArrayList<PlayerController>(numPlayers);
         addPlayers();
+      
+        PlayerObserver.init();
+        PlayerObserver.addObserver(this);
+        
     }
 
     /**
@@ -71,7 +81,8 @@ public class EquityController {
             root.setLayoutY(y);
             _pBoard.getChildren().add(root);
             ((PlayerController) fxmlLoader.getController()).setNumPlayer(player);
-            hsPlayerController.add(fxmlLoader.getController());
+            ((PlayerController) fxmlLoader.getController()).setDeck(this.deck);
+            hlPlayerController.add(fxmlLoader.getController());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,8 +91,8 @@ public class EquityController {
     public void onClickNumPlayers(ActionEvent actionEvent) {
         numPlayers = Integer.parseInt(((MenuItem)actionEvent.getSource()).getText());
         _mbtNumPlayers.setText(NUM_PLAYERS_TEXT + numPlayers);
-        _pBoard.getChildren().remove(_pBoard.getChildren().size()- hsPlayerController.size(), _pBoard.getChildren().size());
-        hsPlayerController.clear();
+        _pBoard.getChildren().remove(_pBoard.getChildren().size()- hlPlayerController.size(), _pBoard.getChildren().size());
+        hlPlayerController.clear();
         addPlayers();
     }
 
@@ -103,8 +114,24 @@ public class EquityController {
             _mbtNumPlayers.setDisable(false);
             phaseCounter = 0;
             _lTitle.setText(PHASES[phaseCounter]);
-            for (PlayerController pc : hsPlayerController)
+            for (PlayerController pc : hlPlayerController)
                 pc.clear();
         });
     }
+
+	@Override
+	 /**
+     * It recibe the notify with the solution of the CardSelector, wich includes
+     * the cards selected, the player who choose the cards and the deck after changes
+     */
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		CSolution solution = (CSolution)arg1;
+		ArrayList<Card> cards = solution.getCards();
+		int numPlayer = solution.getNumPlayer();
+		hlPlayerController.get(numPlayer).setCd1(cards.get(0));
+		hlPlayerController.get(numPlayer).setCd2(cards.get(1));
+		this.deck = solution.getDeck();
+		hlPlayerController.get(numPlayer).setDeck(this.deck);	
+	}
 }
