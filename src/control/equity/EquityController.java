@@ -105,6 +105,41 @@ public class EquityController implements Observer {
     public void onClickNextPhase(ActionEvent actionEvent) {
         phaseCounter = ++phaseCounter%PHASES.length;
         _lTitle.setText(PHASES[phaseCounter]);
+	/*
+        HashSet<Player> players = new HashSet<>(6) ;
+        HashSet<Card> boardCards = new HashSet<>(); 
+        Deck deck = new Deck(); 
+        try {
+			players.add(new Player(0, new Card(12, Suit.Diamonds), new Card(12, Suit.Clubs)));
+			players.add(new Player(1, new Card(10, Suit.Hearts), new Card(10, Suit.Diamonds)));
+			players.add(new Player(2, new Card(12, Suit.Spades), new Card(11, Suit.Spades)));
+			players.add(new Player(3, new Card(11, Suit.Clubs), new Card(10, Suit.Spades)));
+			players.add(new Player(4, new Card(4, Suit.Diamonds), new Card(5, Suit.Clubs)));
+			players.add(new Player(5, new Card(6, Suit.Diamonds), new Card(6, Suit.Hearts)));
+			
+			for(Player p : players){
+				for(int i = 0; i < p.getNCards(); i++)
+					deck.takeOutCard(p.getCard(i));
+			}
+			Card c1 = new Card(10, Suit.Clubs),
+					c2 = new Card(4, Suit.Spades),
+					c3 = new Card(8, Suit.Clubs),
+					c4 = new Card(3, Suit.Hearts);
+			boardCards.add(c1);
+			boardCards.add(c2);
+			boardCards.add(c3);
+			boardCards.add(c4);
+			deck.takeOutCard(c4);
+			deck.takeOutCard(c1);
+			deck.takeOutCard(c2);
+			deck.takeOutCard(c3);
+			
+        } catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        equityProcessor.calculateEquity(players, boardCards, deck);
+        */
         if(phaseCounter == 0)
             clear();
         else if(phaseCounter == 1)
