@@ -21,7 +21,7 @@ public class EquityProcessor{
 		this.threads = new ArrayList<>();
 	}
 	
-	public void calculateEquity(HashSet<Player> players, HashSet<Card> boardCards, Deck deck){
+	public void calculateEquity(ArrayList<Player> players, HashSet<Card> boardCards, Deck deck){
 		this.sharedData = new Shared(players.size());
 		this.timer = new Timer();
 		for(int i = 0; i < nThreads; i++){
