@@ -84,4 +84,8 @@ public class Deck {
 		
 		return d;
 	}
+	//------
+	public boolean takeOutCard(Card c){
+		return this.cards.remove(c);
+	}
 }
