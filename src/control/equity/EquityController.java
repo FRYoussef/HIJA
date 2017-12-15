@@ -48,6 +48,7 @@ public class EquityController implements Observer {
     public EquityController() {
         numPlayers = 6;
         hlPlayerController = new ArrayList<PlayerController>(numPlayers);
+	equityProcessor = new EquityProcessor();
         addPlayers();
       
         PlayerObserver.init();
