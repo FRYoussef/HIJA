@@ -106,7 +106,7 @@ public class EquityController implements Observer {
         phaseCounter = ++phaseCounter%PHASES.length;
         _lTitle.setText(PHASES[phaseCounter]);
 	/*
-        HashSet<Player> players = new HashSet<>(6) ;
+        ArrayList<Player> players = new ArrayList<>(6) ;
         HashSet<Card> boardCards = new HashSet<>(); 
         Deck deck = new Deck(); 
         try {
