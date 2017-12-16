@@ -95,7 +95,12 @@ public class CardSelectorController {
 			 hsCardsSet.remove(id);
 			 pane.getStyleClass().clear();
 			 cardsSelected--;
-		 }
+             try {
+                 deck.replaceCard(new Card(Card.charToValue(id.charAt(0)), Suit.getFromChar(id.charAt(1))));
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
+         }
 		 else if(cardsSelected < numCards){
 			 hsCardsSet.add(id);
 			 pane.getStyleClass().add(SELECTED_CARD);
