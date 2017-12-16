@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 
+import control.ObserverPatron.HandlerObserver;
 import model.processor.HandProcessor;
 import model.representation.Card;
 import model.representation.Player;
@@ -17,15 +18,23 @@ public class HEWorker implements Runnable{
 	
 	protected Shared shared;
 	protected HashMap<Integer, Player> players;
-	protected HashSet<Card> boardCards;
+	protected ArrayList<Card> boardCards;
 	protected Deck deck;
 	private long id;
+	private int nExecutes = -1;
 	
 	/**
      * Constructs a new worker.
      * @param deck : The deck of cards to draw from. Each worker must have their own unique deck (use Deck.clone()). 
      */
-	public HEWorker(Shared shared, HashMap<Integer, Player> players, HashSet<Card> boardCards, Deck deck) {
+	public HEWorker(Shared shared, HashMap<Integer, Player> players, ArrayList<Card> boardCards, Deck deck, int nExecutes) {
+		this.shared = shared;
+		this.players = players;
+		this.boardCards = boardCards;
+		this.deck = (Deck) deck.clone();
+		this.nExecutes = nExecutes;
+	}
+	public HEWorker(Shared shared, HashMap<Integer, Player> players, ArrayList<Card> boardCards, Deck deck) {
 		this.shared = shared;
 		this.players = players;
 		this.boardCards = boardCards;
@@ -36,7 +45,10 @@ public class HEWorker implements Runnable{
 	public void run() {
 		this.id = Thread.currentThread().getId();
 		try {
-			execute();
+			if(nExecutes == -1)
+				execute();
+			else
+				executeNSims(nExecutes);
 		}
 		catch (Exception e) {
 			System.err.println("Thread " + id + " has encountered an unexpected error.");
@@ -49,6 +61,15 @@ public class HEWorker implements Runnable{
 		while (shared.run()) {
 			simulate();
 		}		
+	}
+
+	public void executeNSims(int n) throws Exception {
+		for (int i = 0; i < n; i++)
+			simulate();
+		if(HandlerObserver.getoSolution() != null){
+			HandlerObserver.getoSolution().notifyEquity(this.shared.getPlayersStats());
+			HandlerObserver.getoSolution().notifySimulations(this.shared.getSims());
+		}
 	}
 
 	/**
@@ -98,9 +119,5 @@ public class HEWorker implements Runnable{
 		
 		shared.increaseSim();
 		deck.insertCards(drawnCards);
-		
 	}
-	
-	
-
 }

@@ -101,23 +101,17 @@ public class CardSelectorController {
 
 	public void onClickAccept(MouseEvent mouseEvent) {
 		Platform.runLater(() -> {
-	      	if(cardsSelected != 2)
+	      	if(cardsSelected != numCards)
 	      		return;
-			char idSplit[];
-			int i = 0;
-			Iterator<String> iterator = hsCardsSet.iterator();
-        	while(iterator.hasNext()){
-        	      String aux = iterator.next();
-        	      idSplit = aux.toCharArray();
-        	      aux.getChars(0, this.numCards, idSplit, 0);
+
+        	for(String aux : hsCardsSet){
         	      try {
-        	      	Card c = new Card((Card.charToValue(idSplit[0])),Suit.getFromChar(idSplit[1]));
+        	      	Card c = new Card((Card.charToValue(aux.charAt(0))),Suit.getFromChar(aux.charAt(1)));
 					selectedCards.add(c);
 					deck.removeCard(c);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-        	      i++;
         	}
 			HandlerObserver.getoSolution().notifyPlayerCards(new OPlayerCards(selectedCards, this.numPlayer));
 	        Stage stage = (Stage)_acceptButton.getScene().getWindow();
@@ -175,14 +169,15 @@ public class CardSelectorController {
 		}
 	}
 
-	public void update(int numPlayer, ArrayList<Card> cards){
+	public void update(int numPlayer, int numCards, ArrayList<Card> cards){
 		Platform.runLater(() -> {
 			this.numPlayer = numPlayer;
 			this.cards = cards;
+			this.numCards = numCards;
 			try {
 				clear();
 				outCards();
-				selectPlayerCards(cards);
+				selectPlayerCards(this.cards);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

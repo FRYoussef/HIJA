@@ -10,11 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Ellipse;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -70,7 +70,7 @@ public class EquityController implements Observer {
     private int phase = 0;
     private EquityProcessor equityProcessor;
     private Stage stageCardsSelec = null;
-    private CardSelectorController cs = null;
+    private CardSelectorController selectorController = null;
     private int stopLimit = DEFAULT_STOP_LIMIT;
 
 
@@ -87,10 +87,10 @@ public class EquityController implements Observer {
 
     private void createStageSelector(){
         try {
-            cs = new CardSelectorController(equityProcessor.getDeck(), null,
+            selectorController = new CardSelectorController(equityProcessor.getDeck(), null,
                     HE_NUM_CARDS, -1);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../view/cardSelector.fxml"));
-            fxmlLoader.setController(cs);
+            fxmlLoader.setController(selectorController);
             stageCardsSelec = new Stage();
             stageCardsSelec.setScene(new Scene(fxmlLoader.load()));
             stageCardsSelec.setTitle("Card Selector");
@@ -128,7 +128,7 @@ public class EquityController implements Observer {
             root.setLayoutX(x);
             root.setLayoutY(y);
             _pBoard.getChildren().add(root);
-            ((PlayerController) fxmlLoader.getController()).init(player, null, null, stageCardsSelec, equityProcessor.getDeck(), cs);
+            ((PlayerController) fxmlLoader.getController()).init(player, null, null, stageCardsSelec, equityProcessor.getDeck(), selectorController);
             alPlayerController.add(fxmlLoader.getController());
             equityProcessor.addPlayer(new Player(player));
         } catch (Exception e) {
@@ -164,11 +164,9 @@ public class EquityController implements Observer {
         int finalRemainCards = remainCards;
 
         try{
-            for (int i = equityProcessor.numCardsBoard(); i < finalRemainCards; i++) {
-                Card c = equityProcessor.getRandomBoardCard();
-                ((ImageView)_hbBoardCards.getChildren().get(i)).setImage(new Image("resources/cards/" + c + ".png"));
-                _hbBoardCards.getChildren().get(i).setDisable(true);
-            }
+            for (int i = equityProcessor.numCardsBoard(); i < finalRemainCards; i++)
+                equityProcessor.getRandomBoardCard();
+            addBoardCards(equityProcessor.getBoardCards());
         }catch (Exception e){
             e.printStackTrace();
             writeTA(e.getMessage());
@@ -194,8 +192,20 @@ public class EquityController implements Observer {
 
     public void onClickCalculate(ActionEvent actionEvent) {
         Platform.runLater(() -> {
+            if(remainPlayers == 0)
+                return;
             if (!evaluatePhase())
                 return;
+            if(remainPlayers == 1){
+                //only 1 execution
+                for(Integer i : equityProcessor.getHmPlayer().keySet())
+                    alPlayerController.get(i).writeEquity(1d);
+                return;
+            }
+            if(phase == PHASE_RIVER){
+                equityProcessor.calculateFinalEquity(numPlayers);
+                return;
+            }
 
             try{
                 if(!_tfStopLimit.getText().equals(""))
@@ -205,13 +215,15 @@ public class EquityController implements Observer {
                 writeTA("Please, write a correct number");
             }
             disbledForSim(true);
-            equityProcessor.calculateEquity();
+            equityProcessor.calculateEquity(numPlayers);
         });
     }
 
     private void disbledForSim(boolean b){
         _btCalculate.setDisable(b);
         _btPhase.setDisable(b);
+        _btStop.setDisable(!b);
+        _hbBoardCards.setDisable(b);
         for(PlayerController p : alPlayerController)
             p.disableForSim(b);
     }
@@ -236,11 +248,29 @@ public class EquityController implements Observer {
                 ((ImageView)n).setImage(null);
             }
             equityProcessor.removeAllPlayers();
+            for(PlayerController c : alPlayerController) {
+                try {
+                    equityProcessor.addPlayer(new Player(c.getNumPlayer()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    writeTA(e.getMessage());
+                }
+            }
+            equityProcessor.clearBoard();
         });
     }
 
     private void writeTA(String text){
         Platform.runLater(() -> _taLog.appendText(text + "\n"));
+    }
+
+    private void addBoardCards(ArrayList<Card> cards){
+        Platform.runLater(() -> {
+            if(cards == null)
+                return;
+            for (int i = 0; i < cards.size(); i++)
+                ((ImageView)_hbBoardCards.getChildren().get(i)).setImage(new Image("resources/cards/" + cards.get(i) + ".png"));
+        });
     }
 
 	@Override
@@ -272,10 +302,18 @@ public class EquityController implements Observer {
 
 		else if (sol.getState() == OSolution.NOTIFY_PLAYER_CARDS)
 		{
-			OPlayerCards pc = (OPlayerCards)arg1;
-			alPlayerController.get(pc.getNumPlayer()).setCards(pc.getCards().get(0), pc.getCards().get(1));
             try {
-                equityProcessor.addPlayerCards(pc.getNumPlayer(), pc.getCards().toArray(new Card[pc.getCards().size()]));
+                OPlayerCards pc = (OPlayerCards)arg1;
+                if(pc.getNumPlayer() != -1)
+                {
+                    alPlayerController.get(pc.getNumPlayer()).setCards(pc.getCards().get(0), pc.getCards().get(1));
+                    equityProcessor.addPlayerCards(pc.getNumPlayer(), pc.getCards().toArray(new Card[pc.getCards().size()]));
+                }
+                else
+                {
+                    equityProcessor.addBoardCards(pc.getCards());
+                    addBoardCards(equityProcessor.getBoardCards());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 writeTA(e.getMessage());
@@ -297,5 +335,21 @@ public class EquityController implements Observer {
     public void onClickStop(ActionEvent actionEvent) {
         equityProcessor.stopThreads();
         Platform.runLater(() -> disbledForSim(false));
+    }
+
+    public void onClickBoardCards(MouseEvent mouseEvent) {
+        Platform.runLater(() -> {
+            int remainC = 0;
+
+            if(phase == PHASE_PREFLOP)    return;
+            else if(phase == PHASE_FLOP)  remainC = 3;
+            else if(phase == PHASE_TURN)  remainC = 4;
+            else if(phase == PHASE_RIVER) remainC = 5;
+
+            if(remainC > 0 && !stageCardsSelec.isShowing()){
+                selectorController.update(-1, remainC, equityProcessor.getBoardCards());
+                stageCardsSelec.show();
+            }
+        });
     }
 }

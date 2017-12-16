@@ -17,14 +17,18 @@ public class EquityProcessor{
 
 	private Timer timer;
 	private Deck deck;
-	private HashSet<Card> boardCards;
+	private ArrayList<Card> boardCards;
 	private HashMap<Integer, Player> hmPlayer;
 	
 	public EquityProcessor(int dim){
 		this.threads = new ArrayList<>(N_THREADS);
 		deck = new Deck();
-		boardCards = new HashSet<>(MAX_BOARD_CARDS);
+		boardCards = new ArrayList<>(MAX_BOARD_CARDS);
 		hmPlayer = new HashMap<>(dim);
+	}
+
+	public HashMap<Integer, Player> getHmPlayer() {
+		return hmPlayer;
 	}
 
 	/**
@@ -45,7 +49,7 @@ public class EquityProcessor{
 	 */
 	public void removePlayer(int player) throws Exception {
 		if(!hmPlayer.containsKey(player))
-			throw new Exception("This player" + player + "does not exist, you cant remove it");
+			throw new Exception("This player " + player + " does not exist, you cant remove it");
 
 		hmPlayer.remove(player);
 	}
@@ -89,6 +93,25 @@ public class EquityProcessor{
 	}
 
 	/**
+	 * It adds cards form the controller
+	 * @param cards
+	 * @throws Exception
+	 */
+	public void addBoardCards(ArrayList<Card> cards) throws Exception {
+		if(cards == null)
+			throw new Exception("The cards to be added in the board must be not null");
+		if(cards.size() > MAX_BOARD_CARDS)
+			throw new Exception("The max board size is " + MAX_BOARD_CARDS);
+		boardCards = (ArrayList<Card>) cards.clone();
+	}
+
+	public void clearBoard(){
+		for(Card c : boardCards)
+			deck.replaceCard(c);
+		boardCards.clear();
+	}
+
+	/**
 	 * It returns if the players got cards
 	 * @param num
 	 * @return
@@ -116,20 +139,33 @@ public class EquityProcessor{
 		return c;
 	}
 
+	public ArrayList<Card> getBoardCards() {
+		return boardCards;
+	}
+
 	public Deck getDeck() {
 		return deck;
 	}
 
-	public void calculateEquity(){
-		this.sharedData = new Shared(hmPlayer.size());
+	public void calculateEquity(int initialPlayers){
+		this.sharedData = new Shared(initialPlayers);
 		this.timer = new Timer();
 		for(int i = 0; i < N_THREADS; i++){
 			Thread t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck));
 			this.threads.add(t);
+			t.setDaemon(true);
 			t.start();
 		}
 		this.timer.scheduleAtFixedRate(new UpdateEquities(this.sharedData), 0, 300);
 		this.timer.scheduleAtFixedRate(new UpdateSims(this.sharedData), 0, 300);
+	}
+
+	public void calculateFinalEquity(int initialPlayers){
+		this.sharedData = new Shared(initialPlayers);
+		this.timer = new Timer();
+		Thread t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck, 1));
+		t.setDaemon(true);
+		t.start();
 	}
 	
 	public void stopThreads(){

@@ -61,6 +61,10 @@ public class PlayerController{
             _ivCard2.setImage(new Image("resources/cards/" + cd2.toString() + ".png"));
     }
 
+    public int getNumPlayer() {
+        return numPlayer;
+    }
+
     public Card getCd1() {
         return cd1;
     }
@@ -91,7 +95,7 @@ public class PlayerController{
                         cards.add(cd1);
                         cards.add(cd2);
                     }
-                    cs.update(numPlayer, cards);
+                    cs.update(numPlayer, 2, cards);
                     stageCardsSelec.show();
                 }
              }
