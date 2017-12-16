@@ -19,7 +19,7 @@
 
 .playerPane{
     -fx-border-color: #424242;
-    -fx-background-color: #FAFAFA;
+    -fx-background-color: #EEEEEE;
     -fx-effect: dropshadow(gaussian, #424242, 5, 0.3, 2, 4);
     -fx-background-radius: 3;
     -fx-border-radius: 3;
@@ -27,7 +27,11 @@
 
 .boardCardsHB{
     -fx-border-color: #424242;
-    -fx-background-color: #C8E6C9;
+    -fx-background-color: #EEEEEE;
+}
+
+.backCards{
+    -fx-background-color: #EEEEEE;
 }
 
 .buttonS{

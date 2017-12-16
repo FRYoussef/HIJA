@@ -14,7 +14,7 @@
    <children>
       <AnchorPane fx:id="_pBoard" layoutX="14.0" layoutY="14.0" styleClass="basicPane" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
-            <Ellipse fx:id="_eBoard" centerX="40.0" fill="#23c311" layoutX="620.0" layoutY="225.0" radiusX="580.0" radiusY="215.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+            <Ellipse fx:id="_eBoard" centerX="40.0" fill="#fafafa" layoutX="620.0" layoutY="225.0" radiusX="580.0" radiusY="215.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
             <Label fx:id="_lbNumSimu" layoutX="15.0" layoutY="400.0" maxWidth="300.0" text="Num. Simulations: 0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
