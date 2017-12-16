@@ -34,6 +34,10 @@
     -fx-background-color: #EEEEEE;
 }
 
+.OutCards{
+    -fx-opacity: 0.3;
+}
+
 .buttonS{
     -fx-background-radius: 5em;
     -fx-min-width: 3.6em;

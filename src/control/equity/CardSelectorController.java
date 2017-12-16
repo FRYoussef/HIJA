@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.representation.Suit;
 import model.representation.game.Deck;
@@ -22,6 +23,9 @@ import model.representation.Card;
 public class CardSelectorController {
 	
 	private static final String SELECTED_CARD = "selected";
+	private static final String OUT_CARD = "OutCards";
+	private static final int CARD_HEIGHT = 110;
+	private static final int CARD_WIDTH = 67;
 
 	@FXML
     private GridPane _cardGrid;
@@ -59,8 +63,8 @@ public class CardSelectorController {
 						 AnchorPane pane = new AnchorPane();
 						 ImageView img = new ImageView("resources/cards/" + allCards.get(i*13+j).toString() + ".png");
 						 pane.setId(allCards.get(i*13+j).toString());
-						 img.setFitHeight(110);
-						 img.setFitWidth(67);
+						 img.setFitHeight(CARD_HEIGHT);
+						 img.setFitWidth(CARD_WIDTH);
 						 pane.getChildren().add(img);
 						 AnchorPane.setTopAnchor(img, 5.0d);
 						 AnchorPane.setRightAnchor(img, 5.0d);
@@ -148,7 +152,7 @@ public class CardSelectorController {
 				_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue()).getStyleClass().clear();
 				_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue()).getStyleClass().add(SELECTED_CARD);
 				_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue()).setDisable(false);
-				_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue()).setEffect(null);
+				((AnchorPane)_cardGrid.getChildren().get(c.getSuit().ordinal()*Card.NUM_CARDS+c.getValue())).getChildren().get(0).getStyleClass().clear();
 				hsCardsSet.add(allCards.get(c.getSuit().ordinal() * Card.NUM_CARDS + c.getValue()) + "");
 				cardsSelected++;
 			}
@@ -160,10 +164,12 @@ public class CardSelectorController {
 			for (int j = 0; j < Card.NUM_CARDS; j++) {
 				if(!deck.contains(new Card(j, Suit.getFromInt(i)))){
 					_cardGrid.getChildren().get(i*Card.NUM_CARDS+j).setDisable(true);
+					((AnchorPane)_cardGrid.getChildren().get(i*Card.NUM_CARDS+j)).getChildren().get(0).getStyleClass().add(OUT_CARD);
 				}
 				else {
 					_cardGrid.getChildren().get(i * Card.NUM_CARDS + j).setDisable(false);
 					_cardGrid.getChildren().get(i*Card.NUM_CARDS+j).getStyleClass().clear();
+					((AnchorPane)_cardGrid.getChildren().get(i*Card.NUM_CARDS+j)).getChildren().get(0).getStyleClass().clear();
 				}
 			}
 		}
