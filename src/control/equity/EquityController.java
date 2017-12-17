@@ -265,6 +265,8 @@ public class EquityController implements Observer {
         _btPhase.setDisable(b);
         _btStop.setDisable(!b);
         _hbBoardCards.setDisable(b);
+        _mbtGameMode.setDisable(b);
+        _mbtNumPlayers.setDisable(b);
         for(PlayerController p : alPlayerController)
             p.disableForSim(b);
     }
