@@ -2,6 +2,8 @@ package control.equity;
 
 import control.ObserverPatron.OPlayerCards;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +30,7 @@ import control.ObserverPatron.HandlerObserver;
 
 public class EquityController implements Observer {
 
+	private static final String[] GAME_MODES_TEXT = {"Texas hold'em" , "Omaha"}; 
     private static final String NUM_PLAYERS_TEXT = "Num Players: ";
     private static final String NUM_SIMULATIONS_TEXT = "Num. Simulations: ";
     private static final String[] PHASES = {"The PreFlop", "The Flop", "The Turn", "The River"};
@@ -63,7 +66,9 @@ public class EquityController implements Observer {
     private Button _btStop;
     @FXML
     private Button _btPhase;
-
+    @FXML
+    private ComboBox<String> _cbGameMode;
+    
     private ArrayList<PlayerController> alPlayerController = null;
     private int numPlayers;
     private int remainPlayers;
@@ -79,12 +84,42 @@ public class EquityController implements Observer {
         remainPlayers = numPlayers;
         alPlayerController = new ArrayList<PlayerController>(numPlayers);
 	    equityProcessor = new EquityProcessor(MAX_PLAYERS_HE);
-        addPlayers();
+        initializeCBGameMode();
+	    addPlayers();
 	    createStageSelector();
         HandlerObserver.init();
         HandlerObserver.addObserver(this);
     }
 
+    private void initializeCBGameMode(){
+    	Platform.runLater(() ->{
+    		_cbGameMode.getItems().removeAll(_cbGameMode.getItems());
+        	_cbGameMode.getItems().addAll(GAME_MODES_TEXT);
+        	_cbGameMode.getSelectionModel().select(0);
+        	_cbGameMode.valueProperty().addListener(new ChangeListener<String>() {
+
+				@Override
+				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+					if(!oldValue.equals(newValue)){
+				        _pBoard.getChildren().remove(_pBoard.getChildren().size()- alPlayerController.size(), _pBoard.getChildren().size());
+				        alPlayerController.clear();
+				        equityProcessor.removeAllPlayers();
+				        if(newValue.equals(GAME_MODES_TEXT[0]))
+				        	selectorController.setNumCards(HE_NUM_CARDS);
+				        else if(newValue.equals(GAME_MODES_TEXT[1])){
+				        	if(numPlayers > 6){
+				        		numPlayers = 6; 
+				        		_mbtNumPlayers.setText(NUM_PLAYERS_TEXT + MAX_PLAYERS_OMAHA);
+				        	}
+				        	selectorController.setNumCards(OMAHA_NUM_CARDS);
+				        }
+				        addPlayers();
+					}
+				}  
+            });
+    	});
+    	
+    }
     private void createStageSelector(){
         try {
             selectorController = new CardSelectorController(equityProcessor.getDeck(), null,
@@ -122,13 +157,17 @@ public class EquityController implements Observer {
     private void addPlayer(double angleT, int player) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            AnchorPane root = fxmlLoader.load(getClass().getResource("../../view/playerPane.fxml").openStream());
+            AnchorPane root = null;
+            if(_cbGameMode.getValue().equals(GAME_MODES_TEXT[0]))
+            	root = fxmlLoader.load(getClass().getResource("../../view/TexasPlayerPane.fxml").openStream());
+            else if(_cbGameMode.getValue().equals(GAME_MODES_TEXT[1]))
+            	root = fxmlLoader.load(getClass().getResource("../../view/OmahaPlayerPane.fxml").openStream());
             double x = _eBoard.getRadiusX()*Math.sin(angleT) + _pBoard.getWidth()/2 - root.getPrefWidth()/1.8*(Math.sin(angleT)) - 30;
         	double y = _eBoard.getRadiusY()*Math.cos(angleT) + _pBoard.getHeight()/2 - root.getPrefHeight()/2*(1 + Math.pow(Math.cos(angleT), 3)/1.2) - 10;
             root.setLayoutX(x);
             root.setLayoutY(y);
             _pBoard.getChildren().add(root);
-            ((PlayerController) fxmlLoader.getController()).init(player, null, null, stageCardsSelec, equityProcessor.getDeck(), selectorController);
+            ((PlayerController) fxmlLoader.getController()).init(player, null, stageCardsSelec, equityProcessor.getDeck(), selectorController);
             alPlayerController.add(fxmlLoader.getController());
             equityProcessor.addPlayer(new Player(player));
         } catch (Exception e) {
@@ -137,6 +176,8 @@ public class EquityController implements Observer {
     }
 
     public void onClickNumPlayers(ActionEvent actionEvent) {
+    	int numPlayersSelected = Integer.parseInt(((MenuItem)actionEvent.getSource()).getText());
+    	if(evaluateNumPlayers(numPlayersSelected)){
         numPlayers = Integer.parseInt(((MenuItem)actionEvent.getSource()).getText());
         remainPlayers = numPlayers;
         _mbtNumPlayers.setText(NUM_PLAYERS_TEXT + numPlayers);
@@ -144,8 +185,18 @@ public class EquityController implements Observer {
         alPlayerController.clear();
         equityProcessor.removeAllPlayers();
         addPlayers();
+    	}
     }
 
+    private boolean evaluateNumPlayers(int numPlayersSelected){
+    	if(_cbGameMode.getValue().equals(GAME_MODES_TEXT[1]) && numPlayersSelected > 6){
+    		_mbtNumPlayers.setText(NUM_PLAYERS_TEXT + numPlayers);
+    		writeTA("Maximum number of players in " + _cbGameMode.getValue() + " is 6 players.");
+    		return false;
+    	}
+    	else
+    		return true; 
+    }
     private boolean evaluatePhase(){
         int remainCards = 0;
         if(phase == PHASE_PREFLOP && !equityProcessor.isPlayersGetCards(remainPlayers)){
@@ -238,6 +289,7 @@ public class EquityController implements Observer {
    	        disbledForSim(false);
             _mbtNumPlayers.setDisable(false);
             _lbNumSimu.setText(NUM_SIMULATIONS_TEXT + 0);
+            _taLog.clear();
             phase = 0;
             remainPlayers = numPlayers;
             _lTitle.setText(PHASES[phase]);
@@ -275,7 +327,7 @@ public class EquityController implements Observer {
 
 	@Override
 	 /**
-     * It recibe the notify with the solution of the CardSelector, wich includes
+     * It receives the notify with the solution of the CardSelector, which includes
      * the cards selected, the player who choose the cards and the deck after changes
      */
 	public void update(Observable arg0, Object arg1) {
@@ -306,7 +358,7 @@ public class EquityController implements Observer {
                 OPlayerCards pc = (OPlayerCards)arg1;
                 if(pc.getNumPlayer() != -1)
                 {
-                    alPlayerController.get(pc.getNumPlayer()).setCards(pc.getCards().get(0), pc.getCards().get(1));
+                    alPlayerController.get(pc.getNumPlayer()).setCards(pc.getCards());
                     equityProcessor.addPlayerCards(pc.getNumPlayer(), pc.getCards().toArray(new Card[pc.getCards().size()]));
                 }
                 else
