@@ -23,7 +23,7 @@ import model.representation.Card;
 public class CardSelectorController {
 	
 	private static final String SELECTED_CARD = "selected";
-	private static final String OUT_CARD = "OutCards";
+	public static final String OUT_CARD = "OutCards";
 	private static final int CARD_HEIGHT = 110;
 	private static final int CARD_WIDTH = 67;
 

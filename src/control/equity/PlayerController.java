@@ -7,6 +7,7 @@ import control.ObserverPatron.HandlerObserver;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -96,8 +97,10 @@ public abstract class PlayerController {
             _playerAnchor.setDisable(false);
             if(_btFold.isDisabled())
                 _btFold.setDisable(false);
-            for (ImageView i : picCards) 
-				i.setImage(null);
+            for (Node n : _gpCardSet.getChildren()) {
+                ((ImageView)n).setImage(null);
+                n.getStyleClass().clear();
+            }
         });
     }
     
@@ -123,6 +126,8 @@ public abstract class PlayerController {
         //notify the end of this player
         _playerAnchor.setDisable(true);
         _lbEquity.setText(OUT_TEXT);
+        for(Node n : _gpCardSet.getChildren())
+            n.getStyleClass().add(CardSelectorController.OUT_CARD);
         HandlerObserver.getoSolution().notifyFold(numPlayer);
     }
     

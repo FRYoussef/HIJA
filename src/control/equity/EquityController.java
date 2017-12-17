@@ -245,15 +245,18 @@ public class EquityController implements Observer {
                 //only 1 execution
                 for(Integer i : equityProcessor.getHmPlayer().keySet())
                     alPlayerController.get(i).writeEquity(1d);
+                _lbNumSimu.setText(NUM_SIMULATIONS_TEXT + 0);
                 return;
             }
             if(phase == PHASE_RIVER){
-                equityProcessor.calculateFinalEquity(numPlayers);
+                equityProcessor.calculateFinalEquity(numPlayers,
+                        _mbtGameMode.getText().equals(GAME_MODES_TEXT[0])?EquityProcessor.GAME_NLHE:EquityProcessor.GAME_OMAHA);
                 return;
             }
 
             disbledForSim(true);
-            equityProcessor.calculateEquity(numPlayers);
+            equityProcessor.calculateEquity(numPlayers,
+                    _mbtGameMode.getText().equals(GAME_MODES_TEXT[0])?EquityProcessor.GAME_NLHE:EquityProcessor.GAME_OMAHA);
         });
     }
 

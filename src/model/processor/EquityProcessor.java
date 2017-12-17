@@ -5,14 +5,17 @@ import java.util.*;
 import control.ObserverPatron.HandlerObserver;
 import control.ObserverPatron.OPlayerCards;
 import model.processor.concurrency.HEWorker;
+import model.processor.concurrency.OmahaWorker;
 import model.processor.concurrency.Shared;
 import model.representation.Card;
 import model.representation.Player;
 import model.representation.game.Deck;
 
 public class EquityProcessor{
-	private static int N_THREADS = 4;
+	private final int N_THREADS;
 	private static final int MAX_BOARD_CARDS = 5;
+	public static final int GAME_NLHE = 0;
+	public static final int GAME_OMAHA = 1;
 
 	private ArrayList<Thread> threads; 
 	private Shared sharedData; 
@@ -165,11 +168,15 @@ public class EquityProcessor{
 		return deck;
 	}
 
-	public void calculateEquity(int initialPlayers){
+	public void calculateEquity(int initialPlayers, int game){
 		this.sharedData = new Shared(initialPlayers);
 		this.timer = new Timer();
 		for(int i = 0; i < N_THREADS; i++){
-			Thread t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck));
+			Thread t = null;
+			if(game == GAME_NLHE)
+				t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck));
+			else if(game == GAME_OMAHA)
+				t = new Thread(new OmahaWorker(this.sharedData, hmPlayer, boardCards, deck));
 			this.threads.add(t);
 			t.setDaemon(true);
 			t.start();
@@ -178,10 +185,14 @@ public class EquityProcessor{
 		this.timer.scheduleAtFixedRate(new UpdateSims(this.sharedData), 0, 300);
 	}
 
-	public void calculateFinalEquity(int initialPlayers){
+	public void calculateFinalEquity(int initialPlayers, int game){
 		this.sharedData = new Shared(initialPlayers);
 		this.timer = new Timer();
-		Thread t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck, 1));
+		Thread t = null;
+		if(game == GAME_NLHE)
+			t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck));
+		else if(game == GAME_OMAHA)
+			t = new Thread(new OmahaWorker(this.sharedData, hmPlayer, boardCards, deck));
 		t.setDaemon(true);
 		t.start();
 	}
