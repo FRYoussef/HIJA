@@ -64,7 +64,7 @@ public class HEWorker implements Runnable{
 	}
 
 	public void executeNSims(int n) throws Exception {
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < n && shared.run(); i++)
 			simulate();
 		if(HandlerObserver.getoSolution() != null){
 			HandlerObserver.getoSolution().notifyEquity(this.shared.getPlayersStats());
@@ -94,8 +94,7 @@ public class HEWorker implements Runnable{
 		}
 		
 		ArrayList<HandScore> results = new ArrayList<HandScore>();
-		for (Integer i : players.keySet()) {
-			Player p = players.get(i);
+		for (Player p : players.values()){
 			HandScore bp = hp.getBestPlay(p.getCard(0), p.getCard(1));
 			bp.setPlayer(p);
 			results.add(bp);
@@ -108,10 +107,6 @@ public class HEWorker implements Runnable{
 		do {
 			best = results.remove(results.size()-1);
 			tiedPlayers.add(best.getPlayer());
-			//No hace falta 
-			if (best == null)
-				break;
-			//shared.increasePlayer(best.getPlayer());
 		}while(results.size() > 0 && best.compareTo(results.get(results.size()-1)) == 0);
 		
 		for(Integer i : tiedPlayers)
