@@ -104,7 +104,7 @@ public class EquityController implements Observer {
                 remainPlayers = numPlayers;
                 Platform.runLater(() -> changeNumPlayersMenu(MAX_PLAYERS_OMAHA));
             }
-
+            clear();
             addPlayers();
         }
     }
