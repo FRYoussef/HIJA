@@ -158,7 +158,7 @@ public class EquityController implements Observer {
             _pBoard.getChildren().add(root);
             ((PlayerController) fxmlLoader.getController()).init(player, null, stageCardsSelec, equityProcessor.getDeck(), selectorController);
             alPlayerController.add(fxmlLoader.getController());
-            equityProcessor.addPlayer(new Player(player));
+            equityProcessor.addPlayer(new Player(player, _mbtGameMode.getText().equals(GAME_MODES_TEXT[0])?HE_NUM_CARDS:OMAHA_NUM_CARDS));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,13 +186,12 @@ public class EquityController implements Observer {
         }
     }
 
-    private boolean evaluatePhase(){
+    private void evaluatePhase(){
         int remainCards = 0;
-        if(phase == PHASE_PREFLOP && !equityProcessor.isPlayersGetCards(remainPlayers)){
-            writeTA("You should to introduce the cards of the players");
-            return false;
-        }
-        else if(phase == PHASE_FLOP)
+        if(!equityProcessor.isPlayersGetCards(remainPlayers))
+            equityProcessor.placeRemainingPlayerCards();
+
+        if(phase == PHASE_FLOP)
             remainCards = 3;
 
         else if(phase == PHASE_TURN)
@@ -211,15 +210,11 @@ public class EquityController implements Observer {
             e.printStackTrace();
             writeTA(e.getMessage());
         }
-
-        return true;
     }
 
     public void onClickNextPhase(ActionEvent actionEvent) {
         Platform.runLater(() -> {
-            if(!evaluatePhase())
-                return;
-
+            evaluatePhase();
             phase = ++phase %PHASES.length;
             _lTitle.setText(PHASES[phase]);
 
@@ -234,8 +229,9 @@ public class EquityController implements Observer {
         Platform.runLater(() -> {
             if(remainPlayers == 0)
                 return;
-            if (!evaluatePhase())
-                return;
+
+            evaluatePhase();
+
             if(remainPlayers == 1){
                 //only 1 execution
                 for(Integer i : equityProcessor.getHmPlayer().keySet())
@@ -291,7 +287,7 @@ public class EquityController implements Observer {
             equityProcessor.removeAllPlayers();
             for(PlayerController c : alPlayerController) {
                 try {
-                    equityProcessor.addPlayer(new Player(c.getNumPlayer()));
+                    equityProcessor.addPlayer(new Player(c.getNumPlayer(), _mbtGameMode.getText().equals(GAME_MODES_TEXT[0])?HE_NUM_CARDS:OMAHA_NUM_CARDS));
                 } catch (Exception e) {
                     e.printStackTrace();
                     writeTA(e.getMessage());
@@ -332,7 +328,7 @@ public class EquityController implements Observer {
 		else if(sol.getState() == OSolution.NOTIFY_SIM)
 		{
 			Platform.runLater(()->{
-			    if((Integer)arg1 >= stopLimit && stopLimit > 0){
+			    if((Integer)arg1 >= stopLimit && stopLimit != DEFAULT_STOP_LIMIT){
 			        equityProcessor.stopThreads();
 			        disbledForSim(false);
                 }

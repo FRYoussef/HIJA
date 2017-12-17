@@ -13,7 +13,5 @@
       <ImageView fx:id="_ivCard2" fitHeight="75.0" fitWidth="60.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#onClickCard" pickOnBounds="true" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
       <Label fx:id="_lbEquity" alignment="CENTER" layoutX="14.0" layoutY="105.0" text="Equity: 0%" wrapText="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
       <Button fx:id="_btFold" layoutX="73.0" layoutY="80.0" mnemonicParsing="false" onAction="#onClickFold" text="Fold" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-      <ImageView fx:id="_cardImg1" fitHeight="68.0" fitWidth="65.0" layoutX="-135.0" layoutY="-60.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="_cardImg2" fitHeight="68.0" fitWidth="65.0" layoutX="103.0" layoutY="-118.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

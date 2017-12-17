@@ -2,17 +2,20 @@ package model.representation;
 
 
 public class Player {
+	public final int NUM_CARDS;
 	private int ID;
 	private Card cards [] = null;
 	
 	
-	public Player(int ID, Card ...cards) {
+	public Player(int ID, int n, Card ...cards) {
 		this.ID = ID;
 		this.cards = cards;
+		NUM_CARDS = n;
 	}
 
-	public Player(int ID) {
+	public Player(int ID, int n) {
 		this.ID = ID;
+		NUM_CARDS = n;
 	}
 
 	public int getID() {

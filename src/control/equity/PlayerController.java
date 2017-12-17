@@ -103,7 +103,7 @@ public abstract class PlayerController {
     
     protected void writePlayer(int numPlayer){
     	Platform.runLater(() ->{
-        	_lbPlayer.setText("Player " + numPlayer);
+        	_lbPlayer.setText("Player" + (numPlayer+1));
         });
     }
     

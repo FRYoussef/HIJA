@@ -22,14 +22,14 @@ public class HandScore implements Comparable<HandScore> {
         this.handPlay = handPlay;
 	}
     public HandScore(Play handValue, List<Card> handPlay, Card[] playerCards) {
-    	this.player = new Player(-1, playerCards);
+    	this.player = new Player(-1, handPlay.size(), playerCards);
         this.handValue = handValue;
         this.handPlay = handPlay;
     }
 
     public HandScore(Card ... playerCards) {
         handPlay = new ArrayList<Card>(NUM_HAND_PLAY);
-        this.player = new Player(-1, playerCards);
+        this.player = new Player(-1, handPlay.size(), playerCards);
     }
 
     public HandScore() {

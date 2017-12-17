@@ -2,6 +2,8 @@ package model.processor;
 
 import java.util.*;
 
+import control.ObserverPatron.HandlerObserver;
+import control.ObserverPatron.OPlayerCards;
 import model.processor.concurrency.HEWorker;
 import model.processor.concurrency.Shared;
 import model.representation.Card;
@@ -9,7 +11,7 @@ import model.representation.Player;
 import model.representation.game.Deck;
 
 public class EquityProcessor{
-	private static int N_THREADS = 2;
+	private static int N_THREADS = 4;
 	private static final int MAX_BOARD_CARDS = 5;
 
 	private ArrayList<Thread> threads; 
@@ -113,7 +115,7 @@ public class EquityProcessor{
 	}
 
 	/**
-	 * It returns if the players got cards
+	 * It returns if all players got cards
 	 * @param num
 	 * @return
 	 */
@@ -124,6 +126,21 @@ public class EquityProcessor{
 				count++;
 		return count == num;
 	}
+
+    /**
+     * It add cards to players who dont have cards, and notify it
+     */
+	public void placeRemainingPlayerCards(){
+	    for(Integer i: hmPlayer.keySet()){
+	        if(hmPlayer.get(i).getCards() == null){
+	            Card cs[] = new Card[hmPlayer.get(i).NUM_CARDS];
+                for (int j = 0; j < cs.length; j++)
+                    cs[j] = deck.drawCard();
+                hmPlayer.get(i).setCards(cs);
+                HandlerObserver.getoSolution().notifyPlayerCards(new OPlayerCards(new ArrayList<>(Arrays.asList(cs)),i));
+            }
+        }
+    }
 
 	public int numCardsBoard(){
 		return boardCards.size();
