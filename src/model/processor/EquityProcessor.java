@@ -187,12 +187,11 @@ public class EquityProcessor{
 
 	public void calculateFinalEquity(int initialPlayers, int game){
 		this.sharedData = new Shared(initialPlayers);
-		this.timer = new Timer();
 		Thread t = null;
 		if(game == GAME_NLHE)
-			t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck));
+			t = new Thread(new HEWorker(this.sharedData, hmPlayer, boardCards, deck, 1));
 		else if(game == GAME_OMAHA)
-			t = new Thread(new OmahaWorker(this.sharedData, hmPlayer, boardCards, deck));
+			t = new Thread(new OmahaWorker(this.sharedData, hmPlayer, boardCards, deck, 1));
 		t.setDaemon(true);
 		t.start();
 	}

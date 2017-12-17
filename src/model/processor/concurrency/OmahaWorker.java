@@ -16,7 +16,10 @@ public class OmahaWorker extends HEWorker {
 	public OmahaWorker(Shared shared, HashMap<Integer, Player> players, ArrayList<Card> boardCards, Deck deck) {
 		super(shared, players, boardCards, deck);
 	}
-	
+
+	public OmahaWorker(Shared shared, HashMap<Integer, Player> players, ArrayList<Card> boardCards, Deck deck, int nExecutes) {
+		super(shared, players, boardCards, deck, nExecutes);
+	}
 	
 	@Override
 	protected void simulate() throws Exception {
