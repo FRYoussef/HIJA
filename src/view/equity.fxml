@@ -15,12 +15,12 @@
       <AnchorPane fx:id="_pBoard" layoutX="14.0" layoutY="14.0" styleClass="basicPane" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
             <Ellipse fx:id="_eBoard" centerX="40.0" fill="#fafafa" layoutX="620.0" layoutY="225.0" radiusX="580.0" radiusY="215.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
-            <Label fx:id="_lbNumSimu" layoutX="15.0" layoutY="400.0" maxWidth="300.0" text="Num. Simulations: 0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
+            <Label fx:id="_lbNumSimu" layoutX="15.0" layoutY="400.0" maxWidth="300.0" text="Num. Sims: 0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <HBox fx:id="_hbBoardCards" layoutX="535.0" layoutY="185.0" onMouseClicked="#onClickBoardCards" prefHeight="80.0" prefWidth="260.0" styleClass="boardCardsHB" AnchorPane.leftAnchor="535.0" AnchorPane.topAnchor="180.0">
+            <HBox fx:id="_hbBoardCards" layoutX="524.0" layoutY="182.0" onMouseClicked="#onClickBoardCards" prefHeight="80.0" prefWidth="260.0" styleClass="boardCardsHB" AnchorPane.leftAnchor="524.0" AnchorPane.topAnchor="180.0">
                <children>
                   <ImageView cache="true" fitHeight="85.0" fitWidth="50.0" pickOnBounds="true">
                      <HBox.margin>
@@ -45,6 +45,24 @@
                   <ImageView cache="true" fitHeight="85.0" fitWidth="50.0" pickOnBounds="true" />
                </children>
             </HBox>
+            <MenuButton fx:id="_mbtGameMode" alignment="CENTER" layoutX="18.0" layoutY="13.0" mnemonicParsing="false" text="NLHE" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="1128.0" AnchorPane.topAnchor="10.0">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onClickGameMode" text="NLHE" />
+                <MenuItem mnemonicParsing="false" onAction="#onClickGameMode" text="Omaha" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="_mbtNumPlayers" alignment="CENTER" layoutX="11.0" layoutY="52.0" mnemonicParsing="false" text="Players: 6" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="1128.0" AnchorPane.topAnchor="50.0">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="1" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="2" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="3" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="4" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="5" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="6" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="7" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="8" />
+              </items>
+            </MenuButton>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="20.0" layoutY="490.0" prefHeight="200.0" prefWidth="200.0" styleClass="controlPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="490.0">
@@ -65,25 +83,6 @@
                </font>
             </Label>
             <TextField fx:id="_tfStopLimit" alignment="CENTER" layoutX="386.0" layoutY="102.0" prefHeight="31.0" prefWidth="126.0" text="2000000" />
-            <MenuButton fx:id="_mbtNumPlayers" layoutX="299.0" layoutY="50.0" mnemonicParsing="false" text="Num Players: 6" AnchorPane.leftAnchor="299.0" AnchorPane.topAnchor="50.0">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="1" />
-                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="2" />
-                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="3" />
-                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="4" />
-                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="5" />
-                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="6" />
-                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="7" />
-                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="8" />
-                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="9" />
-              </items>
-            </MenuButton>
-            <ComboBox fx:id="_cbGameMode" layoutX="142.0" layoutY="143.0"/>
-            <Label layoutX="17.0" layoutY="143.0" prefHeight="25.0" prefWidth="101.0" text="Game Mode:">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
          </children></AnchorPane>
    </children>
 </AnchorPane>

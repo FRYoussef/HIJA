@@ -2,8 +2,6 @@ package control.equity;
 
 import control.ObserverPatron.OPlayerCards;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,9 +28,9 @@ import control.ObserverPatron.HandlerObserver;
 
 public class EquityController implements Observer {
 
-	private static final String[] GAME_MODES_TEXT = {"Texas hold'em" , "Omaha"}; 
-    private static final String NUM_PLAYERS_TEXT = "Num Players: ";
-    private static final String NUM_SIMULATIONS_TEXT = "Num. Simulations: ";
+	private static final String[] GAME_MODES_TEXT = {"NLHE" , "Omaha"};
+    private static final String NUM_PLAYERS_TEXT = "Players: ";
+    private static final String NUM_SIMULATIONS_TEXT = "Num. Sims: ";
     private static final String[] PHASES = {"The PreFlop", "The Flop", "The Turn", "The River"};
     private static final int PHASE_PREFLOP = 0;
     private static final int PHASE_FLOP = 1;
@@ -67,7 +65,7 @@ public class EquityController implements Observer {
     @FXML
     private Button _btPhase;
     @FXML
-    private ComboBox<String> _cbGameMode;
+    private MenuButton _mbtGameMode;
     
     private ArrayList<PlayerController> alPlayerController = null;
     private int numPlayers;
@@ -82,44 +80,35 @@ public class EquityController implements Observer {
     public EquityController() {
         numPlayers = 6;
         remainPlayers = numPlayers;
-        alPlayerController = new ArrayList<PlayerController>(numPlayers);
+        alPlayerController = new ArrayList<>(numPlayers);
 	    equityProcessor = new EquityProcessor(MAX_PLAYERS_HE);
-        initializeCBGameMode();
 	    addPlayers();
 	    createStageSelector();
         HandlerObserver.init();
         HandlerObserver.addObserver(this);
     }
 
-    private void initializeCBGameMode(){
-    	Platform.runLater(() ->{
-    		_cbGameMode.getItems().removeAll(_cbGameMode.getItems());
-        	_cbGameMode.getItems().addAll(GAME_MODES_TEXT);
-        	_cbGameMode.getSelectionModel().select(0);
-        	_cbGameMode.valueProperty().addListener(new ChangeListener<String>() {
+    public void onClickGameMode(ActionEvent actionEvent) {
+        String mode = ((MenuItem)actionEvent.getSource()).getText();
+        if(!mode.equals(_mbtGameMode.getText())){
+            _pBoard.getChildren().remove(_pBoard.getChildren().size()- alPlayerController.size(), _pBoard.getChildren().size());
+            alPlayerController.clear();
+            equityProcessor.removeAllPlayers();
+            _mbtGameMode.setText(mode);
+            if(mode.equals(GAME_MODES_TEXT[0]))
+                Platform.runLater(() -> changeNumPlayersMenu(MAX_PLAYERS_HE));
+            else if(mode.equals(GAME_MODES_TEXT[1])) {
+                int n = numPlayers > MAX_PLAYERS_OMAHA ? MAX_PLAYERS_OMAHA : numPlayers;
+                _mbtNumPlayers.setText(NUM_PLAYERS_TEXT + n);
+                numPlayers = n;
+                remainPlayers = numPlayers;
+                Platform.runLater(() -> changeNumPlayersMenu(MAX_PLAYERS_OMAHA));
+            }
 
-				@Override
-				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-					if(!oldValue.equals(newValue)){
-				        _pBoard.getChildren().remove(_pBoard.getChildren().size()- alPlayerController.size(), _pBoard.getChildren().size());
-				        alPlayerController.clear();
-				        equityProcessor.removeAllPlayers();
-				        if(newValue.equals(GAME_MODES_TEXT[0]))
-				        	selectorController.setNumCards(HE_NUM_CARDS);
-				        else if(newValue.equals(GAME_MODES_TEXT[1])){
-				        	if(numPlayers > 6){
-				        		numPlayers = 6; 
-				        		_mbtNumPlayers.setText(NUM_PLAYERS_TEXT + MAX_PLAYERS_OMAHA);
-				        	}
-				        	selectorController.setNumCards(OMAHA_NUM_CARDS);
-				        }
-				        addPlayers();
-					}
-				}  
-            });
-    	});
-    	
+            addPlayers();
+        }
     }
+
     private void createStageSelector(){
         try {
             selectorController = new CardSelectorController(equityProcessor.getDeck(), null,
@@ -140,11 +129,15 @@ public class EquityController implements Observer {
      */
     private void addPlayers(){
         Platform.runLater(() -> {
+            String root;
+            if(_mbtGameMode.getText().equals(GAME_MODES_TEXT[0])) root = "../../view/TexasPlayerPane.fxml";
+            else                                                  root = "../../view/OmahaPlayerPane.fxml";
+
             double t = Math.PI;
             double increment = (2*Math.PI)/numPlayers;
             for (int i = 0; i < numPlayers; i++) {
                 double tempT = t;
-                addPlayer(tempT, i);
+                addPlayer(tempT, i, root);
                 t += increment;
             }
         });
@@ -154,14 +147,10 @@ public class EquityController implements Observer {
      * It adds a player to the board and catch the controller
      * @param angleT
      */
-    private void addPlayer(double angleT, int player) {
+    private void addPlayer(double angleT, int player, String rootPath) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            AnchorPane root = null;
-            if(_cbGameMode.getValue().equals(GAME_MODES_TEXT[0]))
-            	root = fxmlLoader.load(getClass().getResource("../../view/TexasPlayerPane.fxml").openStream());
-            else if(_cbGameMode.getValue().equals(GAME_MODES_TEXT[1]))
-            	root = fxmlLoader.load(getClass().getResource("../../view/OmahaPlayerPane.fxml").openStream());
+            AnchorPane root = fxmlLoader.load(getClass().getResource(rootPath).openStream());
             double x = _eBoard.getRadiusX()*Math.sin(angleT) + _pBoard.getWidth()/2 - root.getPrefWidth()/1.8*(Math.sin(angleT)) - root.getPrefWidth()*0.25;
         	double y = _eBoard.getRadiusY()*Math.cos(angleT) + _pBoard.getHeight()/2 - root.getPrefHeight()/2*(1 + Math.pow(Math.cos(angleT), 3)/1.2) - 10;
             root.setLayoutX(x);
@@ -175,28 +164,28 @@ public class EquityController implements Observer {
         }
     }
 
-    public void onClickNumPlayers(ActionEvent actionEvent) {
-    	int numPlayersSelected = Integer.parseInt(((MenuItem)actionEvent.getSource()).getText());
-    	if(evaluateNumPlayers(numPlayersSelected)){
-        numPlayers = Integer.parseInt(((MenuItem)actionEvent.getSource()).getText());
-        remainPlayers = numPlayers;
-        _mbtNumPlayers.setText(NUM_PLAYERS_TEXT + numPlayers);
-        _pBoard.getChildren().remove(_pBoard.getChildren().size()- alPlayerController.size(), _pBoard.getChildren().size());
-        alPlayerController.clear();
-        equityProcessor.removeAllPlayers();
-        addPlayers();
-    	}
+    private void changeNumPlayersMenu(int n){
+        _mbtNumPlayers.getItems().clear();
+        for(int i = 1; i <= n ; i++) {
+            MenuItem mI = new MenuItem(""+i);
+            mI.addEventHandler(ActionEvent.ACTION, this::onClickNumPlayers);
+            _mbtNumPlayers.getItems().add(mI);
+        }
     }
 
-    private boolean evaluateNumPlayers(int numPlayersSelected){
-    	if(_cbGameMode.getValue().equals(GAME_MODES_TEXT[1]) && numPlayersSelected > 6){
-    		_mbtNumPlayers.setText(NUM_PLAYERS_TEXT + numPlayers);
-    		writeTA("Maximum number of players in " + _cbGameMode.getValue() + " is 6 players.");
-    		return false;
-    	}
-    	else
-    		return true; 
+    public void onClickNumPlayers(ActionEvent actionEvent) {
+        int n = Integer.parseInt(((MenuItem)actionEvent.getSource()).getText());
+        if(n != numPlayers){
+            numPlayers = n;
+            remainPlayers = numPlayers;
+            _mbtNumPlayers.setText(NUM_PLAYERS_TEXT + numPlayers);
+            _pBoard.getChildren().remove(_pBoard.getChildren().size()- alPlayerController.size(), _pBoard.getChildren().size());
+            alPlayerController.clear();
+            equityProcessor.removeAllPlayers();
+            addPlayers();
+        }
     }
+
     private boolean evaluatePhase(){
         int remainCards = 0;
         if(phase == PHASE_PREFLOP && !equityProcessor.isPlayersGetCards(remainPlayers)){
