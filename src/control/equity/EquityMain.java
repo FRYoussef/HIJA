@@ -17,7 +17,7 @@ public class EquityMain extends Application {
         {
             AnchorPane root = FXMLLoader.load(getClass().getResource("../../view/equity.fxml"));
             Scene scene = new Scene(root);
-            primaryStage.setTitle("Poker");
+            primaryStage.setTitle("Equity Calculator");
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.show();

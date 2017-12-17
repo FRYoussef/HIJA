@@ -20,7 +20,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <HBox fx:id="_hbBoardCards" layoutX="524.0" layoutY="182.0" onMouseClicked="#onClickBoardCards" prefHeight="70.0" prefWidth="260.0" spacing="5.0" styleClass="boardCardsHB" AnchorPane.leftAnchor="520.0" AnchorPane.topAnchor="190.0">
+            <HBox fx:id="_hbBoardCards" layoutX="524.0" layoutY="182.0" onMouseClicked="#onClickBoardCards" prefHeight="70.0" prefWidth="260.0" spacing="5.0" styleClass="boardCardsHB" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="190.0">
                <children>
                   <ImageView cache="true" fitHeight="73.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -82,7 +82,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="_tfStopLimit" alignment="CENTER" layoutX="569.0" layoutY="139.0" prefHeight="31.0" prefWidth="126.0" promptText="Default: 0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="120.0" />
+            <TextField fx:id="_tfStopLimit" alignment="CENTER" layoutX="569.0" layoutY="139.0" prefHeight="31.0" prefWidth="126.0" promptText="0 to infinity" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="120.0" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

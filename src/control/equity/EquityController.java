@@ -230,6 +230,15 @@ public class EquityController implements Observer {
             if(remainPlayers == 0)
                 return;
 
+            try{
+                if(!_tfStopLimit.getText().equals(""))
+                    stopLimit = Integer.parseInt(_tfStopLimit.getText());
+            }catch (Exception e){
+                e.printStackTrace();
+                writeTA("Please, write a correct number");
+                return;
+            }
+
             evaluatePhase();
 
             if(remainPlayers == 1){
@@ -243,13 +252,6 @@ public class EquityController implements Observer {
                 return;
             }
 
-            try{
-                if(!_tfStopLimit.getText().equals(""))
-                    stopLimit = Integer.parseInt(_tfStopLimit.getText());
-            }catch (Exception e){
-                e.printStackTrace();
-                writeTA("Please, write a correct number");
-            }
             disbledForSim(true);
             equityProcessor.calculateEquity(numPlayers);
         });
