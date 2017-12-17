@@ -151,7 +151,7 @@ public class EquityController implements Observer {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             AnchorPane root = fxmlLoader.load(getClass().getResource(rootPath).openStream());
-            double x = _eBoard.getRadiusX()*Math.sin(angleT) + _pBoard.getWidth()/2.f - root.getPrefWidth()/1.8f*(Math.sin(angleT)) - (Math.pow(root.getPrefWidth(),1.6f)/76.f);
+            double x = _eBoard.getRadiusX()*Math.sin(angleT) + _pBoard.getWidth()/2.f - root.getPrefWidth()/1.8f*(Math.sin(angleT)) - (Math.pow(root.getPrefWidth(),1.65f)/96.f);
         	double y = _eBoard.getRadiusY()*Math.cos(angleT) + _pBoard.getHeight()/2 - root.getPrefHeight()/2*(1 + Math.pow(Math.cos(angleT), 3)/1.2) - 10;
             root.setLayoutX(x);
             root.setLayoutY(y);
