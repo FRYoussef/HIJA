@@ -47,7 +47,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="20.0" layoutY="506.0" prefHeight="200.0" prefWidth="200.0" styleClass="controlPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="490.0">
+      <AnchorPane layoutX="20.0" layoutY="490.0" prefHeight="200.0" prefWidth="200.0" styleClass="controlPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="490.0">
          <children>
             <Label fx:id="_lTitle" alignment="CENTER" layoutX="603.0" layoutY="14.0" text="The PreFlop" underline="true" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
                <font>
@@ -78,6 +78,12 @@
                   <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="9" />
               </items>
             </MenuButton>
+            <ComboBox fx:id="_cbGameMode" layoutX="142.0" layoutY="143.0"/>
+            <Label layoutX="17.0" layoutY="143.0" prefHeight="25.0" prefWidth="101.0" text="Game Mode:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
    </children>
 </AnchorPane>
