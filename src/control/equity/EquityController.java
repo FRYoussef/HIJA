@@ -162,7 +162,7 @@ public class EquityController implements Observer {
             	root = fxmlLoader.load(getClass().getResource("../../view/TexasPlayerPane.fxml").openStream());
             else if(_cbGameMode.getValue().equals(GAME_MODES_TEXT[1]))
             	root = fxmlLoader.load(getClass().getResource("../../view/OmahaPlayerPane.fxml").openStream());
-            double x = _eBoard.getRadiusX()*Math.sin(angleT) + _pBoard.getWidth()/2 - root.getPrefWidth()/1.8*(Math.sin(angleT)) - 30;
+            double x = _eBoard.getRadiusX()*Math.sin(angleT) + _pBoard.getWidth()/2 - root.getPrefWidth()/1.8*(Math.sin(angleT)) - root.getPrefWidth()*0.25;
         	double y = _eBoard.getRadiusY()*Math.cos(angleT) + _pBoard.getHeight()/2 - root.getPrefHeight()/2*(1 + Math.pow(Math.cos(angleT), 3)/1.2) - 10;
             root.setLayoutX(x);
             root.setLayoutY(y);
