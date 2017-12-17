@@ -87,10 +87,6 @@ public class CardSelectorController {
 		}
 	 }
 
-	 public void setNumCards(int numCards){
-		 this.numCards = numCards;
-	 }
-	 
 	 private void onClickImg(MouseEvent mouseEvent){
 		 AnchorPane pane = ((AnchorPane)mouseEvent.getSource());
 		 String id = pane.getId();
