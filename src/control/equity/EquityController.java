@@ -42,7 +42,7 @@ public class EquityController implements Observer {
     private static final int MAX_PLAYERS_OMAHA = 6;
     private static final int HE_NUM_CARDS = 2;
     private static final int OMAHA_NUM_CARDS = 4;
-    private static final int DEFAULT_STOP_LIMIT = 2000000;
+    private static final int DEFAULT_STOP_LIMIT = 0;
 
     @FXML
     private MenuButton _mbtNumPlayers;
@@ -343,7 +343,7 @@ public class EquityController implements Observer {
 		else if(sol.getState() == OSolution.NOTIFY_SIM)
 		{
 			Platform.runLater(()->{
-			    if((Integer)arg1 >= stopLimit){
+			    if((Integer)arg1 >= stopLimit && stopLimit > 0){
 			        equityProcessor.stopThreads();
 			        disbledForSim(false);
                 }

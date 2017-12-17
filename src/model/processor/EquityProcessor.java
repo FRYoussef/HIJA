@@ -9,7 +9,7 @@ import model.representation.Player;
 import model.representation.game.Deck;
 
 public class EquityProcessor{
-	private static final int N_THREADS = 2;
+	private static int N_THREADS = 2;
 	private static final int MAX_BOARD_CARDS = 5;
 
 	private ArrayList<Thread> threads; 
@@ -21,6 +21,7 @@ public class EquityProcessor{
 	private HashMap<Integer, Player> hmPlayer;
 	
 	public EquityProcessor(int dim){
+		N_THREADS = Runtime.getRuntime().availableProcessors()/2;
 		this.threads = new ArrayList<>(N_THREADS);
 		deck = new Deck();
 		boardCards = new ArrayList<>(MAX_BOARD_CARDS);
