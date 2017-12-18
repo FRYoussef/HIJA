@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Ellipse;
 
 import java.util.ArrayList;
@@ -82,6 +83,7 @@ public class EquityController implements Observer {
         remainPlayers = numPlayers;
         alPlayerController = new ArrayList<>(numPlayers);
 	    equityProcessor = new EquityProcessor(MAX_PLAYERS_HE);
+        Platform.runLater(()->_eBoard.setFill(new ImagePattern(new Image("resources/boardTexture.jpg"))));
 	    addPlayers();
 	    createStageSelector();
         HandlerObserver.init();
