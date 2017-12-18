@@ -26,7 +26,7 @@ public class EquityProcessor{
 	private HashMap<Integer, Player> hmPlayer;
 	
 	public EquityProcessor(int dim){
-		N_THREADS = Runtime.getRuntime().availableProcessors()/2;
+		N_THREADS = Runtime.getRuntime().availableProcessors();
 		this.threads = new ArrayList<>(N_THREADS);
 		deck = new Deck();
 		boardCards = new ArrayList<>(MAX_BOARD_CARDS);
@@ -157,6 +157,7 @@ public class EquityProcessor{
 	public Card getRandomBoardCard() throws Exception {
 		Card c = deck.drawCard();
 		addBoardCards(c);
+		HandlerObserver.getoSolution().notifyPlayerCards(new OPlayerCards(boardCards, -1));
 		return c;
 	}
 

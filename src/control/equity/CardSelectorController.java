@@ -14,9 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.representation.Suit;
 import model.representation.game.Deck;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+
+import java.util.*;
 
 import model.representation.Card;
 

@@ -1,6 +1,7 @@
 package control.ObserverPatron;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
 
 import model.representation.Card;
@@ -14,6 +15,7 @@ public class OPlayerCards {
 	public OPlayerCards(ArrayList<Card> cards, int numPlayer){
 		this.cards = cards;
 		this.numPlayer = numPlayer;
+		Collections.sort(this.cards);
     }
 
 	public ArrayList<Card> getCards(){

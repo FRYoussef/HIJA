@@ -205,7 +205,6 @@ public class EquityController implements Observer {
         try{
             for (int i = equityProcessor.numCardsBoard(); i < finalRemainCards; i++)
                 equityProcessor.getRandomBoardCard();
-            addBoardCards(equityProcessor.getBoardCards());
         }catch (Exception e){
             e.printStackTrace();
             writeTA(e.getMessage());
