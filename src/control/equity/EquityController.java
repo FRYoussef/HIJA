@@ -83,7 +83,6 @@ public class EquityController implements Observer {
         remainPlayers = numPlayers;
         alPlayerController = new ArrayList<>(numPlayers);
 	    equityProcessor = new EquityProcessor(MAX_PLAYERS_HE);
-        Platform.runLater(()->_eBoard.setFill(new ImagePattern(new Image("resources/boardTexture.jpg"))));
 	    addPlayers();
 	    createStageSelector();
         HandlerObserver.init();
