@@ -42,6 +42,7 @@ public class CardSelectorController {
     private int numCards;//Total cards to select
     private int numPlayer;//Num of the player, -1 for the board
 	private ArrayList<Card> cards;
+	private HashSet<Card> trash;
 
 	
 	 public CardSelectorController(Deck deck, ArrayList<Card> cards, int numCards, int numPlayer) throws Exception{
@@ -50,6 +51,7 @@ public class CardSelectorController {
 		 this.numCards = numCards;
 		 this.numPlayer = numPlayer;
 		 this.cards = cards;
+		 trash = new HashSet<>(5);
 		 
 		try{ 
 			for (int i = 0; i < 4; i++) {
@@ -95,6 +97,7 @@ public class CardSelectorController {
 			 pane.getStyleClass().clear();
 			 cardsSelected--;
              try {
+             	 trash.add(new Card(Card.charToValue(id.charAt(0)), Suit.getFromChar(id.charAt(1))));
                  deck.replaceCard(new Card(Card.charToValue(id.charAt(0)), Suit.getFromChar(id.charAt(1))));
              } catch (Exception e) {
                  e.printStackTrace();
@@ -104,6 +107,13 @@ public class CardSelectorController {
 			 hsCardsSet.add(id);
 			 pane.getStyleClass().add(SELECTED_CARD);
 			 cardsSelected++;
+			 try {
+				 Card c = new Card(Card.charToValue(id.charAt(0)), Suit.getFromChar(id.charAt(1)));
+				 if(trash.contains(c))
+				 	trash.remove(c);
+			 } catch (Exception e) {
+				 e.printStackTrace();
+			 }
 		 }
 	 }
 
@@ -129,6 +139,9 @@ public class CardSelectorController {
 	    
 	public void onClickCancel(MouseEvent mouseEvent) {
 		Platform.runLater(() -> {
+			for (Card c : trash)
+				if(deck.contains(c))
+					deck.removeCard(c);
 			clear();
 			Stage stage = (Stage)_cancelButton.getScene().getWindow();
 			stage.close();
@@ -145,6 +158,7 @@ public class CardSelectorController {
 			}
 			_cardGrid.getChildren().get(c.getSuit().ordinal() *Card.NUM_CARDS+ c.getValue()).getStyleClass().clear();
 		}
+		trash.clear();
 		hsCardsSet.clear();
 		selectedCards.clear();
 		cardsSelected = 0;
