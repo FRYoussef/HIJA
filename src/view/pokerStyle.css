@@ -10,6 +10,16 @@
     -fx-border-radius: 3;
 }
 
+.equityPane{
+	-fx-background-color: #FAFAFA;
+	-fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-border-color: #4CAF50;
+    -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
 .basicPane{
 	-fx-background-color: #FAFAFA;
     -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
@@ -48,12 +58,13 @@
 }
 
 .textArea{
-    -fx-background-color: #F5F5F5;
+    -fx-background-color: #FAFAFA;
     -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
     -fx-background-radius: 3;
-    -fx-border-style: none none none solid;
+    -fx-border-radius: 3;
+    -fx-border-style: solid;
     -fx-border-width: 2;
-    -fx-border-color: #FAFAFA #FAFAFA #FAFAFA #4CAF50;
+    -fx-border-color: #4CAF50;
 }
 
 .text-area .content {

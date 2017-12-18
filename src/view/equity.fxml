@@ -65,8 +65,8 @@
             </MenuButton>
          </children>
       </AnchorPane>
-      <TextArea fx:id="_taLog" editable="false" styleClass="basicPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="850.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="505.0" />
-      <AnchorPane layoutX="20.0" layoutY="490.0" prefWidth="500.0" styleClass="controlPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+      <TextArea fx:id="_taLog" editable="false" styleClass="textArea" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="850.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="505.0" />
+      <AnchorPane layoutX="20.0" layoutY="490.0" prefWidth="500.0" styleClass="equityPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
          <children>
             <Label fx:id="_lTitle" alignment="CENTER" contentDisplay="CENTER" layoutX="603.0" layoutY="14.0" text="The PreFlop" underline="true" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
                <font>
