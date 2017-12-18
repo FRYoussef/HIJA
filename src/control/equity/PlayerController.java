@@ -49,9 +49,16 @@ public abstract class PlayerController {
 
     }
     
-    public void init(int numPlayer, ArrayList<Card> cards, Stage stageCardsSelec, Deck deck, CardSelectorController cs){
+    public void init(int numPlayer, ArrayList<Card> cards, Stage stageCardsSelec, Deck deck, CardSelectorController cs,
+                     int totalPlayers)
+    {
         this.numPlayer = numPlayer;
-        writePlayer(numPlayer);
+        if(totalPlayers > 1) {
+            int n = totalPlayers - numPlayer + 1;
+            writePlayer(n != totalPlayers ? n % totalPlayers : n);
+        }
+        else
+            writePlayer(numPlayer+1);
         this.cards = cards;
         this.stageCardsSelec = stageCardsSelec;
         this.deck = deck;
@@ -106,7 +113,7 @@ public abstract class PlayerController {
     
     protected void writePlayer(int numPlayer){
     	Platform.runLater(() ->{
-        	_lbPlayer.setText("Player" + (numPlayer+1));
+        	_lbPlayer.setText("Player" + numPlayer);
         });
     }
     

@@ -156,7 +156,7 @@ public class EquityController implements Observer {
             root.setLayoutX(x);
             root.setLayoutY(y);
             _pBoard.getChildren().add(root);
-            ((PlayerController) fxmlLoader.getController()).init(player, null, stageCardsSelec, equityProcessor.getDeck(), selectorController);
+            ((PlayerController) fxmlLoader.getController()).init(player, null, stageCardsSelec, equityProcessor.getDeck(), selectorController, numPlayers);
             alPlayerController.add(fxmlLoader.getController());
             equityProcessor.addPlayer(new Player(player, _mbtGameMode.getText().equals(GAME_MODES_TEXT[0])?HE_NUM_CARDS:OMAHA_NUM_CARDS));
         } catch (Exception e) {
