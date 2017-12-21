@@ -7,6 +7,45 @@
     -fx-border-color: #FAFAFA #FAFAFA #FAFAFA #4CAF50;
     -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
     -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
+.equityPane{
+	-fx-background-color: #FAFAFA;
+	-fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-border-color: #4CAF50;
+    -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
+.basicPane{
+	-fx-background-color: #FAFAFA;
+    -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
+.playerPane{
+    -fx-border-color: #424242;
+    -fx-background-color: #EEEEEE;
+    -fx-effect: dropshadow(gaussian, #424242, 5, 0.3, 2, 4);
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
+.boardCardsHB{
+    -fx-border-color: #424242;
+    -fx-background-color: #EEEEEE;
+}
+
+.backCards{
+    -fx-background-color: #EEEEEE;
+}
+
+.OutCards{
+    -fx-opacity: 0.3;
 }
 
 .buttonS{
@@ -19,12 +58,13 @@
 }
 
 .textArea{
-    -fx-background-color: #F5F5F5;
+    -fx-background-color: #FAFAFA;
     -fx-effect: dropshadow(gaussian, #bdbdbd, 5, 0.3, 2, 4);
     -fx-background-radius: 3;
-    -fx-border-style: none none none solid;
+    -fx-border-radius: 3;
+    -fx-border-style: solid;
     -fx-border-width: 2;
-    -fx-border-color: #FAFAFA #FAFAFA #FAFAFA #4CAF50;
+    -fx-border-color: #4CAF50;
 }
 
 .text-area .content {
@@ -121,4 +161,5 @@
 .rowCrads{
     -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.5, -4, 7);
 }
+
 

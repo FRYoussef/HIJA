@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+import control.ObserverPatron.HandlerObserver;
 import model.ioFiles.InputOmaha;
 import model.representation.Card;
 import model.representation.game.HandScore;
@@ -81,7 +82,7 @@ public class Omaha extends Game {
 			this.writeGame(bestH);
 			this.writeOutputFile();
             if(HandlerObserver.getoSolution() != null)
-			    HandlerObserver.getoSolution().notifySolution(output.toString());
+			    HandlerObserver.getoSolution().notifyPlayerCards(output.toString());
 			this.output.setLength(0);
 
 		}

@@ -1,5 +1,6 @@
 package model.game;
 
+import control.ObserverPatron.HandlerObserver;
 import model.ioFiles.Input1PlayerHE;
 import model.representation.Card;
 import model.representation.game.HandScore;
@@ -47,7 +48,7 @@ public class Player1HE extends Game {
 			this.writeGame(bestH);
 			this.writeOutputFile();
             if(HandlerObserver.getoSolution() != null)
-                HandlerObserver.getoSolution().notifySolution(output.toString());
+                HandlerObserver.getoSolution().notifyPlayerCards(output.toString());
 			//clear  for the next set of cards.
 			this.handProcessor.resetHandProcessor();
 			this.output.setLength(0);

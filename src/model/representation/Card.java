@@ -85,7 +85,7 @@ public class Card implements Comparable<Card>{
 
     @Override
     public int hashCode() {
-        return value + suit.ordinal();
+        return value + suit.ordinal()*13;
     }
 
     //private:

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import control.ObserverPatron.HandlerObserver;
 import model.ioFiles.InputNPlayerHE;
 import model.representation.Card;
 import model.representation.game.HandScore;
@@ -60,7 +61,7 @@ public class NPlayerHE extends Game {
 			this.writeGame(aux.toArray(new HandScore[aux.size()]));
 			this.writeOutputFile();
             if(HandlerObserver.getoSolution() != null)
-			    HandlerObserver.getoSolution().notifySolution(output.toString());
+			    HandlerObserver.getoSolution().notifyPlayerCards(output.toString());
 			this.handProcessor.resetHandProcessor();
 			this.output.setLength(0);
 		}

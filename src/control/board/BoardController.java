@@ -1,5 +1,6 @@
 package control.board;
 
+import control.ObserverPatron.HandlerObserver;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

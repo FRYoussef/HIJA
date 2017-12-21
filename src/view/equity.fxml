@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@pokerStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.equity.EquityController">
+   <children>
+      <AnchorPane fx:id="_pBoard" layoutX="14.0" layoutY="14.0" styleClass="basicPane" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <Ellipse fx:id="_eBoard" centerX="40.0" fill="#fafafa" layoutX="620.0" layoutY="225.0" radiusX="580.0" radiusY="215.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+            <Label fx:id="_lbNumSimu" layoutX="15.0" layoutY="400.0" maxWidth="300.0" text="Num. Sims: 0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <HBox fx:id="_hbBoardCards" layoutX="524.0" layoutY="182.0" onMouseClicked="#onClickBoardCards" prefHeight="70.0" prefWidth="260.0" spacing="5.0" styleClass="boardCardsHB" AnchorPane.leftAnchor="515.0" AnchorPane.topAnchor="190.0">
+               <children>
+                  <ImageView cache="true" fitHeight="73.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView cache="true" fitHeight="73.0" fitWidth="50.0" onMousePressed="#onClickBoardCards" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView cache="true" fitHeight="73.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView cache="true" fitHeight="73.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView cache="true" fitHeight="73.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <MenuButton fx:id="_mbtGameMode" alignment="CENTER" layoutX="18.0" layoutY="13.0" mnemonicParsing="false" text="NLHE" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="1128.0" AnchorPane.topAnchor="10.0">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onClickGameMode" text="NLHE" />
+                <MenuItem mnemonicParsing="false" onAction="#onClickGameMode" text="Omaha" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="_mbtNumPlayers" alignment="CENTER" layoutX="11.0" layoutY="52.0" mnemonicParsing="false" text="Players: 6" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="1128.0" AnchorPane.topAnchor="50.0">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="1" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="2" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="3" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="4" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="5" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="6" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="7" />
+                  <MenuItem mnemonicParsing="false" onAction="#onClickNumPlayers" text="8" />
+              </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+      <TextArea fx:id="_taLog" editable="false" styleClass="textArea" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="850.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="505.0" />
+      <AnchorPane layoutX="20.0" layoutY="490.0" prefWidth="500.0" styleClass="equityPane" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+         <children>
+            <Label fx:id="_lTitle" alignment="CENTER" contentDisplay="CENTER" layoutX="603.0" layoutY="14.0" text="The PreFlop" underline="true" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="_btPhase" layoutX="17.0" layoutY="74.0" mnemonicParsing="false" onAction="#onClickNextPhase" text="Next Phase" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="380.0" AnchorPane.topAnchor="70.0" />
+            <Button layoutX="17.0" layoutY="107.0" mnemonicParsing="false" onAction="#onClickClear" text="Clear" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="380.0" AnchorPane.topAnchor="110.0" />
+            <Button fx:id="_btCalculate" layoutX="243.0" layoutY="62.0" mnemonicParsing="false" onAction="#onClickCalculate" text="Calculate Equity" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="70.0" />
+            <Button fx:id="_btStop" disable="true" layoutX="403.0" layoutY="62.0" mnemonicParsing="false" onAction="#onClickStop" text="Stop Simulation" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="70.0" />
+            <Label alignment="CENTER" layoutX="489.0" layoutY="142.0" text="Stop Limit: " AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="125.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="_tfStopLimit" alignment="CENTER" layoutX="569.0" layoutY="139.0" prefHeight="31.0" prefWidth="126.0" promptText="0 to infinity" text="2000000" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="120.0" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

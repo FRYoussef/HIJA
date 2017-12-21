@@ -3,6 +3,7 @@ package model.game;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import control.ObserverPatron.HandlerObserver;
 import model.ioFiles.Input5Cards;
 import model.representation.Card;
 import model.representation.game.HandScore;
@@ -43,7 +44,7 @@ public class Cards5 extends Game {
 			writeGame(bestH);
 			this.writeOutputFile();
 			if(HandlerObserver.getoSolution() != null)
-			    HandlerObserver.getoSolution().notifySolution(output.toString());
+			    HandlerObserver.getoSolution().notifyPlayerCards(output.toString());
 
 			//clear for the next set of cards.
 			this.handProcessor.resetHandProcessor();
