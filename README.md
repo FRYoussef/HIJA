@@ -11,6 +11,8 @@
 
 ![alt text](https://user-images.githubusercontent.com/25131320/34265880-a2e418e6-e677-11e7-9dd0-2090643a1a5c.PNG)
 
+Android Version: <a>https://github.com/FRYoussef/PokerTools</a>
+
 #### License: GPL v3
 
 #### Authors:
